@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,6 +30,11 @@ namespace Survival
             InitializeComponent();
 
             WindowState = WindowState.Maximized;
+
+            canv.Width = SystemParameters.FullPrimaryScreenWidth;
+            canv.Height = SystemParameters.FullPrimaryScreenHeight;
+
+            Console.WriteLine(canv.Width + " " + canv.Height); 
 
             canvas = canv;
             map.CreateMap();
