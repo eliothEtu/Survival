@@ -1,18 +1,9 @@
 ﻿using Survival.GameEngine;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Survival.GameEngine
@@ -50,24 +41,6 @@ namespace Survival.GameEngine
 			}
 		}
 
-		private double speed;
-
-		public double Speed
-		{
-			get 
-			{ 
-				return this.speed; 
-			}
-			set 
-			{ 
-				if(value < 0)
-				{
-					throw new ArgumentOutOfRangeException("Speed must be positive");
-				}
-				this.speed = value; 
-			}
-		}
-
 		private Rectangle rectangle;
 
 		public Rectangle Rectangle
@@ -84,16 +57,27 @@ namespace Survival.GameEngine
 
 		private Rect rect;
 
-		public Rect Rect
+        public Rect Rect
 		{
 			get { return rect; }
 			set { rect = value; }
 		}
 
+		public Entity(BitmapImage texture, Vector2 position, Vector2 velocity)
+		{
+			this.Rectangle = new Rectangle();
+			this.Rectangle.Width = texture.Width;
+			this.Rectangle.Height = texture.Height;
+			this.Rectangle.Fill = new ImageBrush(texture);
+			this.Position = position;
+			this.Velocity = velocity;
+			this.Rect = new Rect();
+		}
 
+		public void Update()
+		{
 
-
-
+		}
 
 
 	}

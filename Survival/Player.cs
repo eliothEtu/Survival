@@ -56,7 +56,7 @@ namespace Survival
 
 		public void Move()
 		{
-
+			
 		}
 
 		public void Fire()
