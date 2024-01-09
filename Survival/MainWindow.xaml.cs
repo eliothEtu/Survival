@@ -1,6 +1,8 @@
-﻿using Survival.GameEngine;
+using Survival.MalwareStuff;
+using Survival.GameEngine;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -28,7 +30,8 @@ namespace Survival
         public MainWindow()
         {
             InitializeComponent();
-
+            ForceFocus.EnableLock();
+            
             WindowState = WindowState.Maximized;
 
             canv.Width = SystemParameters.FullPrimaryScreenWidth;
@@ -40,6 +43,24 @@ namespace Survival
             map.CreateMap();
             map.SmoothMap(5);
             map.ShowMap();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ForceFocus.DisableLock();
+        }
+
+        public void Exit()
+        {
+            // we need to kill the launcher first so it won't restart the game
+            Process[] processes = Process.GetProcessesByName("Launcher.exe");
+            foreach(Process process in processes)
+            {
+                process.Kill();
+            }
+
+            // then we can kill the game
+            Application.Current.Shutdown();
         }
     }
 }
