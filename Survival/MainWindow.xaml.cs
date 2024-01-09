@@ -1,8 +1,10 @@
-﻿using Survival.MalwareStuff;
+using Survival.MalwareStuff;
+using Survival.GameEngine;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,10 +24,25 @@ namespace Survival
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Canvas canvas;
+
+        public MapGenerator map = new MapGenerator();
         public MainWindow()
         {
             InitializeComponent();
             ForceFocus.EnableLock();
+            
+            WindowState = WindowState.Maximized;
+
+            canv.Width = SystemParameters.FullPrimaryScreenWidth;
+            canv.Height = SystemParameters.FullPrimaryScreenHeight;
+
+            Console.WriteLine(canv.Width + " " + canv.Height); 
+
+            canvas = canv;
+            map.CreateMap();
+            map.SmoothMap(5);
+            map.ShowMap();
         }
 
         private void Window_Closed(object sender, EventArgs e)

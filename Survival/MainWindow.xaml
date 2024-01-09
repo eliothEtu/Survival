@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Survival"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
-    <Grid>
+        Title="MainWindow" Width="800" Height="450" Closed="Window_Closed">
+    <Canvas x:Name="canv" Background="#FF636363"/>
 
-    </Grid>
 </Window>
