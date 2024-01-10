@@ -36,7 +36,7 @@ namespace Survival
         public void Exit()
         {
             // we need to kill the launcher first so it won't restart the game
-            Process[] processes = Process.GetProcessesByName("Launcher");
+            Process[] processes = Process.GetProcessesByName("Launcher.exe");
             foreach(Process process in processes)
             {
                 process.Kill();
