@@ -104,9 +104,7 @@ namespace Survival
 
         void Start(object sender, RoutedEventArgs e)
         {
-            if (Owner is MainWindow mainWindow){
-                mainWindow.StartGame();
-            }
+            ((MainWindow)Application.Current.MainWindow).StartGame();
         }
     }
 }

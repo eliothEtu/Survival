@@ -24,27 +24,13 @@ namespace Survival
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static Canvas canvas;
-
-        public static MapGenerator map = new MapGenerator();
-
-        public Home homeUI = new Home();
-        public PreparationWindow preparationWindow = new PreparationWindow();
+        public Home homeUI;
+        public PreparationWindow preparationWindow;
 
         private string[] itemName = new string[5];
         private Dictionary<string, string> itemDescription = new Dictionary<string, string>();
 
         bool bInventory = false;
-
-        Rectangle player = new Rectangle()
-        {
-            Width = MapGenerator.BLOCK_SIZE,
-            Height = MapGenerator.BLOCK_SIZE,
-            Fill = Brushes.Blue,
-            Stroke = Brushes.Blue,
-            StrokeThickness = 2,
-        };
-        Camera cam;
 
         public MainWindow()
         {
@@ -66,19 +52,18 @@ namespace Survival
             Canvas.SetLeft(inv, SystemParameters.PrimaryScreenWidth / 2 - inv.Width / 2);
             Canvas.SetTop(inv, SystemParameters.PrimaryScreenHeight / 2 - inv.Height / 2);
 
-            canvas = canv;
-            map.CreateMap();
-            map.SmoothMap(5);
-            //map.ShowMap(canvas);
+            // Engine's constructor define a static instance property in Engine
+            new Engine();
 
             // ((MainWindow)Application.Current.MainWindow).canv
 
-            this.Show();
+            // this.Show();
 
-            preparationWindow.Owner = this;
-            preparationWindow.Hide();
+            preparationWindow = new PreparationWindow();
+           // preparationWindow.Owner = this;
+            //preparationWindow.Hide();
 
-            homeUI.Owner = this;
+            homeUI = new Home();
             homeUI.ShowDialog();
 
             itemContainer.Width = inv.Width - 400;
@@ -114,9 +99,6 @@ namespace Survival
             itemDescription[itemName[3]] = "A sword find in a dungeon";
             itemDescription[itemName[4]] = "Bow find on a mob";
 
-            cam = new Camera();
-            cam.Draw(player, new Vector2(100, 100));
-
             LoadInventory();
         }
 
@@ -136,12 +118,13 @@ namespace Survival
         public void LaunchGame()
         {
             homeUI.Hide();
-            preparationWindow.Show();
+            preparationWindow.ShowDialog();
         }
 
         public void StartGame()
         {
             preparationWindow.Hide();
+            Engine.Instance.Start();
         }
 
         public void CloseInventory(object sender, RoutedEventArgs e)
@@ -200,7 +183,7 @@ namespace Survival
                 this.Close();
             }
 
-            if (e.Key == Key.Z)
+            /*if (e.Key == Key.Z)
             {
                 Canvas.SetTop(player, Canvas.GetTop(player) - MapGenerator.BLOCK_SIZE);
                 //cam.pos.Y -= MapGenerator.BLOCK_SIZE;
@@ -219,9 +202,7 @@ namespace Survival
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + MapGenerator.BLOCK_SIZE);
                 //cam.pos.X += MapGenerator.BLOCK_SIZE;
-            }
-
-            cam.Update(player, new Vector2((float)Canvas.GetLeft(player), (float)Canvas.GetTop(player)));
+            }*/
         }
 
         private void Window_Closed(object sender, EventArgs e)

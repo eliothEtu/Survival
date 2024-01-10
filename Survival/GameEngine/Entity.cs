@@ -50,24 +50,6 @@ namespace Survival.GameEngine
 			}
 		}
 
-		private double speed;
-
-		public double Speed
-		{
-			get 
-			{ 
-				return this.speed; 
-			}
-			set 
-			{ 
-				if(value < 0)
-				{
-					throw new ArgumentOutOfRangeException("Speed must be positive");
-				}
-				this.speed = value; 
-			}
-		}
-
 		private Rectangle rectangle;
 
 		public Rectangle Rectangle
@@ -84,7 +66,23 @@ namespace Survival.GameEngine
 
 		private Rect rect;
 
-		public Rect Rect
+        public Entity(BitmapImage texture, Vector2 position, Vector2 velocity)
+        {
+            this.Position = position;
+            this.Velocity = velocity;
+
+			this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
+			this.Rectangle = new Rectangle();
+			this.Rectangle.Width = texture.Width;
+			this.Rectangle.Height = texture.Height;
+
+			Canvas.SetLeft(this.Rectangle, position.X);
+			Canvas.SetTop(this.Rectangle, position.Y);
+
+			this.Rectangle.Fill = new ImageBrush(texture);
+        }
+
+        public Rect Rect
 		{
 			get { return rect; }
 			set { rect = value; }

@@ -22,7 +22,7 @@ namespace Survival.GameEngine
 {
     public class Camera
     {
-        private Vector2 sizeMap = new Vector2(500, 500);// new Vector2((float)Math.Round(MainWindow.canvas.Width / MapGenerator.BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / MapGenerator.BLOCK_SIZE));
+        private Vector2 sizeMap = new Vector2(500, 500);// new Vector2((float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Width / MapGenerator.BLOCK_SIZE), (float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Height / MapGenerator.BLOCK_SIZE));
         public Vector2 pos = Vector2.Zero;
 
         public void Update(Rectangle player, Vector2 targetPos)
@@ -33,7 +33,7 @@ namespace Survival.GameEngine
 
         public void Draw(Rectangle player, Vector2 posPlayer)
         {
-            MainWindow.canvas.Children.Clear();
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Clear();
 
             int xGap = (int)pos.X / MapGenerator.BLOCK_SIZE;
             int yGap = (int)pos.Y / MapGenerator.BLOCK_SIZE;
@@ -41,9 +41,9 @@ namespace Survival.GameEngine
             {
                 for (int y = yGap - (int)Math.Round(SystemParameters.PrimaryScreenHeight / 100); y < yGap + Math.Round(SystemParameters.PrimaryScreenHeight / MapGenerator.BLOCK_SIZE) + 1; y++)
                 {
-                    if (MainWindow.map.IsInMap(x, y))
+                    if (Engine.Instance.MapGenerator.IsInMap(x, y))
                     {
-                        if (MainWindow.map.map[x][y] == -1)
+                        if (Engine.Instance.MapGenerator.Map[x][y] == -1)
                         {
                             Rectangle borderWall = new Rectangle()
                             {
@@ -53,11 +53,11 @@ namespace Survival.GameEngine
                                 Stroke = Brushes.Yellow,
                                 StrokeThickness = 2,
                             };
-                            MainWindow.canvas.Children.Add(borderWall);
+                            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(borderWall);
                             Canvas.SetLeft(borderWall, x * MapGenerator.BLOCK_SIZE - pos.X);
                             Canvas.SetTop(borderWall, y * MapGenerator.BLOCK_SIZE - pos.Y);
                         }
-                        else if (MainWindow.map.map[x][y] == 1)
+                        else if (Engine.Instance.MapGenerator.Map[x][y] == 1)
                         {
                             Rectangle wall = new Rectangle()
                             {
@@ -67,7 +67,7 @@ namespace Survival.GameEngine
                                 Stroke = Brushes.Red,
                                 StrokeThickness = 2,
                             };
-                            MainWindow.canvas.Children.Add(wall);
+                            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(wall);
                             Canvas.SetLeft(wall, x * MapGenerator.BLOCK_SIZE - pos.X);
                             Canvas.SetTop(wall, y * MapGenerator.BLOCK_SIZE - pos.Y);
                         }
@@ -78,7 +78,7 @@ namespace Survival.GameEngine
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE
                             };
-                            MainWindow.canvas.Children.Add(invisible);
+                            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(invisible);
                             Canvas.SetLeft(invisible, x * MapGenerator.BLOCK_SIZE - pos.X);
                             Canvas.SetTop(invisible, y * MapGenerator.BLOCK_SIZE - pos.Y);
                         }
@@ -86,7 +86,7 @@ namespace Survival.GameEngine
                 }
             }
             
-            MainWindow.canvas.Children.Add(player);
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(player);
             Canvas.SetLeft(player, posPlayer.X);
             Canvas.SetTop(player, posPlayer.Y);
         }

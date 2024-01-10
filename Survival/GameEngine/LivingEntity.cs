@@ -2,20 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Survival
 {
     internal class LivingEntity : Entity
     {
-		private int hp;
+		private int life;
 
-		public int Hp
+		public int Life
 		{
 			get 
 			{ 
-				return this.hp; 
+				return this.life; 
 			}
 			set 
 			{ 
@@ -24,18 +26,24 @@ namespace Survival
 					throw new ArgumentOutOfRangeException("Hp must be positive");
 					
 				}
-				this.hp = value; 
+				this.life = value; 
 			}
 		}
+
+		public LivingEntity(int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+		{
+			this.Life = life;
+		}
+
 		public void TakeDamage(int damage)
 		{
-			if(this.Hp - damage < 0)
+			if(this.Life - damage < 0)
 			{
-				this.Hp = 0;
+				this.Life = 0;
 			}
 			else
 			{
-				this.Hp -= damage;
+				this.Life -= damage;
 			}
 		}
 	}

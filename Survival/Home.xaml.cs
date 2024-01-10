@@ -79,10 +79,7 @@ namespace Survival
 
         public void LaunchGame(object sender, RoutedEventArgs e)
         {
-            if (Owner is MainWindow mainWindow)
-            {
-                mainWindow.LaunchGame();
-            }
+            ((MainWindow)Application.Current.MainWindow).LaunchGame();
         }
     }
 }

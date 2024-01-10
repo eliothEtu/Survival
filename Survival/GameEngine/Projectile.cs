@@ -6,46 +6,15 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Survival
 {
     internal class Projectile : Entity
     {
-		private Vector2 spawnPosition;
+		private TimeSpan lifeSpan;
 
-		public Vector2 SpawnPosition
-		{
-			get 
-			{ 
-				return this.spawnPosition; 
-			}
-			set 
-			{ 
-				if(value.X < 0 || value.Y > 0)
-				{
-					throw new ArgumentOutOfRangeException("X must be positive and Y negative");
-				}
-				this.spawnPosition = value; 
-			}
-		}
-
-		private Vector2 direction;
-
-		public Vector2 Direction
-		{
-			get 
-			{ 
-				return this.direction; 
-			}
-			set 
-			{ 
-				this.direction = value; 
-			}
-		}
-
-		private double lifeSpan;
-
-		public double LifeSpan
+		public TimeSpan LifeSpan
 		{
 			get 
 			{ 
@@ -53,17 +22,21 @@ namespace Survival
 			}
 			set 
 			{ 
-				if(value < 0)
-				{
-					throw new ArgumentOutOfRangeException("Life Span must be positive");
-				}
 				this.lifeSpan = value; 
 			}
 		}
 
+		private DateTime spawnTime;
 
         private LivingEntity owner;
         internal LivingEntity Owner { get => owner; set => owner = value; }
+
+        public Projectile(LivingEntity owner, TimeSpan lifeSpan, BitmapImage texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+        {
+			this.Owner = owner;
+			this.LifeSpan = lifeSpan;
+			spawnTime = DateTime.Now;
+        }
 
         public bool IsCollidingWith(Rect r)
 		{
