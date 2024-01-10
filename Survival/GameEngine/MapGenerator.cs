@@ -33,7 +33,7 @@ namespace Survival.GameEngine
 
         public void CreateMap()
         {
-            sizeMap = new Vector2(500, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
+            sizeMap = new Vector2(40, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
 
             Map.Clear();
 
@@ -111,7 +111,7 @@ namespace Survival.GameEngine
             }
         }
 
-        public void ShowMap(Canvas canv)
+        /*public void ShowMap(Canvas canv)
         {
             for (int x = 0; x < Map.Count; x++)
             {
@@ -158,6 +158,6 @@ namespace Survival.GameEngine
                     }
                 }
             }
-        }
+        }*/
     }    
 }

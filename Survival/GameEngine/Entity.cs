@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 
 namespace Survival.GameEngine
 {
-    internal class Entity
+    public class Entity
     {
 		public Vector2 position;
 

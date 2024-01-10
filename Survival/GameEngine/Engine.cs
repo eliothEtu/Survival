@@ -20,7 +20,7 @@ namespace Survival.GameEngine
         private List<Entity> entities = new List<Entity>();
         public List<Entity> Entities { get => entities; }
 
-        private DispatcherTimer timer = new DispatcherTimer();
+        public DispatcherTimer timer = new DispatcherTimer();
 
         private Player player;
         public Player Player { get => player; set => player = value; }
@@ -44,7 +44,7 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            Player = new Player(1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face (1).png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
+            Player = new Player(1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
             Controller = new PlayerController();
             Entities.Add(Player);
             timer.Tick += Update;
@@ -57,7 +57,6 @@ namespace Survival.GameEngine
             MapGenerator.SmoothMap(5);
 
             camera = new Camera();
-            camera.Draw(Player.Rectangle, new Vector2(100, 100));
 
             timer.Start();
         }
@@ -85,6 +84,7 @@ namespace Survival.GameEngine
             }
 
             camera.Update(Player.Rectangle, Player.Position);
+            camera.Draw(Entities);
         }
     }
 }

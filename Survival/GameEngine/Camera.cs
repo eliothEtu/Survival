@@ -28,10 +28,11 @@ namespace Survival.GameEngine
         public void Update(Rectangle player, Vector2 targetPos)
         {
             pos = targetPos;
-            Draw(player, targetPos);
+            pos.X = (float)Math.Clamp(pos.X, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Width);
+            pos.Y = (float)Math.Clamp(pos.Y, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Height);
         }
 
-        public void Draw(Rectangle player, Vector2 posPlayer)
+        public void Draw(List<Entity> entities)
         {
             ((MainWindow)Application.Current.MainWindow).canv.Children.Clear();
 
@@ -86,9 +87,12 @@ namespace Survival.GameEngine
                 }
             }
             
-            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(player);
-            Canvas.SetLeft(player, posPlayer.X);
-            Canvas.SetTop(player, posPlayer.Y);
+            foreach (Entity e in entities)
+            {
+                ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
+                Canvas.SetLeft(e.Rectangle, e.Position.X);
+                Canvas.SetTop(e.Rectangle, e.Position.Y);
+            }                
         }
     }
 }

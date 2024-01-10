@@ -37,11 +37,11 @@ namespace Survival
             InitializeComponent();
             //ForceFocus.EnableLock();
 
-            //WindowState = WindowState.Maximized;
-            //WindowStyle = WindowStyle.None;
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
 
-            //canv.Width = SystemParameters.PrimaryScreenWidth;
-            //canv.Height = SystemParameters.PrimaryScreenHeight;
+            canv.Width = SystemParameters.PrimaryScreenWidth;
+            canv.Height = SystemParameters.PrimaryScreenHeight;
             canv.Focus();
 
             inv.Visibility = Visibility.Hidden;
@@ -60,7 +60,7 @@ namespace Survival
             // this.Show();
 
             preparationWindow = new PreparationWindow();
-           // preparationWindow.Owner = this;
+            //preparationWindow.Owner = this;
             //preparationWindow.Hide();
 
             homeUI = new Home();
@@ -180,6 +180,7 @@ namespace Survival
 
             if (e.Key == Key.Escape)
             {
+                Engine.Instance.timer.Stop();
                 this.Close();
             }
             Engine.Instance.Controller.KeyDown(e);
