@@ -1,11 +1,42 @@
-﻿<Window x:Class="Survival.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Survival"
-        mc:Ignorable="d"
-        Title="MainWindow" Width="800" Height="450" Closed="Window_Closed">
-    <Canvas x:Name="canv" Background="#FF636363"/>
+﻿<Window
+    x:Class="Survival.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Survival"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Canvas
+        x:Name="canv"
+        Background="#FF6B6B6B"
+        Focusable="True"
+        KeyDown="canv_KeyDown">
+        <Canvas
+            x:Name="inv"
+            Canvas.Left="200"
+            Canvas.Top="117"
+            Width="400"
+            Height="200"
+            Background="#FFFFF5F5">
+            <WrapPanel
+                x:Name="itemContainer"
+                Width="677"
+                Height="434"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Background="#7FD81313" />
+            <StackPanel
+                x:Name="itemDescriptionUI"
+                Canvas.Left="677"
+                Width="123"
+                Height="434"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="#7F000000" />
+        </Canvas>
+    </Canvas>
 
 </Window>

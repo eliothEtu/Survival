@@ -90,11 +90,14 @@ namespace Survival.GameEngine
 			set { rect = value; }
 		}
 
+		public void Update()
+		{
 
+		}
 
+		public void Collide(Entity otherEntity)
+		{
 
-
-
-
+		}
 	}
 }

@@ -61,7 +61,11 @@ namespace Survival
 			}
 		}
 
-		public bool IsCollidingWith(Rect r)
+
+        private LivingEntity owner;
+        internal LivingEntity Owner { get => owner; set => owner = value; }
+
+        public bool IsCollidingWith(Rect r)
 		{
 			if (this.Rect.IntersectsWith(r))
 			{

@@ -23,14 +23,14 @@ namespace Survival.GameEngine
 {
     public class MapGenerator
     {
-        public static readonly int BLOCK_SIZE = 10;
+        public static readonly int BLOCK_SIZE = 75;
         Random random = new Random();
-        private List<List<int>> map = new List<List<int>>();
+        public List<List<int>> map = new List<List<int>>();
         public Vector2 sizeMap;
 
         public void CreateMap()
         {
-            sizeMap = new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
+            sizeMap = new Vector2(500, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
 
             for (int x = 0; x < sizeMap.X; x++)
             {
@@ -93,7 +93,7 @@ namespace Survival.GameEngine
                     for (int y = 0; y < map[0].Count; y++)
                     {
                         int neighWallTiles = GetNeighborTiles(x, y);
-                        if (neighWallTiles > 4 && map[x][y] == 0)
+                        if (neighWallTiles > 5 && map[x][y] == 0)
                         {
                             map[x][y] = 1;
                         }
@@ -106,7 +106,7 @@ namespace Survival.GameEngine
             }
         }
 
-        public void ShowMap()
+        public void ShowMap(Canvas canv)
         {
             for (int x = 0; x < map.Count; x++)
             {
@@ -122,7 +122,7 @@ namespace Survival.GameEngine
                             Stroke = Brushes.Yellow,
                             StrokeThickness = 2,
                         };
-                        MainWindow.canvas.Children.Add(borderWall);
+                        canv.Children.Add(borderWall);
                         Canvas.SetLeft(borderWall, x * BLOCK_SIZE);
                         Canvas.SetTop(borderWall, y * BLOCK_SIZE);
                     }
@@ -136,7 +136,7 @@ namespace Survival.GameEngine
                             Stroke = Brushes.Red,
                             StrokeThickness = 2,
                         };
-                        MainWindow.canvas.Children.Add(wall);
+                        canv.Children.Add(wall);
                         Canvas.SetLeft(wall, x * BLOCK_SIZE);
                         Canvas.SetTop(wall, y * BLOCK_SIZE);
                     }
@@ -147,7 +147,7 @@ namespace Survival.GameEngine
                             Width = BLOCK_SIZE,
                             Height = BLOCK_SIZE
                         };
-                        MainWindow.canvas.Children.Add(invisible);
+                        canv.Children.Add(invisible);
                         Canvas.SetLeft(invisible, x * BLOCK_SIZE);
                         Canvas.SetTop(invisible, y * BLOCK_SIZE);
                     }
