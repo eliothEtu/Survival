@@ -23,14 +23,19 @@ namespace Survival.GameEngine
 {
     public class MapGenerator
     {
-        public static readonly int BLOCK_SIZE = 10;
+        public static readonly int BLOCK_SIZE = 75;
         Random random = new Random();
         private List<List<int>> map = new List<List<int>>();
+        public List<List<int>> Map { get => map; set => map = value; }
+
         public Vector2 sizeMap;
+
 
         public void CreateMap()
         {
-            sizeMap = new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
+            sizeMap = new Vector2(500, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
+
+            Map.Clear();
 
             for (int x = 0; x < sizeMap.X; x++)
             {
@@ -50,12 +55,12 @@ namespace Survival.GameEngine
                         line.Add(0);
                     }
                 }
-                map.Add(line);
+                Map.Add(line);
             }
         }
         public bool IsInMap(int x, int y)
         {
-            return ((0 <= x && x < map.Count) && (0 <= y && y < map[0].Count));
+            return ((0 <= x && x < Map.Count) && (0 <= y && y < Map[0].Count));
         }
 
         private int GetNeighborTiles(int i, int j)
@@ -69,7 +74,7 @@ namespace Survival.GameEngine
                     {
                         if (x != i || y != j)
                         {
-                            if (map[x][y] != 0)
+                            if (Map[x][y] != 0)
                             {
                                 count++;
                             }
@@ -88,31 +93,31 @@ namespace Survival.GameEngine
         {
             for (int i = 0; i < times; i++)
             {
-                for (int x = 0; x < map.Count; x++)
+                for (int x = 0; x < Map.Count; x++)
                 {
-                    for (int y = 0; y < map[0].Count; y++)
+                    for (int y = 0; y < Map[0].Count; y++)
                     {
                         int neighWallTiles = GetNeighborTiles(x, y);
-                        if (neighWallTiles > 4 && map[x][y] == 0)
+                        if (neighWallTiles > 5 && Map[x][y] == 0)
                         {
-                            map[x][y] = 1;
+                            Map[x][y] = 1;
                         }
                         else if (neighWallTiles < 4)
                         {
-                            map[x][y] = 0;
+                            Map[x][y] = 0;
                         }
                     }
                 }
             }
         }
 
-        public void ShowMap()
+        public void ShowMap(Canvas canv)
         {
-            for (int x = 0; x < map.Count; x++)
+            for (int x = 0; x < Map.Count; x++)
             {
-                for (int y = 0; y < map[0].Count; y++)
+                for (int y = 0; y < Map[0].Count; y++)
                 {
-                    if (map[x][y] == -1)
+                    if (Map[x][y] == -1)
                     {
                         Rectangle borderWall = new Rectangle()
                         {
@@ -122,11 +127,11 @@ namespace Survival.GameEngine
                             Stroke = Brushes.Yellow,
                             StrokeThickness = 2,
                         };
-                        MainWindow.canvas.Children.Add(borderWall);
+                        canv.Children.Add(borderWall);
                         Canvas.SetLeft(borderWall, x * BLOCK_SIZE);
                         Canvas.SetTop(borderWall, y * BLOCK_SIZE);
                     }
-                    else if (map[x][y] == 1)
+                    else if (Map[x][y] == 1)
                     {
                         Rectangle wall = new Rectangle()
                         {
@@ -136,7 +141,7 @@ namespace Survival.GameEngine
                             Stroke = Brushes.Red,
                             StrokeThickness = 2,
                         };
-                        MainWindow.canvas.Children.Add(wall);
+                        canv.Children.Add(wall);
                         Canvas.SetLeft(wall, x * BLOCK_SIZE);
                         Canvas.SetTop(wall, y * BLOCK_SIZE);
                     }
@@ -147,7 +152,7 @@ namespace Survival.GameEngine
                             Width = BLOCK_SIZE,
                             Height = BLOCK_SIZE
                         };
-                        MainWindow.canvas.Children.Add(invisible);
+                        canv.Children.Add(invisible);
                         Canvas.SetLeft(invisible, x * BLOCK_SIZE);
                         Canvas.SetTop(invisible, y * BLOCK_SIZE);
                     }

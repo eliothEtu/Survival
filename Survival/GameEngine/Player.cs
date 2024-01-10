@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Survival
 {
@@ -52,6 +54,11 @@ namespace Survival
 				}
 				this.money = value; 
 			}
+		}
+
+		public Player(int life, BitmapImage texture, Vector2 position, Vector2 velocity): base (life, texture, position, velocity)
+		{
+
 		}
 
 		public void Move()

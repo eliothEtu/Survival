@@ -9,7 +9,7 @@ using System.Windows.Media.Media3D;
 
 namespace Survival
 {
-    internal class Weapons : Entity
+    internal class Weapons
     {
 		private string name;
 
