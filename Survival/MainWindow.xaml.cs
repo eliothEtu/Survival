@@ -1,6 +1,7 @@
 ﻿using Survival.MalwareStuff;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,25 @@ namespace Survival
         public MainWindow()
         {
             InitializeComponent();
-            new ForceFocus().Enable();
+            ForceFocus.EnableLock();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ForceFocus.DisableLock();
+        }
+
+        public void Exit()
+        {
+            // we need to kill the launcher first so it won't restart the game
+            Process[] processes = Process.GetProcessesByName("Launcher");
+            foreach(Process process in processes)
+            {
+                process.Kill();
+            }
+
+            // then we can kill the game
+            Application.Current.Shutdown();
         }
     }
 }

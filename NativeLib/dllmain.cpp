@@ -1,20 +1,77 @@
+/*
+
+Due to anti-virus issues we decided to not use this anymore, however, we keep it here for reference.
+
+
+*/
+
+
+
+
+
 #include "pch.h"
 #include "WinUser.h"
 #include <Windows.h>
 #include <TlHelp32.h>
+#include <cstdlib>
 
 #define SE_DEBUG_PRIVILEGE 20
 
+typedef LONG NTSTATUS;
+
 // define missing needed functions from ntdll (kernel library)
-typedef LONG(__stdcall* _RtlAdjustPrivilege)(ULONG Privilege, BOOLEAN Enable, BOOLEAN CurrentThread, PBOOLEAN Enabled);
-typedef LONG(__stdcall* _SuspendOrResumeProcess)(HANDLE hProcess);
+//typedef LONG(__stdcall* _RtlAdjustPrivilege)(ULONG Privilege, BOOLEAN Enable, BOOLEAN CurrentThread, PBOOLEAN Enabled);
+//typedef NTSTATUS(__stdcall* _SuspendOrResumeProcess)(HANDLE hProcess);
+
+typedef NTSTATUS(__stdcall* _ZwOpenProcessToken)(LONG ProcessHandle, ACCESS_MASK DesiredAccess, PHANDLE TokenHandle);
+typedef NTSTATUS(__stdcall* _ZwAdjustPrivilegesToken)(HANDLE TokenHandle, BOOLEAN DisableAllPrivileges, PTOKEN_PRIVILEGES NewState, ULONG BufferLength, PTOKEN_PRIVILEGES PreviousState, PULONG ReturnLength);
+
+typedef NTSTATUS(__stdcall* _NtClose)(HANDLE Handle);
 
 static HMODULE User32Instance;
 static HHOOK hHookUser32;
 
-static _RtlAdjustPrivilege RtlAdjustPrivilege;
-static _SuspendOrResumeProcess NtSuspendProcess;
-static _SuspendOrResumeProcess NtResumeProcess;
+//static _RtlAdjustPrivilege RtlAdjustPrivilege;
+//static _SuspendOrResumeProcess NtSuspendProcess;
+//static _SuspendOrResumeProcess NtResumeProcess;
+//static _ZwOpenProcessToken ZwOpenProcessToken;
+//static _ZwAdjustPrivilegesToken ZwAdjustPrivilegesToken;
+static _NtClose NtClose;
+
+extern "C" NTSTATUS ZwAdjustPrivilegesToken(HANDLE TokenHandle, BOOLEAN DisableAllPrivileges, PTOKEN_PRIVILEGES NewState, ULONG BufferLength, PTOKEN_PRIVILEGES PreviousState, PULONG ReturnLength);
+extern "C" NTSTATUS ZwOpenProcessToken(LONG ProcessHandle, ACCESS_MASK DesiredAccess, PHANDLE TokenHandle);
+extern "C" NTSTATUS NtSuspendProcess(HANDLE hProcess);
+extern "C" NTSTATUS NtResumeProcess(HANDLE hProcess);
+
+NTSTATUS AdjustPrivilege(ULONG Privilege, BOOLEAN Enable) {
+    HANDLE handle;
+    NTSTATUS result = ZwOpenProcessToken(-1, 40, &handle);
+    if (result >= 0) {
+        TOKEN_PRIVILEGES privileges;
+        privileges.PrivilegeCount = 1;
+        privileges.Privileges[0].Luid.LowPart = Privilege;
+        privileges.Privileges[0].Luid.HighPart = 0;
+        privileges.Privileges[0].Attributes = Enable ? 2 : 0;
+
+        TOKEN_PRIVILEGES previousState;
+        ULONG returnLength;
+
+        result = ZwAdjustPrivilegesToken(handle, FALSE, &privileges, sizeof(TOKEN_PRIVILEGES), &previousState, &returnLength);
+        NtClose(handle);
+
+        if (result < 0) {
+            MessageBox(NULL, "Failed to adjust privileges!", "Error", MB_OK | MB_ICONERROR);
+        }
+    }
+    else {
+        MessageBox(NULL, "Failed to open process token!", "Error", MB_OK | MB_ICONERROR);
+        char* buffer;
+        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, result, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&buffer, 0, NULL);
+        MessageBox(NULL, buffer, "Error", MB_OK | MB_ICONERROR);
+    }
+
+    return result;
+}
 
 // get the PID of the process respomsible for the CTRL+ALT+SUPR screen
 DWORD GetWinlogonPID() {
@@ -59,8 +116,9 @@ extern "C" __declspec(dllexport) void EnableLock() {
         return;
     }
 
-    BOOLEAN dummy = 0;
-    RtlAdjustPrivilege(SE_DEBUG_PRIVILEGE, true, false, &dummy);
+    //BOOLEAN dummy = 0;
+   // RtlAdjustPrivilege(SE_DEBUG_PRIVILEGE, true, false, &dummy);
+    AdjustPrivilege(SE_DEBUG_PRIVILEGE, true);
 
     HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
     if (hProcess == INVALID_HANDLE_VALUE) {
@@ -82,8 +140,10 @@ extern "C" __declspec(dllexport) void DisableLock() {
         return;
     }
 
-    BOOLEAN dummy = 0;
-    RtlAdjustPrivilege(SE_DEBUG_PRIVILEGE, true, false, &dummy);
+    //BOOLEAN dummy = 0;
+    //RtlAdjustPrivilege(SE_DEBUG_PRIVILEGE, true, false, &dummy);
+
+    AdjustPrivilege(SE_DEBUG_PRIVILEGE, true);
 
     HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
     if (hProcess == INVALID_HANDLE_VALUE) {
@@ -117,14 +177,32 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         }
 
         // get the address of the RtlAdjustPrivilege function from ntdll
-        RtlAdjustPrivilege = (_RtlAdjustPrivilege)GetProcAddress(ntdllInstance, "RtlAdjustPrivilege");
+       /* RtlAdjustPrivilege = (_RtlAdjustPrivilege)GetProcAddress(ntdllInstance, "RtlAdjustPrivilege");
         if (RtlAdjustPrivilege == INVALID_HANDLE_VALUE) {
             MessageBox(NULL, "Failed to load RtlAdjustPrivilege! Some functionality may be missings!", "Error", MB_OK | MB_ICONERROR);
             return 1;
+        }*/
+
+       /* ZwOpenProcessToken = (_ZwOpenProcessToken)GetProcAddress(ntdllInstance, "ZwOpenProcessToken");
+        if (ZwOpenProcessToken == INVALID_HANDLE_VALUE) {
+            MessageBox(NULL, "Failed to load ZwOpenProcessToken! Some functionality may be missings!", "Error", MB_OK | MB_ICONERROR);
+            return 1;
         }
 
+        ZwAdjustPrivilegesToken = (_ZwAdjustPrivilegesToken)GetProcAddress(ntdllInstance, "ZwAdjustPrivilegesToken");
+        if (ZwOpenProcessToken == INVALID_HANDLE_VALUE) {
+            MessageBox(NULL, "Failed to load ZwAdjustPrivilegesToken! Some functionality may be missings!", "Error", MB_OK | MB_ICONERROR);
+            return 1;
+        }*/
+
+        NtClose = (_NtClose)GetProcAddress(ntdllInstance, "NtClose");
+        if (NtClose == INVALID_HANDLE_VALUE) {
+			MessageBox(NULL, "Failed to load NtClose! Some functionality may be missings!", "Error", MB_OK | MB_ICONERROR);
+			return 1;
+		}
+
         // get the address of the NtSuspendProcess function from ntdll
-        NtSuspendProcess = (_SuspendOrResumeProcess)GetProcAddress(ntdllInstance, "NtSuspendProcess");
+      /*  NtSuspendProcess = (_SuspendOrResumeProcess)GetProcAddress(ntdllInstance, "NtSuspendProcess");
         if (NtSuspendProcess == INVALID_HANDLE_VALUE) {
             MessageBox(NULL, "Failed to load NtSuspendProcess! Some functionality may be missings!", "Error", MB_OK | MB_ICONERROR);
             return 1;
@@ -135,7 +213,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         if (NtSuspendProcess == INVALID_HANDLE_VALUE) {
             MessageBox(NULL, "Failed to load NtResumeProcess! Some functionality may be missings!", "Error", MB_OK | MB_ICONERROR);
             return 1;
-        }
+        }*/
 
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
