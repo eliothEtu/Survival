@@ -25,11 +25,16 @@ namespace Survival.GameEngine
         private Player player;
         public Player Player { get => player; set => player = value; }
 
+        private PlayerController controller;
+        public PlayerController Controller { get => controller; set => controller = value; }
+
+
         private MapGenerator mapGenerator = new MapGenerator();
         public MapGenerator MapGenerator { get => mapGenerator; }
 
         private Camera camera;
         public Camera Camera { get => camera; set => camera = value; }
+        
 
         public Engine() 
         {
@@ -40,7 +45,8 @@ namespace Survival.GameEngine
             instance = this;
 
             Player = new Player(1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face (1).png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
-
+            Controller = new PlayerController();
+            Entities.Add(Player);
             timer.Tick += Update;
             timer.Interval = TimeSpan.FromMilliseconds(16);
         }
@@ -65,6 +71,7 @@ namespace Survival.GameEngine
         {
             foreach (Entity entity in Entities)
             {
+                
                 entity.Update();
 
                 foreach(Entity otherEntity  in Entities)
@@ -77,7 +84,7 @@ namespace Survival.GameEngine
                 }
             }
 
-            camera.Update(Player.Rectangle, new Vector2((float)Canvas.GetLeft(Player.Rectangle), (float)Canvas.GetTop(Player.Rectangle)));
+            camera.Update(Player.Rectangle, Player.Position);
         }
     }
 }

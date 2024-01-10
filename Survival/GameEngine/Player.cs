@@ -61,9 +61,10 @@ namespace Survival
 
 		}
 
-		public void Move()
+		public override void Update()
 		{
-
+			this.Position += this.Velocity;
+			this.Velocity = Vector2.Zero;
 		}
 
 		public void Fire()

@@ -35,13 +35,13 @@ namespace Survival
         public MainWindow()
         {
             InitializeComponent();
-            ForceFocus.EnableLock();
+            //ForceFocus.EnableLock();
 
-            WindowState = WindowState.Maximized;
-            WindowStyle = WindowStyle.None;
+            //WindowState = WindowState.Maximized;
+            //WindowStyle = WindowStyle.None;
 
-            canv.Width = SystemParameters.PrimaryScreenWidth;
-            canv.Height = SystemParameters.PrimaryScreenHeight;
+            //canv.Width = SystemParameters.PrimaryScreenWidth;
+            //canv.Height = SystemParameters.PrimaryScreenHeight;
             canv.Focus();
 
             inv.Visibility = Visibility.Hidden;
@@ -182,7 +182,7 @@ namespace Survival
             {
                 this.Close();
             }
-
+            Engine.Instance.Controller.KeyDown(e);
             /*if (e.Key == Key.Z)
             {
                 Canvas.SetTop(player, Canvas.GetTop(player) - MapGenerator.BLOCK_SIZE);
@@ -221,6 +221,11 @@ namespace Survival
 
             // then we can kill the game
             Application.Current.Shutdown();
+        }
+
+        private void canv_KeyUp(object sender, KeyEventArgs e)
+        {
+            Engine.Instance.Controller.KeyUp(e);
         }
     }
 }

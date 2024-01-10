@@ -19,7 +19,7 @@ namespace Survival.GameEngine
 {
     internal class Entity
     {
-		private Vector2 position;
+		public Vector2 position;
 
 		public Vector2 Position
 		{
@@ -28,10 +28,10 @@ namespace Survival.GameEngine
 			}
 			set 
 			{ 
-				if(value.X < 0 || value.Y > 0)
+				/*if(value.X < 0 || value.Y > 0)
 				{
 					throw new ArgumentOutOfRangeException("Y must be negative and X positive");
-				}
+				}*/
 				this.position = value; 
 			}
 		}
@@ -88,10 +88,12 @@ namespace Survival.GameEngine
 			set { rect = value; }
 		}
 
-		public void Update()
+		public virtual void Update()
 		{
-
+			
 		}
+
+
 
 		public void Collide(Entity otherEntity)
 		{
