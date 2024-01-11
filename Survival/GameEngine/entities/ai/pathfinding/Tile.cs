@@ -19,6 +19,7 @@ namespace Survival.GameEngine.entities.ai.pathfinding
         public Tile? Parent { get; set; }
 
         // TODO: this is currently ignoring walls ect...
+        // Set the target destination
         public void SetDistance(int targetX, int targetY)
         {
             this.Distance = Math.Abs(targetX - this.X) + Math.Abs(targetY - this.Y);

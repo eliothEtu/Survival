@@ -31,9 +31,10 @@ namespace Survival.GameEngine.entities.ai
 
             List<Tile> visitedTiles = new List<Tile>();
 
+            // loop until there is nowhere we haven't walked
             while (activeTiles.Any())
             {
-                Tile checkTile = activeTiles.OrderBy(x => x.CostDistance).First();
+                Tile checkTile = activeTiles.OrderByDescending(x => x.CostDistance).Last();
                 if (checkTile.X == finish.X && checkTile.Y == finish.Y)
                 {
                     // we arrived at the destination
@@ -65,6 +66,8 @@ namespace Survival.GameEngine.entities.ai
                     }
                 }
             }
+
+            // no path found!
         }
 
         private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile) {
