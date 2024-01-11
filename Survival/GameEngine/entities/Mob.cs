@@ -13,6 +13,8 @@ namespace Survival
     {
 		public List<Behavior> behaviors = new List<Behavior> ();
 
+		public int FocusDistance { get; set; }
+
 
 		private int baseDamage;
 

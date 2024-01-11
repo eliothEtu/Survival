@@ -8,7 +8,7 @@ namespace Survival.GameEngine.entities.ai
 {
     internal class Behavior
     {
-        public virtual void Update(Entity entity) 
+        public virtual void Update(Mob entity) 
         {
         }
     }

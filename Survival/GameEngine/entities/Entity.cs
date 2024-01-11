@@ -96,11 +96,17 @@ namespace Survival.GameEngine
                 this.Position += this.Velocity * 5;
         }
 
-
-
 		public void Collide(Entity otherEntity)
 		{
 
 		}
+
+		public double GetDistanceFrom(Vector2 pos)
+		{
+			double distance1 = Math.Pow(this.Position.X, 2) + Math.Pow(this.Position.Y, 2);
+			double distance2 = Math.Pow(pos.X, 2) + Math.Pow(pos.Y, 2);
+
+			return distance1 - distance2;
+        }
 	}
 }

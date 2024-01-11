@@ -32,6 +32,31 @@ namespace Survival.GameEngine
             set => this.pos = value;
         }
 
+        private Rect GetCameraRect()
+        {
+            double w = Math.Round(SystemParameters.PrimaryScreenWidth / MapGenerator.BLOCK_SIZE) / 2;
+            double h = Math.Round(SystemParameters.PrimaryScreenHeight / MapGenerator.BLOCK_SIZE) / 2;
+
+            return new Rect(this.Pos.X, this.Pos.Y, w, h);
+        }
+
+        private Vector2? GetPosOnCanvas(Vector2 worldPos)
+        {
+            Rect cameraRect = this.GetCameraRect();
+            if (worldPos.X < cameraRect.X - (cameraRect.Width / 2) ||
+                worldPos.X > cameraRect.X + (cameraRect.Width / 2) ||
+                worldPos.Y < cameraRect.Y - (cameraRect.Height / 2) || 
+                worldPos.Y > cameraRect.Y + (cameraRect.Height / 2)) 
+            {
+                return null;
+            }
+
+            float canvasX = worldPos.X.Remap(0, Engine.Instance.MapGenerator.sizeMap.X, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Width);
+            float canvasY = worldPos.Y.Remap(0, Engine.Instance.MapGenerator.sizeMap.Y, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Height);
+
+            return new Vector2(canvasX, canvasY);
+        }
+
         public void UpdateCamera(Rectangle player, Vector2 targetPos)
         {
             this.pos = targetPos;
@@ -43,17 +68,21 @@ namespace Survival.GameEngine
         {
             ((MainWindow)Application.Current.MainWindow).canv.Children.Clear();
 
-            int xGap = (int)pos.X / MapGenerator.BLOCK_SIZE;
-            int yGap = (int)pos.Y / MapGenerator.BLOCK_SIZE;
-            for (int x = xGap - (int)Math.Round(SystemParameters.PrimaryScreenWidth / 100);  x < xGap + Math.Round(SystemParameters.PrimaryScreenWidth / MapGenerator.BLOCK_SIZE) + 1; x++)
+            Rect cameraRect = this.GetCameraRect();
+            Console.WriteLine($"Camera: {cameraRect}");
+
+            for (int x = 0; x < Engine.Instance.MapGenerator.sizeMap.X; x++)
             {
-                for (int y = yGap - (int)Math.Round(SystemParameters.PrimaryScreenHeight / 100); y < yGap + Math.Round(SystemParameters.PrimaryScreenHeight / MapGenerator.BLOCK_SIZE) + 1; y++)
+                if (x < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
+                for (int y = 0; y < Engine.Instance.MapGenerator.sizeMap.Y; y++)
                 {
-                    if (Engine.Instance.MapGenerator.IsInMap(x, y))
+                    if (y < cameraRect.Y - (cameraRect.Height / 2) || x > cameraRect.Y + (cameraRect.Height / 2)) continue;
+
+                    Rectangle rec;
+                    switch (Engine.Instance.MapGenerator.Map[x][y])
                     {
-                        if (Engine.Instance.MapGenerator.Map[x][y] == -1)
-                        {
-                            Rectangle borderWall = new Rectangle()
+                        case -1:
+                            rec = new Rectangle()
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE,
@@ -61,13 +90,9 @@ namespace Survival.GameEngine
                                 Stroke = Brushes.Yellow,
                                 StrokeThickness = 2,
                             };
-                            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(borderWall);
-                            Canvas.SetLeft(borderWall, x * MapGenerator.BLOCK_SIZE - pos.X);
-                            Canvas.SetTop(borderWall, y * MapGenerator.BLOCK_SIZE - pos.Y);
-                        }
-                        else if (Engine.Instance.MapGenerator.Map[x][y] == 1)
-                        {
-                            Rectangle wall = new Rectangle()
+                            break;
+                        case 1:
+                            rec = new Rectangle()
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE,
@@ -75,31 +100,92 @@ namespace Survival.GameEngine
                                 Stroke = Brushes.Red,
                                 StrokeThickness = 2,
                             };
-                            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(wall);
-                            Canvas.SetLeft(wall, x * MapGenerator.BLOCK_SIZE - pos.X);
-                            Canvas.SetTop(wall, y * MapGenerator.BLOCK_SIZE - pos.Y);
-                        }
-                        else
-                        {
-                            Rectangle invisible = new Rectangle()
+                            break;
+                        default:
+                            rec = new Rectangle()
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE
                             };
-                            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(invisible);
-                            Canvas.SetLeft(invisible, x * MapGenerator.BLOCK_SIZE - pos.X);
-                            Canvas.SetTop(invisible, y * MapGenerator.BLOCK_SIZE - pos.Y);
-                        }
+                            break;
                     }
+
+                    ((MainWindow)Application.Current.MainWindow).canv.Children.Add(rec);
+                    Vector2? canvasPos = this.GetPosOnCanvas(new Vector2(x, y));
+                    Console.WriteLine($"{new Vector2(x, y)} => {canvasPos}");
+
+                    Canvas.SetLeft(rec, (double) canvasPos?.X);
+                    Canvas.SetTop(rec, (double) canvasPos?.Y);
                 }
             }
-            
+
             foreach (Entity e in entities)
             {
                 ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
-                Canvas.SetLeft(e.Rectangle, e.Position.X);
-                Canvas.SetTop(e.Rectangle, e.Position.Y);
-            }                
+                Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
+                Console.WriteLine($"{e.GetType().Name} => {canvasPos}");
+                if (canvasPos == null) continue;
+                Canvas.SetLeft(e.Rectangle, (double)canvasPos?.X);
+                Canvas.SetTop(e.Rectangle, (double)canvasPos?.Y);
+            }
+
+                /* int xGap = (int)pos.X / MapGenerator.BLOCK_SIZE;
+                 int yGap = (int)pos.Y / MapGenerator.BLOCK_SIZE;
+                 for (int x = xGap - (int)Math.Round(SystemParameters.PrimaryScreenWidth / 100);  x < xGap + Math.Round(SystemParameters.PrimaryScreenWidth / MapGenerator.BLOCK_SIZE) + 1; x++)
+                 {
+                     for (int y = yGap - (int)Math.Round(SystemParameters.PrimaryScreenHeight / 100); y < yGap + Math.Round(SystemParameters.PrimaryScreenHeight / MapGenerator.BLOCK_SIZE) + 1; y++)
+                     {
+                         if (Engine.Instance.MapGenerator.IsInMap(x, y))
+                         {
+                             if (Engine.Instance.MapGenerator.Map[x][y] == -1)
+                             {
+                                 Rectangle borderWall = new Rectangle()
+                                 {
+                                     Width = MapGenerator.BLOCK_SIZE,
+                                     Height = MapGenerator.BLOCK_SIZE,
+                                     Fill = Brushes.Yellow,
+                                     Stroke = Brushes.Yellow,
+                                     StrokeThickness = 2,
+                                 };
+                                 ((MainWindow)Application.Current.MainWindow).canv.Children.Add(borderWall);
+                                 Canvas.SetLeft(borderWall, x * MapGenerator.BLOCK_SIZE - pos.X);
+                                 Canvas.SetTop(borderWall, y * MapGenerator.BLOCK_SIZE - pos.Y);
+                             }
+                             else if (Engine.Instance.MapGenerator.Map[x][y] == 1)
+                             {
+                                 Rectangle wall = new Rectangle()
+                                 {
+                                     Width = MapGenerator.BLOCK_SIZE,
+                                     Height = MapGenerator.BLOCK_SIZE,
+                                     Fill = Brushes.Red,
+                                     Stroke = Brushes.Red,
+                                     StrokeThickness = 2,
+                                 };
+                                 ((MainWindow)Application.Current.MainWindow).canv.Children.Add(wall);
+                                 Canvas.SetLeft(wall, x * MapGenerator.BLOCK_SIZE - pos.X);
+                                 Canvas.SetTop(wall, y * MapGenerator.BLOCK_SIZE - pos.Y);
+                             }
+                             else
+                             {
+                                 Rectangle invisible = new Rectangle()
+                                 {
+                                     Width = MapGenerator.BLOCK_SIZE,
+                                     Height = MapGenerator.BLOCK_SIZE
+                                 };
+                                 ((MainWindow)Application.Current.MainWindow).canv.Children.Add(invisible);
+                                 Canvas.SetLeft(invisible, x * MapGenerator.BLOCK_SIZE - pos.X);
+                                 Canvas.SetTop(invisible, y * MapGenerator.BLOCK_SIZE - pos.Y);
+                             }
+                         }
+                     }
+                 }
+
+                 foreach (Entity e in entities)
+                 {
+                     ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
+                     Canvas.SetLeft(e.Rectangle, e.Position.X);
+                     Canvas.SetTop(e.Rectangle, e.Position.Y);
+                 }   */
+            }
         }
-    }
 }

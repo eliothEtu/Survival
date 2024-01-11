@@ -12,17 +12,40 @@ namespace Survival.GameEngine.entities.ai
     {
         public Player Player { get; set; }
 
-        public override void Update(Entity entity)
+        private List<Tile> cachedPath = new List<Tile>();
+        private DateTime lastCalculation = DateTime.Now;
+
+        public override void Update(Mob entity)
         {
-            Tile start = new Tile();
+            if (entity.GetDistanceFrom(this.Player.Position) < 2 || entity.GetDistanceFrom(this.Player.Position) > entity.FocusDistance) return;
 
-            //TODO: int / float
-            start.X = (int)entity.Position.X;
-            start.Y = (int)entity.Position.Y;
+            if ((DateTime.Now - this.lastCalculation > TimeSpan.FromSeconds(5)) || (this.cachedPath.Count > 0 && this.GetCurrentTile(entity) != this.cachedPath[0]))
+            {
+                this.cachedPath = this.CalculatePath(entity);
+            }
 
-            Tile finish = new Tile();
-            finish.X = (int)this.Player.Position.X;
-            finish.Y = (int)this.Player.Position.Y;
+            if (this.cachedPath.Count == 0) return;
+
+            
+
+            // follow path
+            Tile targetTile = this.cachedPath[1];
+            if (targetTile != null)
+            {
+                this.cachedPath.RemoveAt(0);
+                this.cachedPath.RemoveAt(1);
+                
+                float deltaX = this.Player.Position.X - targetTile.X;
+                float deltaY = this.Player.Position.Y - targetTile.Y;
+
+                entity.Velocity = new System.Numerics.Vector2(deltaX, deltaY);
+            }
+        }
+
+        private List<Tile> CalculatePath(Mob entity)
+        {
+            Tile start = this.GetCurrentTile(entity);
+            Tile finish = this.GetCurrentTile(this.Player);
 
             start.SetDistance(finish.X, finish.Y);
 
@@ -38,13 +61,13 @@ namespace Survival.GameEngine.entities.ai
                 if (checkTile.X == finish.X && checkTile.Y == finish.Y)
                 {
                     // we arrived at the destination
-                    return;
+                    return activeTiles;
                 }
 
                 visitedTiles.Add(checkTile);
                 activeTiles.Remove(checkTile);
 
-                List<Tile> walkableTiles = this.GetWalkableTiles(checkTile, finish);
+                List<Tile> walkableTiles = this.GetWalkableTiles(checkTile, finish, entity.FocusDistance);
                 foreach (Tile walkableTile in walkableTiles)
                 {
                     // we already visited this tile
@@ -68,9 +91,10 @@ namespace Survival.GameEngine.entities.ai
             }
 
             // no path found!
+            return new List<Tile>();
         }
 
-        private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile) {
+        private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile, int distance) {
             List<Tile> tiles = new List<Tile>();
 
             for (int x = 0; x < Engine.Instance.MapGenerator.sizeMap.X; x++)
@@ -88,7 +112,19 @@ namespace Survival.GameEngine.entities.ai
             }
 
             // Only return tiles where there are no walls and no borders
-            return tiles.Where(tile => Engine.Instance.MapGenerator.Map[tile.X][tile.Y] == 0).ToList();
+            return tiles
+                .Where(tile => Engine.Instance.MapGenerator.Map[tile.X][tile.Y] == 0)
+                .Where(tile => (Math.Pow(tile.X, 2) + Math.Pow(tile.Y, 2) <= distance))
+                .ToList();
+        }
+
+        private Tile GetCurrentTile(Entity entity)
+        {
+            Tile tile = new Tile();
+            tile.X = (int)entity.Position.X;
+            tile.Y = (int)entity.Position.Y;
+
+            return tile;
         }
     }
 }
