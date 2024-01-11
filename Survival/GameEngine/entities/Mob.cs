@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Survival.GameEngine.entities.ai;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -10,28 +11,16 @@ namespace Survival
 {
     internal class Mob : LivingEntity
     {
-		private Player target;
+		public List<Behavior> Behaviors { get; set; }
 
-		public Player Target
+
+		private int baseDamage;
+
+		public int BaseDamage
 		{
 			get 
 			{ 
-				return this.target; 
-			}
-			set 
-			{ 
-				this.target = value; 
-			}
-		}
-
-
-		private int damage;
-
-		public int Damage
-		{
-			get 
-			{ 
-				return this.damage; 
+				return this.baseDamage; 
 			}
 			set 
 			{ 
@@ -39,7 +28,7 @@ namespace Survival
 				{
 					throw new ArgumentOutOfRangeException("Damage must be positive");
 				}
-				this.damage = value; 
+				this.baseDamage = value; 
 			}
 		}
 
@@ -47,6 +36,16 @@ namespace Survival
         {
 
         }
+
+		public override void Update()
+		{
+			base.Update();
+
+			foreach (Behavior behavior in Behaviors)
+			{
+				behavior.Update(this);
+			}
+		}
 
         public void GoToPlayer()
 		{

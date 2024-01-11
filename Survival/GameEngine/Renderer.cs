@@ -17,19 +17,26 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Survival.GameEngine.world;
 
 namespace Survival.GameEngine
 {
-    public class Camera
+    public class Renderer
     {
         private Vector2 sizeMap = new Vector2(500, 500);// new Vector2((float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Width / MapGenerator.BLOCK_SIZE), (float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Height / MapGenerator.BLOCK_SIZE));
-        public Vector2 pos = Vector2.Zero;
+        private Vector2 pos = Vector2.Zero;
 
-        public void Update(Rectangle player, Vector2 targetPos)
+        public Vector2 Pos
         {
-            pos = targetPos;
-            pos.X = (float)Math.Clamp(pos.X, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Width);
-            pos.Y = (float)Math.Clamp(pos.Y, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Height);
+            get => this.pos;
+            set => this.pos = value;
+        }
+
+        public void UpdateCamera(Rectangle player, Vector2 targetPos)
+        {
+            this.pos = targetPos;
+            this.pos.X = (float)Math.Clamp(pos.X, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Width);
+            this.pos.Y = (float)Math.Clamp(pos.Y, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Height);
         }
 
         public void Draw(List<Entity> entities)

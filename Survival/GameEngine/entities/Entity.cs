@@ -19,7 +19,7 @@ namespace Survival.GameEngine
 {
     public class Entity
     {
-		public Vector2 position;
+		private Vector2 position;
 
 		public Vector2 Position
 		{

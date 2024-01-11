@@ -5,10 +5,12 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Survival.GameEngine.world;
 
 namespace Survival.GameEngine
 {
@@ -32,8 +34,8 @@ namespace Survival.GameEngine
         private MapGenerator mapGenerator = new MapGenerator();
         public MapGenerator MapGenerator { get => mapGenerator; }
 
-        private Camera camera;
-        public Camera Camera { get => camera; set => camera = value; }
+        private Renderer renderer;
+        public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
         
 
         public Engine() 
@@ -44,21 +46,21 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            Player = new Player(1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
-            Controller = new PlayerController();
-            Entities.Add(Player);
-            timer.Tick += Update;
-            timer.Interval = TimeSpan.FromMilliseconds(16);
+            this.Player = new Player(1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
+            this.Controller = new PlayerController();
+            this.Entities.Add(Player);
+            this.timer.Tick += Update;
+            this.timer.Interval = TimeSpan.FromMilliseconds(16);
         }
 
         public void Start()
         {
-            MapGenerator.CreateMap();
-            MapGenerator.SmoothMap(5);
+            this.MapGenerator.CreateMap();
+            this.MapGenerator.SmoothMap(5);
 
-            camera = new Camera();
+            this.Renderer = new Renderer();
 
-            timer.Start();
+            this.timer.Start();
         }
 
         public void Pause()
@@ -83,8 +85,20 @@ namespace Survival.GameEngine
                 }
             }
 
-            camera.Update(Player.Rectangle, Player.Position);
-            camera.Draw(Entities);
+            this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
+            this.Renderer.Draw(Entities);
+        }
+
+        public void SpawnEntity(Entity entity)
+        {
+            this.Entities.Add(entity);
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(entity.Rectangle);
+        }
+
+        public void RemoveEntity(Entity entity)
+        {
+            this.Entities.Remove(entity);
+            ((MainWindow) Application.Current.MainWindow).canv.Children.Remove(entity.Rectangle);
         }
     }
 }

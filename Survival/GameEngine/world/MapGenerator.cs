@@ -19,7 +19,7 @@ using System.Windows.Threading;
 
 // -1: Border | 0: Invisible | 1: Mur
 
-namespace Survival.GameEngine
+namespace Survival.GameEngine.world
 {
     public class MapGenerator
     {
@@ -60,7 +60,7 @@ namespace Survival.GameEngine
         }
         public bool IsInMap(int x, int y)
         {
-            return ((0 <= x && x < Map.Count) && (0 <= y && y < Map[0].Count));
+            return 0 <= x && x < Map.Count && 0 <= y && y < Map[0].Count;
         }
 
         private int GetNeighborTiles(int i, int j)
@@ -159,5 +159,5 @@ namespace Survival.GameEngine
                 }
             }
         }*/
-    }    
+    }
 }
