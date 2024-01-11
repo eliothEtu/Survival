@@ -10,7 +10,7 @@ namespace Survival.GameEngine.entities.ai
 {
     internal class FollowPlayerBehavior : Behavior
     {
-        private Player Player { get; set; }
+        public Player Player { get; set; }
 
         public override void Update(Entity entity)
         {

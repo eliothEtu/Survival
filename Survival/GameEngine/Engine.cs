@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Survival.GameEngine.world;
+using Survival.GameEngine.entities.ai;
 
 namespace Survival.GameEngine
 {
@@ -22,7 +23,7 @@ namespace Survival.GameEngine
         private List<Entity> entities = new List<Entity>();
         public List<Entity> Entities { get => entities; }
 
-        public DispatcherTimer timer = new DispatcherTimer();
+        public AsyncTimer timer = new AsyncTimer();
 
         private Player player;
         public Player Player { get => player; set => player = value; }
@@ -36,7 +37,6 @@ namespace Survival.GameEngine
 
         private Renderer renderer;
         public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
-        
 
         public Engine() 
         {
@@ -49,7 +49,15 @@ namespace Survival.GameEngine
             this.Player = new Player(1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
             this.Entities.Add(Player);
-            this.timer.Tick += Update;
+
+
+            Mob mob = new Mob(100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(10f, 10f), new Vector2(0f, 0f));
+            FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
+            followPlayerBehavior.Player = this.Player;
+            mob.behaviors.Add(followPlayerBehavior);
+            this.Entities.Add(mob);
+
+            this.timer.OnTick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
         }
 
@@ -68,8 +76,8 @@ namespace Survival.GameEngine
             timer.Stop();
         }
 
-        private void Update(object sender, EventArgs e)
-        {
+        private void Update()
+        {            
             foreach (Entity entity in Entities)
             {
                 
@@ -87,18 +95,6 @@ namespace Survival.GameEngine
 
             this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
             this.Renderer.Draw(Entities);
-        }
-
-        public void SpawnEntity(Entity entity)
-        {
-            this.Entities.Add(entity);
-            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(entity.Rectangle);
-        }
-
-        public void RemoveEntity(Entity entity)
-        {
-            this.Entities.Remove(entity);
-            ((MainWindow) Application.Current.MainWindow).canv.Children.Remove(entity.Rectangle);
         }
     }
 }

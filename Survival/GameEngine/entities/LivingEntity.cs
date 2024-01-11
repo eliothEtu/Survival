@@ -35,7 +35,12 @@ namespace Survival
 			this.Life = life;
 		}
 
-		public void TakeDamage(int damage)
+        public override void Update()
+        {
+            base.Update();
+        }
+
+        public void TakeDamage(int damage)
 		{
 			if(this.Life - damage < 0)
 			{

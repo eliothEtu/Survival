@@ -61,12 +61,12 @@ namespace Survival
 
 		}
 
-		public override void Update()
-		{
-			this.Position += this.Velocity * 5;
-		}
+        public override void Update()
+        {
+            base.Update();
+        }
 
-		public void Fire()
+        public void Fire()
 		{
 
 		}

@@ -11,7 +11,7 @@ namespace Survival
 {
     internal class Mob : LivingEntity
     {
-		public List<Behavior> Behaviors { get; set; }
+		public List<Behavior> behaviors = new List<Behavior> ();
 
 
 		private int baseDamage;
@@ -41,7 +41,7 @@ namespace Survival
 		{
 			base.Update();
 
-			foreach (Behavior behavior in Behaviors)
+			foreach (Behavior behavior in this.behaviors)
 			{
 				behavior.Update(this);
 			}

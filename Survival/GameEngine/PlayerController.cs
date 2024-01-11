@@ -30,27 +30,46 @@ namespace Survival.GameEngine
 
         public void KeyDown(KeyEventArgs key)
         {
-            if (key.Key == Key.Z && Engine.Instance.Player.Velocity.Y != -1)
+            Player player = Engine.Instance.Player;
+
+            if (key.Key == Key.Z && player.Velocity.Y != -1)
             {
-                Engine.Instance.Player.Velocity = new Vector2(0, -1);
+                player.Velocity = new Vector2(player.Velocity.X, -1);
             }
-            if(key.Key == Key.S && Engine.Instance.Player.Velocity.Y != 1)
+            if(key.Key == Key.S && player.Velocity.Y != 1)
             {
-                Engine.Instance.Player.Velocity = new Vector2(0, 1);
+                player.Velocity = new Vector2(player.Velocity.X, 1);
             }
-            if(key.Key == Key.Q && Engine.Instance.Player.Velocity.X != -1)
+            if(key.Key == Key.Q && player.Velocity.X != -1)
             {
-                Engine.Instance.Player.Velocity = new Vector2(-1, 0);
+                player.Velocity = new Vector2(-1, player.Velocity.Y);
             }
-            if(key.Key == Key.D && Engine.Instance.Player.Velocity.X != 1)
+            if(key.Key == Key.D && player.Velocity.X != 1)
             {
-                Engine.Instance.Player.Velocity = new Vector2(1,0);
+                player.Velocity = new Vector2(1, player.Velocity.Y);
             }
         }
 
         public void KeyUp(KeyEventArgs key)
         {
-            Engine.Instance.Player.Velocity = Vector2.Zero;
+            Player player = Engine.Instance.Player;
+
+            if (key.Key == Key.Z && player.Velocity.Y != 0)
+            {
+                player.Velocity = new Vector2(player.Velocity.X, 0);
+            }
+            if (key.Key == Key.S && player.Velocity.Y != 0)
+            {
+                player.Velocity = new Vector2(player.Velocity.X, 0);
+            }
+            if (key.Key == Key.Q && player.Velocity.X != 0)
+            {
+                player.Velocity = new Vector2(0, player.Velocity.Y);
+            }
+            if (key.Key == Key.D && player.Velocity.X != 0)
+            {
+                player.Velocity = new Vector2(0, player.Velocity.Y);
+            }
         }
     }
 }

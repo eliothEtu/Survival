@@ -72,7 +72,7 @@ namespace Survival
                 Height = 200,
                 Fill = titleImage
             };
-            canvHome.Children.Add(title);
+            //canvHome.Children.Add(title);
             Canvas.SetTop(title, 200);
             Canvas.SetLeft(title, SystemParameters.PrimaryScreenWidth - title.Width);
         }
