@@ -35,7 +35,9 @@ namespace Survival
         public MainWindow()
         {
             InitializeComponent();
-            //ForceFocus.EnableLock();
+#if !DEBUG
+            ForceFocus.EnableLock();
+#endif
 
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
