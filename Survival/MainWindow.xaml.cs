@@ -27,15 +27,15 @@ namespace Survival
         public Home homeUI;
         public PreparationWindow preparationWindow;
 
-        private string[] itemName = new string[5];
-        private Dictionary<string, string> itemDescription = new Dictionary<string, string>();
+        private Canvas invUi; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         bool bInventory = false;
 
         public MainWindow()
         {
             InitializeComponent();
-            ForceFocus.EnableLock();
+            invUi = inv; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //ForceFocus.EnableLock();
 
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
@@ -44,13 +44,13 @@ namespace Survival
             canv.Height = SystemParameters.PrimaryScreenHeight;
             canv.Focus();
 
-            inv.Visibility = Visibility.Hidden;
-            inv.Width = SystemParameters.PrimaryScreenWidth - 300;
-            inv.Height = SystemParameters.PrimaryScreenHeight - 300;
-            inv.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#000000");
-            inv.Background.Opacity = 0.7;
-            Canvas.SetLeft(inv, SystemParameters.PrimaryScreenWidth / 2 - inv.Width / 2);
-            Canvas.SetTop(inv, SystemParameters.PrimaryScreenHeight / 2 - inv.Height / 2);
+            invUi.Visibility = Visibility.Hidden;
+            invUi.Width = SystemParameters.PrimaryScreenWidth - 300;
+            invUi.Height = SystemParameters.PrimaryScreenHeight - 300;
+            invUi.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#000000");
+            invUi.Background.Opacity = 0.7;
+            Canvas.SetLeft(invUi, SystemParameters.PrimaryScreenWidth / 2 - invUi.Width / 2);
+            Canvas.SetTop(invUi, SystemParameters.PrimaryScreenHeight / 2 - invUi.Height / 2);
 
             // Engine's constructor define a static instance property in Engine
             new Engine();
@@ -60,18 +60,18 @@ namespace Survival
             // this.Show();
 
             preparationWindow = new PreparationWindow();
-           // preparationWindow.Owner = this;
+            //preparationWindow.Owner = this;
             //preparationWindow.Hide();
 
             homeUI = new Home();
             homeUI.ShowDialog();
 
-            itemContainer.Width = inv.Width - 400;
-            itemContainer.Height = inv.Height - 50;
+            itemContainer.Width = invUi.Width - 400;
+            itemContainer.Height = invUi.Height - 50;
             Canvas.SetTop(itemContainer, 50);
 
             itemDescriptionUI.Width = 400;
-            itemDescriptionUI.Height = inv.Height - 50;
+            itemDescriptionUI.Height = invUi.Height - 50;
 
             Canvas.SetLeft(itemDescriptionUI, itemContainer.Width);
             Canvas.SetTop(itemDescriptionUI, 50);
@@ -83,36 +83,26 @@ namespace Survival
                 Content = "Close Inventory"
             };
             but.Click += CloseInventory;
-            inv.Children.Add(but);
-            Canvas.SetLeft(but, inv.Width - but.Width - 20);
+            invUi.Children.Add(but);
+            Canvas.SetLeft(but, invUi.Width - but.Width - 20);
             Canvas.SetTop(but, 20);
-
-            itemName[0] = "Iron";
-            itemName[1] = "Stone";
-            itemName[2] = "Copper";
-            itemName[3] = "Sword";
-            itemName[4] = "Bow";
-
-            itemDescription[itemName[0]] = "Just a iron ingot";
-            itemDescription[itemName[1]] = "Classic stone";
-            itemDescription[itemName[2]] = "Copper rust";
-            itemDescription[itemName[3]] = "A sword find in a dungeon";
-            itemDescription[itemName[4]] = "Bow find on a mob";
 
             LoadInventory();
         }
 
         public void OpenInventory()
         {
+            Engine.Instance.timer.Stop(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            canv.Children.Add(invUi); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             bInventory = true;
-            inv.Visibility = Visibility.Visible;
-            Canvas.SetZIndex(inv, 2);
+            invUi.Visibility = Visibility.Visible;
+            Canvas.SetZIndex(invUi, 1);
         }
 
         public void CloseInventory()
         {
             bInventory = false;
-            inv.Visibility = Visibility.Hidden;
+            invUi.Visibility = Visibility.Hidden;
         }
 
         public void LaunchGame()
@@ -130,18 +120,19 @@ namespace Survival
         public void CloseInventory(object sender, RoutedEventArgs e)
         {
             bInventory = false;
-            inv.Visibility = Visibility.Hidden;
+            invUi.Visibility = Visibility.Hidden;
         }
 
-        private void LoadInventory()
+        private void LoadInventory() ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
-            foreach (string item in itemName)
+            foreach (Item item in Engine.Instance.Player.Inventory.InventoryList)
             {
                 Button itemBut = new Button()
                 {
                     Width = 100,
                     Height = 100,
-                    Content = item
+                    Content = item.Name,
+                    Background = item.Texture
                 };
                 itemBut.MouseEnter += ShowItemDescription;
                 itemBut.MouseLeave += ClearItemDescription;
@@ -149,13 +140,14 @@ namespace Survival
             }
         }
 
-        private void ShowItemDescription(object sender, MouseEventArgs e)
+        private void ShowItemDescription(object sender, MouseEventArgs e) ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
             Button butHover = sender as Button;
+            string description = Engine.Instance.Player.Inventory.GetDescriptionByItemName(butHover.Content.ToString());
             Label itemD = new Label()
             {
                 Width = double.NaN,
-                Content = itemDescription[butHover.Content.ToString()],
+                Content = description,
                 FontSize = 30,
                 Foreground = new SolidColorBrush(Colors.White)
             };
@@ -180,29 +172,10 @@ namespace Survival
 
             if (e.Key == Key.Escape)
             {
+                Engine.Instance.timer.Stop();
                 this.Close();
             }
-
-            /*if (e.Key == Key.Z)
-            {
-                Canvas.SetTop(player, Canvas.GetTop(player) - MapGenerator.BLOCK_SIZE);
-                //cam.pos.Y -= MapGenerator.BLOCK_SIZE;
-            }
-            if (e.Key == Key.S)
-            {
-                Canvas.SetTop(player, Canvas.GetTop(player) + MapGenerator.BLOCK_SIZE);
-                //cam.pos.Y += MapGenerator.BLOCK_SIZE;
-            }
-            if (e.Key == Key.Q)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) - MapGenerator.BLOCK_SIZE);
-                //cam.pos.X -= MapGenerator.BLOCK_SIZE;
-            }
-            if (e.Key == Key.D)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) + MapGenerator.BLOCK_SIZE);
-                //cam.pos.X += MapGenerator.BLOCK_SIZE;
-            }*/
+            Engine.Instance.Controller.KeyDown(e);
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -221,6 +194,11 @@ namespace Survival
 
             // then we can kill the game
             Application.Current.Shutdown();
+        }
+
+        private void canv_KeyUp(object sender, KeyEventArgs e)
+        {
+            Engine.Instance.Controller.KeyUp(e);
         }
     }
 }

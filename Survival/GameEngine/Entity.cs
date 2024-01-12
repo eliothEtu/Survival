@@ -17,9 +17,9 @@ using System.Windows.Shapes;
 
 namespace Survival.GameEngine
 {
-    internal class Entity
+    public class Entity
     {
-		private Vector2 position;
+		public Vector2 position;
 
 		public Vector2 Position
 		{
@@ -28,10 +28,10 @@ namespace Survival.GameEngine
 			}
 			set 
 			{ 
-				if(value.X < 0 || value.Y > 0)
+				/*if(value.X < 0 || value.Y > 0)
 				{
 					throw new ArgumentOutOfRangeException("Y must be negative and X positive");
-				}
+				}*/
 				this.position = value; 
 			}
 		}
@@ -73,8 +73,8 @@ namespace Survival.GameEngine
 
 			this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
 			this.Rectangle = new Rectangle();
-			this.Rectangle.Width = texture.Width;
-			this.Rectangle.Height = texture.Height;
+			this.Rectangle.Width = MapGenerator.BLOCK_SIZE; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            this.Rectangle.Height = MapGenerator.BLOCK_SIZE;
 
 			Canvas.SetLeft(this.Rectangle, position.X);
 			Canvas.SetTop(this.Rectangle, position.Y);
@@ -88,14 +88,30 @@ namespace Survival.GameEngine
 			set { rect = value; }
 		}
 
-		public void Update()
+		public virtual void Update()
 		{
-
+			
 		}
+
+
 
 		public void Collide(Entity otherEntity)
 		{
 
+		}
+
+		public void DetectCollisions() ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        {
+			List<Rect> posBlock = Engine.Instance.Camera.posBlock;
+
+            this.Rect = new Rect(position.X + this.Velocity.X*5, position.Y + this.Velocity.Y*5, this.Rectangle.Width, this.Rectangle.Height);
+            foreach (Rect pos in posBlock)
+			{
+				if (this.Rect.IntersectsWith(pos))
+				{
+					this.Velocity = Vector2.Zero;
+				}
+			}
 		}
 	}
 }

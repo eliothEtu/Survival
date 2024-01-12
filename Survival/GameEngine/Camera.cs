@@ -22,18 +22,22 @@ namespace Survival.GameEngine
 {
     public class Camera
     {
-        private Vector2 sizeMap = new Vector2(500, 500);// new Vector2((float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Width / MapGenerator.BLOCK_SIZE), (float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Height / MapGenerator.BLOCK_SIZE));
+        private readonly Vector2 SIZE_MAP = MapGenerator.SIZE_MAP;// new Vector2((float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Width / MapGenerator.BLOCK_SIZE), (float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Height / MapGenerator.BLOCK_SIZE));
         public Vector2 pos = Vector2.Zero;
+
+        public List<Rect> posBlock = new List<Rect>(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public void Update(Rectangle player, Vector2 targetPos)
         {
             pos = targetPos;
-            Draw(player, targetPos);
+            pos.X = (float)Math.Clamp(pos.X, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Width);
+            pos.Y = (float)Math.Clamp(pos.Y, 0, 40 * 75 - ((MainWindow)Application.Current.MainWindow).canv.Height);
         }
 
-        public void Draw(Rectangle player, Vector2 posPlayer)
+        public void Draw(List<Entity> entities)
         {
             ((MainWindow)Application.Current.MainWindow).canv.Children.Clear();
+            posBlock.Clear(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             int xGap = (int)pos.X / MapGenerator.BLOCK_SIZE;
             int yGap = (int)pos.Y / MapGenerator.BLOCK_SIZE;
@@ -56,6 +60,7 @@ namespace Survival.GameEngine
                             ((MainWindow)Application.Current.MainWindow).canv.Children.Add(borderWall);
                             Canvas.SetLeft(borderWall, x * MapGenerator.BLOCK_SIZE - pos.X);
                             Canvas.SetTop(borderWall, y * MapGenerator.BLOCK_SIZE - pos.Y);
+                            posBlock.Add(new Rect(Canvas.GetLeft(borderWall), Canvas.GetTop(borderWall), borderWall.Width, borderWall.Height)); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         }
                         else if (Engine.Instance.MapGenerator.Map[x][y] == 1)
                         {
@@ -70,6 +75,7 @@ namespace Survival.GameEngine
                             ((MainWindow)Application.Current.MainWindow).canv.Children.Add(wall);
                             Canvas.SetLeft(wall, x * MapGenerator.BLOCK_SIZE - pos.X);
                             Canvas.SetTop(wall, y * MapGenerator.BLOCK_SIZE - pos.Y);
+                            posBlock.Add(new Rect(Canvas.GetLeft(wall), Canvas.GetTop(wall), wall.Width, wall.Height)); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         }
                         else
                         {
@@ -86,9 +92,12 @@ namespace Survival.GameEngine
                 }
             }
             
-            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(player);
-            Canvas.SetLeft(player, posPlayer.X);
-            Canvas.SetTop(player, posPlayer.Y);
+            foreach (Entity e in entities)
+            {
+                ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
+                Canvas.SetLeft(e.Rectangle, e.Position.X);
+                Canvas.SetTop(e.Rectangle, e.Position.Y);
+            }   
         }
     }
 }

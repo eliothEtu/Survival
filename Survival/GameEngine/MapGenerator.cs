@@ -24,25 +24,23 @@ namespace Survival.GameEngine
     public class MapGenerator
     {
         public static readonly int BLOCK_SIZE = 75;
+        public static readonly Vector2 SIZE_MAP = new Vector2(40, 500);
+
         Random random = new Random();
         private List<List<int>> map = new List<List<int>>();
         public List<List<int>> Map { get => map; set => map = value; }
 
-        public Vector2 sizeMap;
-
 
         public void CreateMap()
         {
-            sizeMap = new Vector2(500, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
-
             Map.Clear();
 
-            for (int x = 0; x < sizeMap.X; x++)
+            for (int x = 0; x < SIZE_MAP.X; x++)
             {
                 List<int> line = new List<int>();
-                for (int y = 0; y < sizeMap.Y; y++)
+                for (int y = 0; y < SIZE_MAP.Y; y++)
                 {
-                    if (x == 0 || x == sizeMap.X - 1 || y == 0 || y == sizeMap.Y - 1)
+                    if (x == 0 || x == SIZE_MAP.X - 1 || y == 0 || y == SIZE_MAP.Y - 1)
                     {
                         line.Add(-1);
                     }
@@ -111,7 +109,7 @@ namespace Survival.GameEngine
             }
         }
 
-        public void ShowMap(Canvas canv)
+        /*public void ShowMap(Canvas canv)
         {
             for (int x = 0; x < Map.Count; x++)
             {
@@ -158,6 +156,6 @@ namespace Survival.GameEngine
                     }
                 }
             }
-        }
+        }*/
     }    
 }

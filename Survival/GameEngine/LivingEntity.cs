@@ -11,9 +11,9 @@ namespace Survival
 {
     internal class LivingEntity : Entity
     {
-		private int life;
+		private double life;
 
-		public int Life
+		public double Life
 		{
 			get 
 			{ 
@@ -30,7 +30,7 @@ namespace Survival
 			}
 		}
 
-		public LivingEntity(int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+		public LivingEntity(double life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
 		{
 			this.Life = life;
 		}
@@ -47,8 +47,4 @@ namespace Survival
 			}
 		}
 	}
-
-
-	
-
 }
