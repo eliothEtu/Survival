@@ -15,9 +15,9 @@ namespace Survival
     internal class Player : LivingEntity
     {
 
-        private string itemEquiped;
+        private Artifact itemEquiped;
 
-        public string ItemEquiped
+        public Artifact ItemEquiped
         {
             get
             {
@@ -72,6 +72,13 @@ namespace Survival
         ImageBrush[] animeCoteGauche = new ImageBrush[2];
 
 
+        //animation de coté droit
+        ImageBrush cote_droit = new ImageBrush();
+        ImageBrush cote_droit_pied = new ImageBrush();
+
+        ImageBrush[] animeCoteDroit = new ImageBrush[2];
+
+
         public Player(int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(life, texture, position, velocity)
         {
             Inventory.InventoryList.Add(new Armor("Helmet", "Helmet", "Helmet tier 1", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Helmet R.png")), "Armor", Tuple.Create("Health", 1)));
@@ -113,48 +120,91 @@ namespace Survival
 
             animeCoteGauche[0] = cote_gauche;
             animeCoteGauche[1] = cote_gauche_pied;
+
+            //chargement des images sur le coté droit
+
+            cote_droit.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\coté_droit.png"));
+            cote_droit_pied.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\cote_droit_pied.png"));
+
+            animeCoteDroit[0] = cote_droit;
+            animeCoteDroit[1] = cote_droit_pied;
+
         }
 
         int accFace = 0;
         int accDos = 0;
         int accCoteGauche = 0;
         int accCoteDroit = 0;
+        int accAnimation = 0;
+        Vector2 AncienVecteur = Vector2.Zero;
+        
         public override void Update()
         {
             this.Position += this.Velocity * 5;
-            if (this.Velocity.Y == 1)
-            {
-                if (accFace == animeFace.Length)
+            
+                if(this.Velocity != Vector2.Zero)
                 {
-                    accFace = 0;
-                }
-                this.Rectangle.Fill = animeFace[accFace];
-                accFace++;
+                    accAnimation++;
+                    if(accAnimation == 10 || this.Velocity.X != AncienVecteur.X || this.Velocity.Y != AncienVecteur.Y)
+                    {
+                        accAnimation = 0;
+                        if (this.Velocity.Y == 1)
+                        {
+
+                            if (accFace == animeFace.Length)
+                            {
+                                accFace = 0;
+                            }
+                            this.Rectangle.Fill = animeFace[accFace];
+                            accFace++;
+                        }
+                        else if (this.Velocity.Y == -1)
+                        {
+
+                            if (accDos == animeDos.Length)
+                            {
+                                accDos = 0;
+                            }
+                            this.Rectangle.Fill = animeDos[accDos];
+                            accDos++;
+                        }
+                        else if (this.Velocity.X == 1)
+                        {
+
+                            if (accCoteGauche == animeCoteGauche.Length)
+                            {
+                                accCoteGauche = 0;
+                            }
+                            this.Rectangle.Fill = animeCoteGauche[accCoteGauche];
+                            accCoteGauche++;
+                        }
+                        else if (this.Velocity.X == -1)
+                        {
+
+                            if (accCoteDroit == animeCoteDroit.Length)
+                            {
+                                accCoteDroit = 0;
+                            }
+                            this.Rectangle.Fill = animeCoteDroit[accCoteDroit];
+                            accCoteDroit++;
+                        }
+
+                    }
+                AncienVecteur = this.Velocity;
+
             }
-            if (this.Velocity.Y == -1)
-            {
-                if (accDos == animeDos.Length)
-                {
-                    accDos = 0;
-                }
-                this.Rectangle.Fill = animeDos[accDos];
-                accDos++;
-            }
-            if (this.Velocity.X == 1)
-            {
-                if (accCoteGauche == animeCoteGauche.Length)
-                {
-                    accCoteGauche = 0;
-                }
-                this.Rectangle.Fill = animeCoteGauche[accCoteGauche];
-                accCoteGauche++;
-            }
+                
+                
+                
+                
+            
+            
 
         }
 
-        public void Fire()
+        public void Fire(Vector2 direction)
         {
-
+            Console.WriteLine("oui");
         }
 
     }

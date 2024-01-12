@@ -200,5 +200,10 @@ namespace Survival
         {
             Engine.Instance.Controller.KeyUp(e);
         }
+
+        private void canv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Engine.Instance.Controller.MouseLeft(e);
+        }
     }
 }

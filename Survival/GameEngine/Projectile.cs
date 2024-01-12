@@ -47,6 +47,9 @@ namespace Survival
 			return false;
 		}
 
-
+		public void Update()
+		{
+			base.Update();
+		}
 	}
 }

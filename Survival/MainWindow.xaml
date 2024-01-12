@@ -13,7 +13,7 @@
         x:Name="canv"
         Background="#FF6B6B6B"
         Focusable="True"
-        KeyDown="canv_KeyDown">
+        KeyDown="canv_KeyDown" KeyUp="canv_KeyUp" MouseLeftButtonDown="canv_MouseLeftButtonDown">
         <Canvas
             x:Name="inv"
             Canvas.Left="200"
