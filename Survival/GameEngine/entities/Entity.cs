@@ -91,9 +91,9 @@ namespace Survival.GameEngine
 		public virtual void Update()
 		{
 			if(this.Velocity != Vector2.Zero)
-				this.Position += Vector2.Normalize(this.Velocity);
+				this.Position += Vector2.Normalize(this.Velocity) / 20;
 			else
-                this.Position += this.Velocity;
+                this.Position += this.Velocity / 20;
         }
 
 		public void Collide(Entity otherEntity)

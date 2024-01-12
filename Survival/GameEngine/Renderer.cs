@@ -51,8 +51,8 @@ namespace Survival.GameEngine
                 return null;
             }
 
-            float canvasX = worldPos.X.Remap(0, Engine.Instance.MapGenerator.sizeMap.X, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Width);
-            float canvasY = worldPos.Y.Remap(0, Engine.Instance.MapGenerator.sizeMap.Y, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Height);
+            float canvasX = worldPos.X.Remap(0, Engine.Instance.MapGenerator.SizeMap.X, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Width);
+            float canvasY = worldPos.Y.Remap(0, Engine.Instance.MapGenerator.SizeMap.Y, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Height);
 
             return new Vector2(canvasX, canvasY);
         }
@@ -69,14 +69,17 @@ namespace Survival.GameEngine
             ((MainWindow)Application.Current.MainWindow).canv.Children.Clear();
 
             Rect cameraRect = this.GetCameraRect();
-            //Console.WriteLine($"Camera: {cameraRect}");
-            int t = 0;
-            for (int x = 0; x < Engine.Instance.MapGenerator.sizeMap.X; x++)
+            //Console.WriteLine($"Camera: {cameraRect}")
+            Vector2 camPosInCanvas = new Vector2();
+            camPosInCanvas.X = (float)(Canvas.GetLeft(Engine.Instance.Player.Rectangle) / ((MainWindow)Application.Current.MainWindow).canv.Width) * (Engine.Instance.MapGenerator.SizeMap.X * MapGenerator.BLOCK_SIZE);
+            camPosInCanvas.Y = (float)(Canvas.GetTop(Engine.Instance.Player.Rectangle) / ((MainWindow)Application.Current.MainWindow).canv.Height) * (Engine.Instance.MapGenerator.SizeMap.Y * MapGenerator.BLOCK_SIZE);
+            Console.WriteLine(camPosInCanvas);
+            for (int x = (int)camPosInCanvas.X - 20; x < camPosInCanvas.X + 20; x++)
             {
-                if (x < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
-                for (int y = 0; y < Engine.Instance.MapGenerator.sizeMap.Y; y++)
+                //if (x < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
+                for (int y = (int)camPosInCanvas.Y - 20; y < camPosInCanvas.Y + 20; y++)
                 {
-                    if (y < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;
+                    //if (y < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;
 
                     Rectangle rec;
                     switch (Engine.Instance.MapGenerator.Map[x][y])
@@ -114,12 +117,11 @@ namespace Survival.GameEngine
 
                     if (canvasPos != null)
                     {
+                        Console.WriteLine(Pos);
                         ((MainWindow)Application.Current.MainWindow).canv.Children.Add(rec);
                         //Console.WriteLine($"{new Vector2(x, y)} => {canvasPos}");
-                        //Console.WriteLine(canvasPos);
-                        Console.WriteLine((double)canvasPos?.X * MapGenerator.BLOCK_SIZE);
-                        Canvas.SetLeft(rec, (double)canvasPos?.X * MapGenerator.BLOCK_SIZE);
-                        Canvas.SetTop(rec, (double)canvasPos?.Y * MapGenerator.BLOCK_SIZE);
+                        Canvas.SetLeft(rec, x * MapGenerator.BLOCK_SIZE - pos.X);
+                        Canvas.SetTop(rec, y * MapGenerator.BLOCK_SIZE - pos.Y);
                     }
                 }
             }
@@ -130,8 +132,8 @@ namespace Survival.GameEngine
                 Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
                 //Console.WriteLine($"{e.GetType().Name} => {canvasPos}");
                 if (canvasPos == null) continue;
-                Canvas.SetLeft(e.Rectangle, (double)canvasPos?.X * MapGenerator.BLOCK_SIZE);
-                Canvas.SetTop(e.Rectangle, (double)canvasPos?.Y * MapGenerator.BLOCK_SIZE);
+                Canvas.SetLeft(e.Rectangle, e.Position.X * MapGenerator.BLOCK_SIZE);
+                Canvas.SetTop(e.Rectangle, e.Position.Y * MapGenerator.BLOCK_SIZE);
             }
 
             /* int xGap = (int)pos.X / MapGenerator.BLOCK_SIZE;

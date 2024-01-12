@@ -97,9 +97,9 @@ namespace Survival.GameEngine.entities.ai
         private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile, int distance) {
             List<Tile> tiles = new List<Tile>();
 
-            for (int x = 0; x < Engine.Instance.MapGenerator.sizeMap.X; x++)
+            for (int x = 0; x < Engine.Instance.MapGenerator.SizeMap.X; x++)
             {
-                for (int y = 0; y < Engine.Instance.MapGenerator.sizeMap.Y; y++)
+                for (int y = 0; y < Engine.Instance.MapGenerator.SizeMap.Y; y++)
                 {
                     Tile tile = new Tile();
                     tile.X = x;
