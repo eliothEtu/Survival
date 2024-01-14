@@ -8,7 +8,6 @@
     Title="PreparationWindow"
     Width="800"
     Height="450"
-    Background="#FF6B6B6B"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Background="#FF6B6B6B">
     <Canvas x:Name="canvPW" PreviewMouseMove="canvPW_PreviewMouseMove" PreviewMouseUp="canvPW_PreviewMouseUp" />
 </Window>

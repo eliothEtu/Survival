@@ -51,6 +51,8 @@ namespace Survival.GameEngine
             } 
         }
 
+        private int quantity;
+        public int Quantity { get => quantity; set => quantity = value; }
 
         private bool bcanDrag;
         public bool bCanDrag { get => bcanDrag; set => bcanDrag = value; }
@@ -74,6 +76,7 @@ namespace Survival.GameEngine
             };
             this.Rectangle.PreviewMouseDown += MD;
             this.Type = type;
+            this.Quantity = 1;
             bcanDrag = true;
         }
 

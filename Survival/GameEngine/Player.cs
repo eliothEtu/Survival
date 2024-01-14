@@ -81,7 +81,7 @@ namespace Survival
 
         public Player(int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(life, texture, position, velocity)
         {
-            Inventory.InventoryList.Add(new Armor("Helmet", "Helmet", "Helmet tier 1", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Helmet R.png")), "Armor", Tuple.Create("Health", 1)));
+            /*Inventory.InventoryList.Add(new Armor("Helmet", "Helmet", "Helmet tier 1", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Helmet R.png")), "Armor", Tuple.Create("Health", 1)));
             Inventory.InventoryList.Add(new Armor("Helmet", "Helmet", "Helmet tier 2", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Helmet 2R.png")), "Armor", Tuple.Create("Health", 1)));
             Inventory.InventoryList.Add(new Armor("Gloves", "Gloves", "Gloves tier1", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\GloveR.png")), "Armor", Tuple.Create("D", 1)));
             Inventory.InventoryList.Add(new Armor("Chestplate", "Chestplate", "Chestplate tier 1", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\ChestplateR.png")), "Armor", Tuple.Create("S", 1)));
@@ -93,7 +93,7 @@ namespace Survival
             Inventory.InventoryList.Add(new Ring("", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneaufeu.png")), "Ring", Tuple.Create("V", 1.0)));
 
             Inventory.InventoryList.Add(new Artifact("Artifact", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\flammePresentation.png")), "Artifact"));
-            Inventory.InventoryList.Add(new Artifact("Artifact", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\glacePrésentation.png")), "Artifact"));
+            Inventory.InventoryList.Add(new Artifact("Artifact", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\glacePrésentation.png")), "Artifact"));*/
 
             //chargement des images de face
             face.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png"));

@@ -9,7 +9,7 @@ namespace Survival.GameEngine
 {
     internal class Armor : Item
     {
-        private readonly string[] PARTS_POSSIBLE = new string[] { "Helmet", "Chestplate", "Legging", "Boots", "Gloves"};
+        private readonly string[] PARTS_POSSIBLE = new string[] { "Helmet", "Chestplate", "Leggings", "Boots", "Gloves"};
 
         private Tuple<string, int> bonus;
         public Tuple<string, int> Bonus

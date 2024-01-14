@@ -108,7 +108,10 @@ namespace Survival
             canvPW.Children.Add(startGame);
             Canvas.SetTop(startGame, SystemParameters.PrimaryScreenHeight - 20 - startGame.Height);
             Canvas.SetLeft(startGame, SystemParameters.PrimaryScreenWidth - 20 - startGame.Width);
+        }
 
+        public void LoadInventory()
+        {
             foreach (Item i in Engine.Instance.Player.Inventory.InventoryList) ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             {
                 inventoryEquipment.Children.Add(i.Rectangle);
@@ -156,6 +159,7 @@ namespace Survival
                                 {
                                     foreach (Item i in itemEquiped)
                                     {
+                                        Console.WriteLine(i.Quantity);
                                         if (i is Armor)
                                         {
                                             Armor equiped = i as Armor;

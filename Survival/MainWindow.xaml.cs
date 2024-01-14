@@ -24,8 +24,9 @@ namespace Survival
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Home homeUI;
+        public Home homeWindow;
         public PreparationWindow preparationWindow;
+        public Shop shopWindow;
 
         private Canvas invUi; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,11 +61,12 @@ namespace Survival
             // this.Show();
 
             preparationWindow = new PreparationWindow();
+            shopWindow = new Shop();
             //preparationWindow.Owner = this;
             //preparationWindow.Hide();
 
-            homeUI = new Home();
-            homeUI.ShowDialog();
+            homeWindow = new Home();
+            homeWindow.ShowDialog();
 
             itemContainer.Width = invUi.Width - 400;
             itemContainer.Height = invUi.Height - 50;
@@ -107,8 +109,21 @@ namespace Survival
 
         public void LaunchGame()
         {
-            homeUI.Hide();
+            homeWindow.Hide();
+            preparationWindow.LoadInventory();
             preparationWindow.ShowDialog();
+        }
+
+        public void OpenShop()
+        {
+            homeWindow.Hide();
+            shopWindow.ShowDialog();
+        }
+
+        public void ExitShop()
+        {
+            shopWindow.Hide();
+            homeWindow.ShowDialog();
         }
 
         public void StartGame()

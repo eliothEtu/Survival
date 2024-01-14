@@ -10,6 +10,31 @@ namespace Survival.GameEngine
 {
     internal class Inventory
     {
+        public static readonly Dictionary<string, List<Item>> ITEMS_POSSIBLE = new Dictionary<string, List<Item>>()
+        {
+            { "Armor", new List<Item> 
+                {
+                    new Armor("Helmet", "Helmet", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Helmet R.png")), "Armor", Tuple.Create("", 1)),
+                    new Armor("Chestplate", "Chestplate", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\ChestplateR.png")), "Armor", Tuple.Create("", 1)),
+                    new Armor("Leggings", "Leggings", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\tresor.png")), "Armor", Tuple.Create("", 1)),
+                    new Armor("Boots", "Boots", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\BootsR.png")), "Armor", Tuple.Create("", 1)),
+                    new Armor("Gloves", "Gloves", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\GloveR.png")), "Armor", Tuple.Create("", 1))
+                } 
+            },
+            { "Ring", new List<Item>
+                {
+                    new Ring("Ring of Fire", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("", 1.0)),
+                    new Ring("Ring of Ice", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("", 1.0)),
+                    new Ring("Ring of Sound", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("", 1.0)),
+                } 
+            },
+            { "Artifact", new List<Item>
+                {
+
+                }
+            }
+        };
+
         private List<Item> inventoryList;
 
         internal List<Item> InventoryList { get => inventoryList; set => inventoryList = value; }
