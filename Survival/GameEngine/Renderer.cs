@@ -23,7 +23,6 @@ namespace Survival.GameEngine
 {
     public class Renderer
     {
-        private Vector2 sizeMap = new Vector2(500, 500);// new Vector2((float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Width / MapGenerator.BLOCK_SIZE), (float)Math.Round(((MainWindow)Application.Current.MainWindow).canv.Height / MapGenerator.BLOCK_SIZE));
         private Vector2 pos = Vector2.Zero;
 
         public Vector2 Pos
@@ -43,9 +42,9 @@ namespace Survival.GameEngine
         private Vector2? GetPosOnCanvas(Vector2 worldPos)
         {
             Rect cameraRect = this.GetCameraRect();
-            if (worldPos.X < cameraRect.X - (cameraRect.Width / 2) ||
+            if (worldPos.X + MapGenerator.BLOCK_SIZE < cameraRect.X - (cameraRect.Width / 2) ||
                 worldPos.X > cameraRect.X + (cameraRect.Width / 2) ||
-                worldPos.Y < cameraRect.Y - (cameraRect.Height / 2) ||
+                worldPos.Y + MapGenerator.BLOCK_SIZE < cameraRect.Y - (cameraRect.Height / 2) ||
                 worldPos.Y > cameraRect.Y + (cameraRect.Height / 2))
             {
                 return null;
@@ -69,13 +68,12 @@ namespace Survival.GameEngine
             ((MainWindow)Application.Current.MainWindow).canv.Children.Clear();
 
             Rect cameraRect = this.GetCameraRect();
-            //Console.WriteLine($"Camera: {cameraRect}")
-            for (int x = 0; x < Engine.Instance.MapGenerator.sizeMap.X; x++)
+            for (int x = 0; x < Engine.Instance.MapGenerator.SizeMap.X; x++)
             {
-                if (x < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
-                for (int y = 0; y < Engine.Instance.MapGenerator.sizeMap.Y; y++)
+                if (x + MapGenerator.BLOCK_SIZE < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
+                for (int y = 0; y < Engine.Instance.MapGenerator.SizeMap.Y; y++)
                 {
-                    if (y < cameraRect.Y - (cameraRect.Height / 2) || x > cameraRect.Y + (cameraRect.Height / 2)) continue;
+                    if (y + MapGenerator.BLOCK_SIZE < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;
 
                     Rectangle rec;
                     switch (Engine.Instance.MapGenerator.Map[x][y])
@@ -109,13 +107,9 @@ namespace Survival.GameEngine
                             break;
                     }
 
-                    ((MainWindow)Application.Current.MainWindow).canv.Children.Add(rec);
                     Vector2? canvasPos = this.GetPosOnCanvas(new Vector2(x, y));
-                    Console.WriteLine($"{new Vector2(x, y)} => {canvasPos}");
-
                     if (canvasPos != null)
                     {
-                       // Console.WriteLine($"{new Vector2(x, y)} => {canvasPos} => {Engine.Instance.MapGenerator.Map[x][y]}");
                         ((MainWindow)Application.Current.MainWindow).canv.Children.Add(rec);
                         Canvas.SetLeft(rec, (double)canvasPos?.X);
                         Canvas.SetTop(rec, (double)canvasPos?.Y);
@@ -127,7 +121,7 @@ namespace Survival.GameEngine
             {
                 
                 Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
-                Console.WriteLine($"{e.GetType().Name} => {canvasPos}");
+           
                 if (canvasPos == null) continue;
                 ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
                 Canvas.SetLeft(e.Rectangle, (double)canvasPos?.X);

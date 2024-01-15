@@ -56,7 +56,7 @@ namespace Survival.GameEngine
             followPlayerBehavior.Player = this.Player;
             mob.FocusDistance = 10;
             mob.behaviors.Add(followPlayerBehavior);
-            this.Entities.Add(mob);
+            //this.Entities.Add(mob);
 
             this.timer.OnTick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);

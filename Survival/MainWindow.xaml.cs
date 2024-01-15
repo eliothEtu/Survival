@@ -35,11 +35,11 @@ namespace Survival
         public MainWindow()
         {
             InitializeComponent();
-#if !DEBUG
-            ForceFocus.EnableLock();
+//#if !DEBUG
+         //   ForceFocus.EnableLock();
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
-#endif
+//#endif
 
             canv.Width = SystemParameters.PrimaryScreenWidth;
             canv.Height = SystemParameters.PrimaryScreenHeight;
