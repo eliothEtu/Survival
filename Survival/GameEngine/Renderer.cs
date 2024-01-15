@@ -51,8 +51,8 @@ namespace Survival.GameEngine
                 return null;
             }
 
-            float canvasX = worldPos.X.Remap(0, Engine.Instance.MapGenerator.sizeMap.X, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Width);
-            float canvasY = worldPos.Y.Remap(0, Engine.Instance.MapGenerator.sizeMap.Y, 0, (float)((MainWindow)Application.Current.MainWindow).canv.Height);
+            float canvasX = worldPos.X.Remap((float)(cameraRect.X - (cameraRect.Width / 2)), (float)(cameraRect.X + (cameraRect.Width / 2)), 0, (float)((MainWindow)Application.Current.MainWindow).canv.Width);
+            float canvasY = worldPos.Y.Remap((float)(cameraRect.Y - (cameraRect.Height / 2)), (float)(cameraRect.Y + (cameraRect.Height / 2)), 0, (float)((MainWindow)Application.Current.MainWindow).canv.Height);
 
             return new Vector2(canvasX, canvasY);
         }
@@ -116,7 +116,7 @@ namespace Survival.GameEngine
 
                     if (canvasPos != null)
                     {
-                        Console.WriteLine($"{new Vector2(x, y)} => {canvasPos} => {Engine.Instance.MapGenerator.Map[x][y]}");
+                       // Console.WriteLine($"{new Vector2(x, y)} => {canvasPos} => {Engine.Instance.MapGenerator.Map[x][y]}");
                         ((MainWindow)Application.Current.MainWindow).canv.Children.Add(rec);
                         Canvas.SetLeft(rec, (double)canvasPos?.X);
                         Canvas.SetTop(rec, (double)canvasPos?.Y);
