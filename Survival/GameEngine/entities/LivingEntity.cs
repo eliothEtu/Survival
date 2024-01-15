@@ -30,7 +30,7 @@ namespace Survival
 			}
 		}
 
-		public LivingEntity(int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+		public LivingEntity(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, texture, position, velocity)
 		{
 			this.Life = life;
 		}

@@ -56,7 +56,7 @@ namespace Survival
 			}
 		}
 
-		public Player(int life, BitmapImage texture, Vector2 position, Vector2 velocity): base (life, texture, position, velocity)
+		public Player(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity): base (name, life, texture, position, velocity)
 		{
 
 		}

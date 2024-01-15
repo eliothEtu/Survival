@@ -64,12 +64,21 @@ namespace Survival.GameEngine
 			}
 		}
 
-		private Rect rect;
+		private Rect rect; public Rect Rect
+        {
+            get { return rect; }
+            set { rect = value; }
+        }
 
-        public Entity(BitmapImage texture, Vector2 position, Vector2 velocity)
+
+        private string name;
+        public string Name { get => name; set => name = value; }
+
+        public Entity(string name, BitmapImage texture, Vector2 position, Vector2 velocity)
         {
             this.Position = position;
             this.Velocity = velocity;
+			this.Name = name;
 
 			this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
 			this.Rectangle = new Rectangle();
@@ -82,21 +91,15 @@ namespace Survival.GameEngine
 			this.Rectangle.Fill = new ImageBrush(texture);
         }
 
-        public Rect Rect
-		{
-			get { return rect; }
-			set { rect = value; }
-		}
-
-		public virtual void Update()
-		{
-			if(this.Velocity != Vector2.Zero)
-				this.Position += Vector2.Normalize(this.Velocity) / 20;
-			else
+        public virtual void Update()
+        {
+            if (this.Velocity != Vector2.Zero)
+                this.Position += Vector2.Normalize(this.Velocity) / 20;
+            else
                 this.Position += this.Velocity / 20;
         }
 
-		public void Collide(Entity otherEntity)
+        public void Collide(Entity otherEntity)
 		{
 
 		}

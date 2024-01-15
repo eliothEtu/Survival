@@ -31,6 +31,14 @@ namespace Survival.GameEngine
             set => this.pos = value;
         }
 
+        TextBlock overlay = new TextBlock()
+        {
+            Height = double.NaN,
+            Width = double.NaN,
+            FontSize = 20,
+            FontWeight = FontWeights.Bold
+        };
+
         private Rect GetCameraRect()
         {
             double w = Math.Round(SystemParameters.PrimaryScreenWidth / MapGenerator.BLOCK_SIZE);
@@ -117,16 +125,20 @@ namespace Survival.GameEngine
                 }
             }
 
+            string textOveralay = "";
             foreach (Entity e in entities)
-            {
-                
+            {                
                 Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
            
                 if (canvasPos == null) continue;
                 ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
                 Canvas.SetLeft(e.Rectangle, (double)canvasPos?.X);
                 Canvas.SetTop(e.Rectangle, (double)canvasPos?.Y);
+                textOveralay += $"{e.Name} : {e.Position}";
             }
+
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlay);
+            overlay.Text = entities[0].Position.ToString();
 
             /* int xGap = (int)pos.X / MapGenerator.BLOCK_SIZE;
              int yGap = (int)pos.Y / MapGenerator.BLOCK_SIZE;

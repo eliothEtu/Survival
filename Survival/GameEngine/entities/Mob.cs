@@ -34,7 +34,7 @@ namespace Survival
 			}
 		}
 
-        public Mob(int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(life, texture, position, velocity)
+		public Mob(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, life, texture, position, velocity)
         {
 
         }
