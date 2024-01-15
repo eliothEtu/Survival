@@ -185,26 +185,6 @@ namespace Survival
                 this.Close();
             }
             Engine.Instance.Controller.KeyDown(e);
-            /*if (e.Key == Key.Z)
-            {
-                Canvas.SetTop(player, Canvas.GetTop(player) - MapGenerator.BLOCK_SIZE);
-                //cam.pos.Y -= MapGenerator.BLOCK_SIZE;
-            }
-            if (e.Key == Key.S)
-            {
-                Canvas.SetTop(player, Canvas.GetTop(player) + MapGenerator.BLOCK_SIZE);
-                //cam.pos.Y += MapGenerator.BLOCK_SIZE;
-            }
-            if (e.Key == Key.Q)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) - MapGenerator.BLOCK_SIZE);
-                //cam.pos.X -= MapGenerator.BLOCK_SIZE;
-            }
-            if (e.Key == Key.D)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) + MapGenerator.BLOCK_SIZE);
-                //cam.pos.X += MapGenerator.BLOCK_SIZE;
-            }*/
         }
 
         private void Window_Closed(object sender, EventArgs e)

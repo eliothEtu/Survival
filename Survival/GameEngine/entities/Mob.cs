@@ -1,4 +1,5 @@
-﻿using Survival.GameEngine.entities.ai;
+﻿using Survival.GameEngine;
+using Survival.GameEngine.entities.ai;
 using System;
 using System.Collections.Generic;
 using System.Linq;

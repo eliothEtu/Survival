@@ -17,6 +17,7 @@ namespace Survival.GameEngine.entities.ai
 
         public override void Update(Mob entity)
         {
+            return;
             double distance = entity.GetDistanceFrom(this.Player.Position);
             if (distance < 2 || distance > entity.FocusDistance) return;
 
@@ -25,7 +26,7 @@ namespace Survival.GameEngine.entities.ai
                 this.cachedPath = this.CalculatePath(entity);
             }
 
-            if (this.cachedPath.Count == 0) return;
+            if (this.cachedPath.Count <= 1) return;
 
             
 

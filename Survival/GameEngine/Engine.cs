@@ -23,7 +23,7 @@ namespace Survival.GameEngine
         private List<Entity> entities = new List<Entity>();
         public List<Entity> Entities { get => entities; }
 
-        public AsyncTimer timer = new AsyncTimer();
+        public DispatcherTimer timer = new DispatcherTimer();
 
         private Player player;
         public Player Player { get => player; set => player = value; }
@@ -46,19 +46,19 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            this.Player = new Player("Player", 1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
+            this.Player = new Player("Player", 1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(1f, 1f), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
             this.Entities.Add(Player);
 
 
-            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(20f, 20f), new Vector2(0f, 0f));
+            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(10f, 10f), new Vector2(0f, 0f));
             FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
             followPlayerBehavior.Player = this.Player;
             mob.FocusDistance = 10;
             mob.behaviors.Add(followPlayerBehavior);
             this.Entities.Add(mob);
 
-            this.timer.OnTick += Update;
+            this.timer.Tick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
         }
 
@@ -77,14 +77,13 @@ namespace Survival.GameEngine
             timer.Stop();
         }
 
-        private void Update()
-        {            
+        private void Update(object sender, EventArgs e)
+        {
             foreach (Entity entity in Entities)
             {
-                
                 entity.Update();
 
-                foreach(Entity otherEntity  in Entities)
+                foreach (Entity otherEntity  in Entities)
                 {
                     if(entity.Rect.IntersectsWith(otherEntity.Rect) && entity != otherEntity)
                     {

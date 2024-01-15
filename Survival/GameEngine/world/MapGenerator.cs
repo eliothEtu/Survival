@@ -34,7 +34,7 @@ namespace Survival.GameEngine.world
 
         public void CreateMap()
         {
-            SizeMap = new Vector2(40, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
+            SizeMap = new Vector2(40, 40);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
 
             Map.Clear();
 
