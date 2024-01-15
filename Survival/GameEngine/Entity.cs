@@ -82,6 +82,23 @@ namespace Survival.GameEngine
 			this.Rectangle.Fill = new ImageBrush(texture);
         }
 
+        public Entity(ImageBrush texture, Vector2 position, Vector2 velocity)
+        {
+            this.Position = position;
+            this.Velocity = velocity;
+
+            
+            this.Rectangle = new Rectangle();
+            this.Rectangle.Width = MapGenerator.BLOCK_SIZE; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            this.Rectangle.Height = MapGenerator.BLOCK_SIZE;
+
+            Canvas.SetLeft(this.Rectangle, position.X);
+            Canvas.SetTop(this.Rectangle, position.Y);
+
+            this.Rectangle.Fill = texture;
+            this.Rect = new Rect(position.X, position.Y, this.Rectangle.Width, this.Rectangle.Height);
+        }
+
         public Rect Rect
 		{
 			get { return rect; }

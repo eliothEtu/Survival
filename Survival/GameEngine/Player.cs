@@ -29,23 +29,23 @@ namespace Survival
             }
         }
 
-		private int money;
+        private int money;
 
-		public int Money
-		{
-			get 
-			{ 
-				return this.money; 
-			}
-			set 
-			{ 
-				if(value < 0)
-				{
-					throw new ArgumentOutOfRangeException("Money must be positive");
-				}
-				this.money = value; 
-			}
-		}
+        public int Money
+        {
+            get
+            {
+                return this.money;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Money must be positive");
+                }
+                this.money = value;
+            }
+        }
 
         private Inventory inventory = new Inventory();
         public Inventory Inventory { get => inventory; set => inventory = value; }
@@ -137,78 +137,85 @@ namespace Survival
         int accCoteDroit = 0;
         int accAnimation = 0;
         Vector2 AncienVecteur = Vector2.Zero;
-        
+        public static readonly int LATENCE = 7;
+
         public override void Update()
         {
             this.Position += this.Velocity * 5;
-            
-                if(this.Velocity != Vector2.Zero)
+
+            if (this.Velocity != Vector2.Zero)
+            {
+                accAnimation++;
+                if (accAnimation == LATENCE || this.Velocity.X != AncienVecteur.X || this.Velocity.Y != AncienVecteur.Y)
                 {
-                    accAnimation++;
-                    if(accAnimation == 10 || this.Velocity.X != AncienVecteur.X || this.Velocity.Y != AncienVecteur.Y)
+                    accAnimation = 0;
+                    if (this.Velocity.Y == 1)
                     {
-                        accAnimation = 0;
-                        if (this.Velocity.Y == 1)
+
+                        if (accFace == animeFace.Length)
                         {
-
-                            if (accFace == animeFace.Length)
-                            {
-                                accFace = 0;
-                            }
-                            this.Rectangle.Fill = animeFace[accFace];
-                            accFace++;
+                            accFace = 0;
                         }
-                        else if (this.Velocity.Y == -1)
-                        {
-
-                            if (accDos == animeDos.Length)
-                            {
-                                accDos = 0;
-                            }
-                            this.Rectangle.Fill = animeDos[accDos];
-                            accDos++;
-                        }
-                        else if (this.Velocity.X == 1)
-                        {
-
-                            if (accCoteGauche == animeCoteGauche.Length)
-                            {
-                                accCoteGauche = 0;
-                            }
-                            this.Rectangle.Fill = animeCoteGauche[accCoteGauche];
-                            accCoteGauche++;
-                        }
-                        else if (this.Velocity.X == -1)
-                        {
-
-                            if (accCoteDroit == animeCoteDroit.Length)
-                            {
-                                accCoteDroit = 0;
-                            }
-                            this.Rectangle.Fill = animeCoteDroit[accCoteDroit];
-                            accCoteDroit++;
-                        }
-
+                        this.Rectangle.Fill = animeFace[accFace];
+                        accFace++;
                     }
+                    else if (this.Velocity.Y == -1)
+                    {
+
+                        if (accDos == animeDos.Length)
+                        {
+                            accDos = 0;
+                        }
+                        this.Rectangle.Fill = animeDos[accDos];
+                        accDos++;
+                    }
+                    else if (this.Velocity.X == 1)
+                    {
+
+                        if (accCoteGauche == animeCoteGauche.Length)
+                        {
+                            accCoteGauche = 0;
+                        }
+                        this.Rectangle.Fill = animeCoteGauche[accCoteGauche];
+                        accCoteGauche++;
+                    }
+                    else if (this.Velocity.X == -1)
+                    {
+
+                        if (accCoteDroit == animeCoteDroit.Length)
+                        {
+                            accCoteDroit = 0;
+                        }
+                        this.Rectangle.Fill = animeCoteDroit[accCoteDroit];
+                        accCoteDroit++;
+                    }
+
+                }
                 AncienVecteur = this.Velocity;
 
             }
-                
-                
-                
-                
-            
-            
+
+
+
+
+
+
 
         }
 
         public void Fire(Vector2 direction)
         {
-            Console.WriteLine("oui");
+            if(this.ItemEquiped != null)
+            {
+                Vector2 velo = direction - this.Position;
+                velo = Vector2.Normalize(velo);
+                Engine.Instance.Entities.Add(new Projectile(this, new TimeSpan(3000), this.ItemEquiped.Texture, this.Position, velo));
+            }
+            
+
         }
 
     }
+}
 
 	
-
-}
