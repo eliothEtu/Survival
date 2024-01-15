@@ -28,21 +28,22 @@ namespace Survival.GameEngine.world
         private List<List<int>> map = new List<List<int>>();
         public List<List<int>> Map { get => map; set => map = value; }
 
-        public Vector2 sizeMap;
+        private Vector2 sizeMap;
+        public Vector2 SizeMap { get => sizeMap; set => sizeMap = value; }
 
 
         public void CreateMap()
         {
-            sizeMap = new Vector2(40, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
+            SizeMap = new Vector2(40, 500);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
 
             Map.Clear();
 
-            for (int x = 0; x < sizeMap.X; x++)
+            for (int x = 0; x < SizeMap.X; x++)
             {
                 List<int> line = new List<int>();
-                for (int y = 0; y < sizeMap.Y; y++)
+                for (int y = 0; y < SizeMap.Y; y++)
                 {
-                    if (x == 0 || x == sizeMap.X - 1 || y == 0 || y == sizeMap.Y - 1)
+                    if (x == 0 || x == SizeMap.X - 1 || y == 0 || y == SizeMap.Y - 1)
                     {
                         line.Add(-1);
                     }
