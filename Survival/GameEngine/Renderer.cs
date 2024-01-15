@@ -34,8 +34,8 @@ namespace Survival.GameEngine
 
         private Rect GetCameraRect()
         {
-            double w = Math.Round(SystemParameters.PrimaryScreenWidth / MapGenerator.BLOCK_SIZE) / 2;
-            double h = Math.Round(SystemParameters.PrimaryScreenHeight / MapGenerator.BLOCK_SIZE) / 2;
+            double w = Math.Round(SystemParameters.PrimaryScreenWidth / MapGenerator.BLOCK_SIZE);
+            double h = Math.Round(SystemParameters.PrimaryScreenHeight / MapGenerator.BLOCK_SIZE);
 
             return new Rect(this.Pos.X, this.Pos.Y, w, h);
         }
@@ -110,21 +110,27 @@ namespace Survival.GameEngine
                             break;
                     }
 
-                    ((MainWindow)Application.Current.MainWindow).canv.Children.Add(rec);
+                   
                     Vector2? canvasPos = this.GetPosOnCanvas(new Vector2(x, y));
-                    Console.WriteLine($"{new Vector2(x, y)} => {canvasPos}");
+                    //Console.WriteLine($"{new Vector2(x, y)} => {(canvasPos != null ? canvasPos : "None")}");
 
-                    Canvas.SetLeft(rec, (double) canvasPos?.X);
-                    Canvas.SetTop(rec, (double) canvasPos?.Y);
+                    if (canvasPos != null)
+                    {
+                        Console.WriteLine($"{new Vector2(x, y)} => {canvasPos} => {Engine.Instance.MapGenerator.Map[x][y]}");
+                        ((MainWindow)Application.Current.MainWindow).canv.Children.Add(rec);
+                        Canvas.SetLeft(rec, (double)canvasPos?.X);
+                        Canvas.SetTop(rec, (double)canvasPos?.Y);
+                    }
                 }
             }
 
             foreach (Entity e in entities)
             {
-                ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
+                
                 Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
-                Console.WriteLine($"{e.GetType().Name} => {canvasPos}");
+               // Console.WriteLine($"{e.GetType().Name} => {canvasPos}");
                 if (canvasPos == null) continue;
+                ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
                 Canvas.SetLeft(e.Rectangle, (double)canvasPos?.X);
                 Canvas.SetTop(e.Rectangle, (double)canvasPos?.Y);
             }

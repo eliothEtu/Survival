@@ -91,9 +91,9 @@ namespace Survival.GameEngine
 		public virtual void Update()
 		{
 			if(this.Velocity != Vector2.Zero)
-				this.Position += Vector2.Normalize(this.Velocity) * 5;
+				this.Position += Vector2.Normalize(this.Velocity);
 			else
-                this.Position += this.Velocity * 5;
+                this.Position += this.Velocity;
         }
 
 		public void Collide(Entity otherEntity)
@@ -106,7 +106,7 @@ namespace Survival.GameEngine
 			double distance1 = Math.Pow(this.Position.X, 2) + Math.Pow(this.Position.Y, 2);
 			double distance2 = Math.Pow(pos.X, 2) + Math.Pow(pos.Y, 2);
 
-			return distance1 - distance2;
+			return Math.Sqrt(Math.Abs(distance1 - distance2));
         }
 	}
 }

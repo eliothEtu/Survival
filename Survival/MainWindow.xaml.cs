@@ -37,10 +37,9 @@ namespace Survival
             InitializeComponent();
 #if !DEBUG
             ForceFocus.EnableLock();
-#endif
-
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
+#endif
 
             canv.Width = SystemParameters.PrimaryScreenWidth;
             canv.Height = SystemParameters.PrimaryScreenHeight;
