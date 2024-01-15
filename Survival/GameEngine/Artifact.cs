@@ -10,9 +10,24 @@ namespace Survival.GameEngine
 {
     internal class Artifact : Item
     {
-        public Artifact(string name, string description, BitmapImage image, string type) : base(name, description, image, type)
-        {
+        private TimeSpan coolDown;
 
+        public TimeSpan CoolDown
+        {
+            get 
+            { 
+                return this.coolDown; 
+            }
+            set 
+            { 
+                this.coolDown = value; 
+            }
+        }
+
+
+        public Artifact(string name, string description, BitmapImage image, string type,TimeSpan coolDown) : base(name, description, image, type)
+        {
+            this.CoolDown = coolDown;
         }
     }
 }

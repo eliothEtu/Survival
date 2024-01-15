@@ -42,6 +42,11 @@ namespace Survival.GameEngine
         private Camera camera;
         public Camera Camera { get => camera; set => camera = value; }
 
+
+        private List<Entity> toRemove = new List<Entity>();
+        public List<Entity> ToRemove { get => toRemove; }
+
+
         public Engine() 
         {
             if (instance != null)
@@ -92,6 +97,12 @@ namespace Survival.GameEngine
 
             camera.Update(Player.Rectangle, Player.Position);
             camera.Draw(Entities);
+
+            foreach(Entity entity in this.ToRemove)
+            {
+                this.Entities.Remove(entity);
+            }
+            this.ToRemove.Clear();
         }
     }
 }

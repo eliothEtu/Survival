@@ -203,13 +203,19 @@ namespace Survival
 
         }
 
+
+
+
+
         public void Fire(Vector2 direction)
         {
+            
             if(this.ItemEquiped != null)
             {
+              
                 Vector2 velo = direction - this.Position;
                 velo = Vector2.Normalize(velo);
-                Engine.Instance.Entities.Add(new Projectile(this, new TimeSpan(3000), this.ItemEquiped.Texture, this.Position, velo));
+                Engine.Instance.Entities.Add(new Projectile(this, TimeSpan.FromSeconds(3), this.ItemEquiped.Texture, this.Position, velo));
             }
             
 

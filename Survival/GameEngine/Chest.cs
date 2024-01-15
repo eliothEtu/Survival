@@ -54,6 +54,7 @@ namespace Survival.GameEngine
             foreach(Item i in ItemDrop)
             {
                 Console.WriteLine($"{i.Name}");
+                Engine.Instance.Player.Inventory.InventoryList.Add(i);
             }
         }
     }

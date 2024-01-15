@@ -26,9 +26,14 @@ namespace Survival
 				this.lifeSpan = value; 
 			}
 		}
+	
 
 		
-		
+
+
+
+
+
 
 
 		private DateTime spawnTime;
@@ -41,6 +46,7 @@ namespace Survival
 			this.Owner = owner;
 			this.LifeSpan = lifeSpan;
 			spawnTime = DateTime.Now;
+
         }
 
         public bool IsCollidingWith(Rect r)
@@ -54,6 +60,11 @@ namespace Survival
 
 		public override void Update()
 		{
+
+			if(DateTime.Now - spawnTime > lifeSpan)
+			{
+				Engine.Instance.ToRemove.Add(this);			
+			}
 			
 			this.Position += this.Velocity*5;
 		}

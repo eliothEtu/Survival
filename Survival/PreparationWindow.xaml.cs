@@ -200,6 +200,7 @@ namespace Survival
                                     canvPW.Children.Add(imagePower);
                                     Canvas.SetTop(imagePower, Canvas.GetTop(player) + player.Height / 2 - 60);
                                     Canvas.SetLeft(imagePower, Canvas.GetLeft(player) + 20);
+                                    Engine.Instance.Player.ItemEquiped = artifact;
                                     bObjectSet = true;
                                 }
                                 break;
