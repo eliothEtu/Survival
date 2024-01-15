@@ -31,13 +31,16 @@ namespace Survival.GameEngine
             set => this.pos = value;
         }
 
-        TextBlock overlay = new TextBlock()
+        StackPanel overlayPanel = new StackPanel()
         {
-            Height = double.NaN,
             Width = double.NaN,
-            FontSize = 20,
-            FontWeight = FontWeights.Bold
+            Height = double.NaN,
         };
+
+        public Renderer()
+        {
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlayPanel);
+        }
 
         private Rect GetCameraRect()
         {
@@ -125,20 +128,26 @@ namespace Survival.GameEngine
                 }
             }
 
-            string textOveralay = "";
+            overlayPanel.Children.Clear();
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlayPanel);
             foreach (Entity e in entities)
             {                
                 Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
            
-                if (canvasPos == null) continue;
+                TextBlock text = new TextBlock()
+                {
+                    Height = double.NaN,
+                    Width = double.NaN,
+                    FontSize = 20,
+                    FontWeight = FontWeights.Bold,
+                    Text = $"{e.Name} : {e.Position}"
+                };
+                overlayPanel.Children.Add(text);
                 ((MainWindow)Application.Current.MainWindow).canv.Children.Add(e.Rectangle);
+                if (canvasPos == null) continue;
                 Canvas.SetLeft(e.Rectangle, (double)canvasPos?.X);
                 Canvas.SetTop(e.Rectangle, (double)canvasPos?.Y);
-                textOveralay += $"{e.Name} : {e.Position}";
             }
-
-            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlay);
-            overlay.Text = entities[0].Position.ToString();
 
             /* int xGap = (int)pos.X / MapGenerator.BLOCK_SIZE;
              int yGap = (int)pos.Y / MapGenerator.BLOCK_SIZE;

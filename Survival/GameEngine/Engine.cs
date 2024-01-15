@@ -51,13 +51,12 @@ namespace Survival.GameEngine
             this.Entities.Add(Player);
 
 
-            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(100f, 100f), new Vector2(0f, 0f));
+            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(20f, 20f), new Vector2(0f, 0f));
             FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
             followPlayerBehavior.Player = this.Player;
             mob.FocusDistance = 10;
             mob.behaviors.Add(followPlayerBehavior);
-            Entities.Add(mob);
-            //this.Entities.Add(mob);
+            this.Entities.Add(mob);
 
             this.timer.OnTick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
