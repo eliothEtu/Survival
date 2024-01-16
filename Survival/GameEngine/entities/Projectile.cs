@@ -38,6 +38,11 @@ namespace Survival
 			spawnTime = DateTime.Now;
         }
 
+        public override void Update(double deltaTime)
+        {
+            base.Update(deltaTime);
+        }
+
         public bool IsCollidingWith(Rect r)
 		{
 			if (this.Rect.IntersectsWith(r))

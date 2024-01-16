@@ -91,12 +91,12 @@ namespace Survival.GameEngine
 			this.Rectangle.Fill = new ImageBrush(texture);
         }
 
-        public virtual void Update()
+        public virtual void Update(double deltaTime)
         {
             if (this.Velocity != Vector2.Zero)
-                this.Position += Vector2.Normalize(this.Velocity) / 20;
+                this.Position += Vector2.Normalize(this.Velocity) * 5 * (float)deltaTime;
             else
-                this.Position += this.Velocity / 20;
+                this.Position += this.Velocity * 5 * (float)deltaTime;
         }
 
         public void Collide(Entity otherEntity)

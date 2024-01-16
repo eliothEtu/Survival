@@ -6,6 +6,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="GameEngine\entities\2lhj13jo.obh~" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="Image\face %281%29.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

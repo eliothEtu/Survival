@@ -61,9 +61,9 @@ namespace Survival
 
 		}
 
-        public override void Update()
+        public override void Update(double deltaTime)
         {
-            base.Update();
+            base.Update(deltaTime);
         }
 
         public void Fire()

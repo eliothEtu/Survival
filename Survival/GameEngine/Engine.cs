@@ -38,6 +38,8 @@ namespace Survival.GameEngine
         private Renderer renderer;
         public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
 
+        private DateTime lastTick;
+
         public Engine() 
         {
             if (instance != null)
@@ -57,6 +59,8 @@ namespace Survival.GameEngine
             mob.FocusDistance = 10;
             mob.behaviors.Add(followPlayerBehavior);
             this.Entities.Add(mob);
+
+            lastTick = DateTime.Now;
 
             this.timer.Tick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
@@ -79,9 +83,10 @@ namespace Survival.GameEngine
 
         private void Update(object sender, EventArgs e)
         {
+            TimeSpan deltaTime = DateTime.Now - lastTick;
             foreach (Entity entity in Entities)
             {
-                entity.Update();
+                entity.Update(deltaTime.TotalSeconds);
 
                 foreach (Entity otherEntity  in Entities)
                 {
@@ -95,6 +100,7 @@ namespace Survival.GameEngine
 
             this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
             this.Renderer.Draw(Entities);
+            lastTick = DateTime.Now;
         }
     }
 }
