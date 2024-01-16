@@ -119,7 +119,7 @@ namespace Survival.GameEngine
 
             foreach (Entity e in entities)
             {
-                
+               // Console.WriteLine(e.GetType().Name + " => " + e.Position);   
                 Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
            
                 if (canvasPos == null) continue;

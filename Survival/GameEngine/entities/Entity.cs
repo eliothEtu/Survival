@@ -88,12 +88,14 @@ namespace Survival.GameEngine
 			set { rect = value; }
 		}
 
-		public virtual void Update()
+		public virtual void Update(float deltaTime)
 		{
 			if(this.Velocity != Vector2.Zero)
-				this.Position += Vector2.Normalize(this.Velocity) / 20;
+				this.Position += Vector2.Normalize(this.Velocity) * 5 * deltaTime;
 			else
-                this.Position += this.Velocity / 20;
+                this.Position += this.Velocity * 5 * deltaTime;
+
+			this.Velocity = Vector2.Zero;
         }
 
 		public void Collide(Entity otherEntity)

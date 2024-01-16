@@ -23,7 +23,7 @@ namespace Survival.GameEngine
         private List<Entity> entities = new List<Entity>();
         public List<Entity> Entities { get => entities; }
 
-        public AsyncTimer timer = new AsyncTimer();
+        public DispatcherTimer timer = new DispatcherTimer();
 
         private Player player;
         public Player Player { get => player; set => player = value; }
@@ -38,6 +38,8 @@ namespace Survival.GameEngine
         private Renderer renderer;
         public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
 
+        private DateTime lastTick = DateTime.Now;
+
         public Engine() 
         {
             if (instance != null)
@@ -51,14 +53,14 @@ namespace Survival.GameEngine
             this.Entities.Add(Player);
 
 
-            Mob mob = new Mob(100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(100f, 100f), new Vector2(0f, 0f));
+            Mob mob = new Mob(100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(10f, 10f), new Vector2(0f, 0f));
             FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
             followPlayerBehavior.Player = this.Player;
             mob.FocusDistance = 10;
             mob.behaviors.Add(followPlayerBehavior);
-            //this.Entities.Add(mob);
+            this.Entities.Add(mob);
 
-            this.timer.OnTick += Update;
+            this.timer.Tick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
         }
 
@@ -77,12 +79,12 @@ namespace Survival.GameEngine
             timer.Stop();
         }
 
-        private void Update()
-        {            
+        private void Update(object sender, EventArgs e)
+        {
+            TimeSpan deltaTime = DateTime.Now - this.lastTick;
             foreach (Entity entity in Entities)
             {
-                
-                entity.Update();
+                entity.Update((float)deltaTime.TotalSeconds);
 
                 foreach(Entity otherEntity  in Entities)
                 {
@@ -96,6 +98,8 @@ namespace Survival.GameEngine
 
             this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
             this.Renderer.Draw(Entities);
+
+            this.lastTick = DateTime.Now;
         }
     }
 }
