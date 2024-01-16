@@ -35,7 +35,7 @@ namespace Survival
 			this.Life = life;
 		}
 
-        public override void Update(double deltaTime)
+        public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
         }
