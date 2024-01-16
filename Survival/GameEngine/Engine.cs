@@ -48,17 +48,6 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            this.Player = new Player("Player", 1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(1f, 1f), new Vector2(0f, 0f));
-            this.Controller = new PlayerController();
-            this.Entities.Add(Player);
-
-            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(10f, 10f), new Vector2(0f, 0f));
-            FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
-            followPlayerBehavior.Player = this.Player;
-            mob.FocusDistance = 10;
-            mob.behaviors.Add(followPlayerBehavior);
-            this.Entities.Add(mob);
-
             lastTick = DateTime.Now;
 
             this.timer.Tick += Update;
@@ -69,6 +58,17 @@ namespace Survival.GameEngine
         {
             this.MapGenerator.CreateMap();
             this.MapGenerator.SmoothMap(5);
+
+            this.Player = new Player("Player", 10, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetPlayerSpawnPos(), new Vector2(0f, 0f));
+            this.Controller = new PlayerController();
+            this.Entities.Add(Player);
+
+            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetMobSpawnPos(2, 5), new Vector2(0f, 0f));
+            FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
+            followPlayerBehavior.Player = this.Player;
+            mob.FocusDistance = 10;
+            mob.behaviors.Add(followPlayerBehavior);
+            this.Entities.Add(mob);
 
             this.Renderer = new Renderer();
 

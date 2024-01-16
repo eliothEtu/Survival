@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Survival.GameEngine.entities.ai;
+using Survival.GameEngine.world;
 
 namespace Survival.GameEngine
 {
@@ -47,6 +49,12 @@ namespace Survival.GameEngine
             if(key.Key == Key.D && player.Velocity.X != 1)
             {
                 player.Velocity = new Vector2(1, player.Velocity.Y);
+            }
+
+            if (key.Key == Key.A)
+            {
+                Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), Engine.Instance.MapGenerator.GetMobSpawnPos(5, 10), new Vector2(0f, 0f));
+                Engine.Instance.Entities.Add(mob);
             }
         }
 

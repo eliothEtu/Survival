@@ -112,53 +112,59 @@ namespace Survival.GameEngine.world
             }
         }
 
-        /*public void ShowMap(Canvas canv)
+        public Vector2 GetPlayerSpawnPos()
         {
-            for (int x = 0; x < Map.Count; x++)
+            Vector2 randomPos = new Vector2(random.Next(0, (int)sizeMap.X), random.Next(0, (int)sizeMap.Y));
+            for (int x = (int)randomPos.X; x < sizeMap.X; x++)
             {
-                for (int y = 0; y < Map[0].Count; y++)
+                for (int y = (int)randomPos.Y ; y < sizeMap.Y; y++)
                 {
-                    if (Map[x][y] == -1)
+                    if (IsInMap(x, y))
                     {
-                        Rectangle borderWall = new Rectangle()
+                        if (this.Map[x][y] == 0)
                         {
-                            Width = BLOCK_SIZE,
-                            Height = BLOCK_SIZE,
-                            Fill = Brushes.Yellow,
-                            Stroke = Brushes.Yellow,
-                            StrokeThickness = 2,
-                        };
-                        canv.Children.Add(borderWall);
-                        Canvas.SetLeft(borderWall, x * BLOCK_SIZE);
-                        Canvas.SetTop(borderWall, y * BLOCK_SIZE);
-                    }
-                    else if (Map[x][y] == 1)
-                    {
-                        Rectangle wall = new Rectangle()
-                        {
-                            Width = BLOCK_SIZE,
-                            Height = BLOCK_SIZE,
-                            Fill = Brushes.Red,
-                            Stroke = Brushes.Red,
-                            StrokeThickness = 2,
-                        };
-                        canv.Children.Add(wall);
-                        Canvas.SetLeft(wall, x * BLOCK_SIZE);
-                        Canvas.SetTop(wall, y * BLOCK_SIZE);
-                    }
-                    else
-                    {
-                        Rectangle invisible = new Rectangle()
-                        {
-                            Width = BLOCK_SIZE,
-                            Height = BLOCK_SIZE
-                        };
-                        canv.Children.Add(invisible);
-                        Canvas.SetLeft(invisible, x * BLOCK_SIZE);
-                        Canvas.SetTop(invisible, y * BLOCK_SIZE);
+                            return new Vector2(x, y);
+                        }
                     }
                 }
             }
-        }*/
+            return Vector2.Zero;
+        }
+
+        public Vector2 GetMobSpawnPos(ushort minLength, ushort maxLength)
+        {
+            if (maxLength < minLength)
+            {
+                throw new ArgumentException("maxLength cannot be lower than minLength");
+            }
+
+            Vector2 playerPos = Engine.Instance.Player.Position;
+            List<Vector2> availableSpawns = new List<Vector2>();
+
+            for (int x = (int)playerPos.X - maxLength; x < (int)playerPos.X + maxLength; x++)
+            {
+                if (x >= playerPos.X - minLength && x >= playerPos.X + minLength)
+                {
+                    continue;
+                }
+                for (int y = (int)playerPos.Y - maxLength; y < (int)playerPos.Y + maxLength; y++)
+                {
+                    if (y >= playerPos.Y - minLength && y >= playerPos.Y + minLength)
+                    {
+                        continue;
+                    }
+
+                    if (IsInMap(x, y))
+                    {
+                        if (this.Map[x][y] == 0)
+                        {
+                            availableSpawns.Add(new Vector2(x, y));
+                        }
+                    }
+                }
+            }
+
+            return availableSpawns[random.Next(1, availableSpawns.Count)-1];
+        }
     }
 }

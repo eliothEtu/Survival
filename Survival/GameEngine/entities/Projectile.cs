@@ -38,7 +38,7 @@ namespace Survival
 			spawnTime = DateTime.Now;
         }
 
-        public override void Update(double deltaTime)
+        public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
         }

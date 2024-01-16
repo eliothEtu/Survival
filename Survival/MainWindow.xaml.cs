@@ -187,6 +187,11 @@ namespace Survival
             Engine.Instance.Controller.KeyDown(e);
         }
 
+        private void canv_KeyUp(object sender, KeyEventArgs e)
+        {
+            Engine.Instance.Controller.KeyUp(e);
+        }
+
         private void Window_Closed(object sender, EventArgs e)
         {
             ForceFocus.DisableLock();
@@ -203,11 +208,6 @@ namespace Survival
 
             // then we can kill the game
             Application.Current.Shutdown();
-        }
-
-        private void canv_KeyUp(object sender, KeyEventArgs e)
-        {
-            Engine.Instance.Controller.KeyUp(e);
         }
     }
 }

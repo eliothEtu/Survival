@@ -31,16 +31,30 @@ namespace Survival.GameEngine
             set => this.pos = value;
         }
 
+#if DEBUG
         StackPanel overlayPanel = new StackPanel()
         {
             Width = double.NaN,
             Height = double.NaN,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+#endif
+
+        Rectangle healthBar = new Rectangle()
+        {
+            Height = 30,
+            Width = 250,
+            Fill = Brushes.White,
+            Stroke = Brushes.Black,
         };
 
+#if DEBUG
         public Renderer()
         {
+            overlayPanel.Children.Add(healthBar);
             ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlayPanel);
         }
+#endif
 
         private Rect GetCameraRect()
         {
@@ -126,11 +140,16 @@ namespace Survival.GameEngine
                     }
                 }
             }
-
+#if DEBUG
             overlayPanel.Children.Clear();
-            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlayPanel);
+#endif
+
+            healthBar.Width = 25 * Engine.Instance.Player.Life;
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(healthBar);
+
             foreach (Entity e in entities)
             {
+#if DEBUG
                 TextBlock text = new TextBlock()
                 {
                     Height = double.NaN,
@@ -140,6 +159,7 @@ namespace Survival.GameEngine
                     Text = $"{e.Name} : {e.Position}"
                 };
                 overlayPanel.Children.Add(text);
+#endif
 
                 Vector2? canvasPos = this.GetPosOnCanvas(e.Position);
 
@@ -148,6 +168,10 @@ namespace Survival.GameEngine
                 Canvas.SetLeft(e.Rectangle, (double)canvasPos?.X);
                 Canvas.SetTop(e.Rectangle, (double)canvasPos?.Y);
             }
+#if DEBUG
+            ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlayPanel);
+            Canvas.SetLeft(overlayPanel, ((MainWindow)Application.Current.MainWindow).canv.Width - overlayPanel.ActualWidth);
+#endif
         }
     }
 }

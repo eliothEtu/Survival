@@ -65,36 +65,30 @@ namespace Survival.GameEngine
 		}
 
 		private Rect rect; public Rect Rect
-    {
-        get { return rect; }
-        set { rect = value; }
-    }
-
-
-  private string name;
-  public string Name { get => name; set => name = value; }
-
-  public Entity(string name, BitmapImage texture, Vector2 position, Vector2 velocity)
-  {
-      this.Position = position;
-      this.Velocity = velocity;
-			this.Name = name;
-
-			this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
-			this.Rectangle = new Rectangle();
-			this.Rectangle.Width = texture.Width;
-			this.Rectangle.Height = texture.Height;
-
-			Canvas.SetLeft(this.Rectangle, position.X);
-			Canvas.SetTop(this.Rectangle, position.Y);
-
-			this.Rectangle.Fill = new ImageBrush(texture);
-    }
-
-    public Rect Rect
 		{
 			get { return rect; }
 			set { rect = value; }
+		}
+
+
+		private string name;
+		public string Name { get => name; set => name = value; }
+
+		public Entity(string name, BitmapImage texture, Vector2 position, Vector2 velocity)
+		{
+			this.Position = position;
+			this.Velocity = velocity;
+				this.Name = name;
+
+				this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
+				this.Rectangle = new Rectangle();
+				this.Rectangle.Width = texture.Width;
+				this.Rectangle.Height = texture.Height;
+
+				Canvas.SetLeft(this.Rectangle, position.X);
+				Canvas.SetTop(this.Rectangle, position.Y);
+
+				this.Rectangle.Fill = new ImageBrush(texture);
 		}
 
 		public virtual void Update(float deltaTime)
@@ -105,19 +99,19 @@ namespace Survival.GameEngine
         this.Position += this.Velocity * 5 * deltaTime;
 
 			this.Velocity = Vector2.Zero;
-    }
-
-    public void Collide(Entity otherEntity)
-		{
-
 		}
 
-		public double GetDistanceFrom(Vector2 pos)
-		{
-			double distance1 = Math.Pow(this.Position.X, 2) + Math.Pow(this.Position.Y, 2);
-			double distance2 = Math.Pow(pos.X, 2) + Math.Pow(pos.Y, 2);
+		public void Collide(Entity otherEntity)
+			{
 
-			return Math.Sqrt(Math.Abs(distance1 - distance2));
-    }
+			}
+
+			public double GetDistanceFrom(Vector2 pos)
+			{
+				double distance1 = Math.Pow(this.Position.X, 2) + Math.Pow(this.Position.Y, 2);
+				double distance2 = Math.Pow(pos.X, 2) + Math.Pow(pos.Y, 2);
+
+				return Math.Sqrt(Math.Abs(distance1 - distance2));
+		}
 	}
 }
