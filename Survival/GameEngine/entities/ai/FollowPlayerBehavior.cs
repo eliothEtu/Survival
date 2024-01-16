@@ -17,6 +17,7 @@ namespace Survival.GameEngine.entities.ai
 
         public override void Update(Mob entity)
         {
+            return;
             double distance = entity.GetDistanceFrom(this.Player.Position);
             if (distance < 2 || distance > entity.FocusDistance)
             {
@@ -36,7 +37,6 @@ namespace Survival.GameEngine.entities.ai
                // Console.WriteLine("No path found!");
                 return;
             }
-
 
 
             // follow path

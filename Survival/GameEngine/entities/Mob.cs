@@ -1,4 +1,5 @@
-﻿using Survival.GameEngine.entities.ai;
+﻿using Survival.GameEngine;
+using Survival.GameEngine.entities.ai;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Survival
 			}
 		}
 
-        public Mob(int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(life, texture, position, velocity)
+		public Mob(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, life, texture, position, velocity)
         {
 
         }

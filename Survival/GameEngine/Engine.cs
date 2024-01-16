@@ -48,12 +48,11 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            this.Player = new Player(1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0f, 0f), new Vector2(0f, 0f));
+            this.Player = new Player("Player", 1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(1f, 1f), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
             this.Entities.Add(Player);
 
-
-            Mob mob = new Mob(100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(10f, 10f), new Vector2(0f, 0f));
+            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(10f, 10f), new Vector2(0f, 0f));
             FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
             followPlayerBehavior.Player = this.Player;
             mob.FocusDistance = 10;
@@ -86,7 +85,7 @@ namespace Survival.GameEngine
             {
                 entity.Update((float)deltaTime.TotalSeconds);
 
-                foreach(Entity otherEntity  in Entities)
+                foreach (Entity otherEntity  in Entities)
                 {
                     if(entity.Rect.IntersectsWith(otherEntity.Rect) && entity != otherEntity)
                     {
