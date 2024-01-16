@@ -81,6 +81,16 @@ namespace Survival.GameEngine
             return new Vector2(canvasX, canvasY);
         }
 
+        public Vector2 GetWorldPos(Vector2 canvasPos)
+        {
+            Rect cameraRect = this.GetCameraRect();
+
+            float worldX = canvasPos.X.Remap(0, (float)((MainWindow)Application.Current.MainWindow).canv.Width, (float)(cameraRect.X - (cameraRect.Width / 2)), (float)(cameraRect.X + (cameraRect.Width / 2)));
+            float worldY = canvasPos.Y.Remap(0, (float)((MainWindow)Application.Current.MainWindow).canv.Height, (float)(cameraRect.Y - (cameraRect.Height / 2)), (float)(cameraRect.Y + (cameraRect.Height / 2)));
+
+            return new Vector2(worldX, worldY);
+        }
+
         public void UpdateCamera(Rectangle player, Vector2 targetPos)
         {
             this.pos = targetPos;

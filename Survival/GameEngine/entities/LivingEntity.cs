@@ -38,6 +38,7 @@ namespace Survival
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
+			this.Velocity = Vector2.Zero;
         }
 
         public void TakeDamage(int damage)
