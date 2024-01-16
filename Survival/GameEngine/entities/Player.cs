@@ -115,8 +115,6 @@ namespace Survival
             animeCoteDroit[0] = cote_droit;
             animeCoteDroit[1] = cote_droit_pied;
 
-            this.ItemEquiped = new Artifact("", "", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\flamme.png")), "Artifact", TimeSpan.FromSeconds(3));
-
         }
 
         int accFace = 0;
