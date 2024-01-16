@@ -19,29 +19,38 @@ namespace Survival.GameEngine.entities.ai
         {
             return;
             double distance = entity.GetDistanceFrom(this.Player.Position);
-            if (distance < 2 || distance > entity.FocusDistance) return;
-
-            if ((DateTime.Now - this.lastCalculation > TimeSpan.FromSeconds(5)) || (this.cachedPath.Count > 0 && this.GetCurrentTile(entity) != this.cachedPath[0]))
+            if (distance < 2 || distance > entity.FocusDistance)
             {
-                this.cachedPath = this.CalculatePath(entity);
+                this.cachedPath.Clear();
+                return;
             }
 
-            if (this.cachedPath.Count <= 1) return;
+            if ((DateTime.Now - this.lastCalculation > TimeSpan.FromSeconds(5)) || (DateTime.Now - this.lastCalculation > TimeSpan.FromSeconds(5)) && ((this.cachedPath.Count < 2) || (this.GetCurrentTile(entity) != this.cachedPath[0])))
+            {
+                Console.WriteLine("a");
+                this.cachedPath = this.CalculatePath(entity);
+                this.lastCalculation = DateTime.Now;
+            }
 
-            
+            if (this.cachedPath.Count < 2)
+            {
+               // Console.WriteLine("No path found!");
+                return;
+            }
+
 
             // follow path
-            Tile targetTile = this.cachedPath[1];
-            if (targetTile != null)
-            {
-                this.cachedPath.RemoveAt(0);
-                this.cachedPath.RemoveAt(1);
-                
-                float deltaX = this.Player.Position.X - targetTile.X;
-                float deltaY = this.Player.Position.Y - targetTile.Y;
 
-                entity.Velocity = new System.Numerics.Vector2(deltaX, deltaY);
-            }
+            Tile targetTile = this.cachedPath[1];
+
+            this.cachedPath.RemoveAt(0);
+            this.cachedPath.RemoveAt(0);
+
+            float deltaX = entity.Position.X - targetTile.X;
+            float deltaY = entity.Position.Y - targetTile.Y;
+
+            entity.Velocity = new System.Numerics.Vector2(-deltaX, -deltaY);
+            Console.WriteLine($"Velocity: {entity.Velocity}");
         }
 
         private List<Tile> CalculatePath(Mob entity)
@@ -116,7 +125,7 @@ namespace Survival.GameEngine.entities.ai
             // Only return tiles where there are no walls and no borders
             return tiles
                 .Where(tile => Engine.Instance.MapGenerator.Map[tile.X][tile.Y] == 0)
-                .Where(tile => (Math.Pow(tile.X, 2) + Math.Pow(tile.Y, 2) <= distance))
+                .Where(tile => Math.Sqrt(Math.Abs((Math.Pow(tile.X, 2) + Math.Pow(tile.Y, 2)))) <= distance)
                 .ToList();
         }
 

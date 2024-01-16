@@ -40,9 +40,9 @@ namespace Survival
 
         }
 
-		public override void Update()
+		public override void Update(float deltaTime)
 		{
-			base.Update();
+			base.Update(deltaTime);
 
 			foreach (Behavior behavior in this.behaviors)
 			{

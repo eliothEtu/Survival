@@ -38,6 +38,8 @@ namespace Survival.GameEngine
         private Renderer renderer;
         public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
 
+        private DateTime lastTick = DateTime.Now;
+
         public Engine() 
         {
             if (instance != null)
@@ -49,7 +51,6 @@ namespace Survival.GameEngine
             this.Player = new Player("Player", 1, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(1f, 1f), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
             this.Entities.Add(Player);
-
 
             Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(10f, 10f), new Vector2(0f, 0f));
             FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
@@ -79,9 +80,10 @@ namespace Survival.GameEngine
 
         private void Update(object sender, EventArgs e)
         {
+            TimeSpan deltaTime = DateTime.Now - this.lastTick;
             foreach (Entity entity in Entities)
             {
-                entity.Update();
+                entity.Update((float)deltaTime.TotalSeconds);
 
                 foreach (Entity otherEntity  in Entities)
                 {
@@ -95,6 +97,8 @@ namespace Survival.GameEngine
 
             this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
             this.Renderer.Draw(Entities);
+
+            this.lastTick = DateTime.Now;
         }
     }
 }
