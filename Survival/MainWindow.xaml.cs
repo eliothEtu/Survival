@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Survival.GameEngine.Inventory.ItemComponent;
 
 namespace Survival
 {
@@ -24,22 +25,26 @@ namespace Survival
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Home homeUI;
+        public Home homeWindow;
         public PreparationWindow preparationWindow;
+        public Shop shopWindow;
 
         private string[] itemName = new string[5];
         private Dictionary<string, string> itemDescription = new Dictionary<string, string>();
+
+        private Canvas invUi;
 
         bool bInventory = false;
 
         public MainWindow()
         {
             InitializeComponent();
-//#if !DEBUG
-         //   ForceFocus.EnableLock();
+
+            //ForceFocus.EnableLock();
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
-//#endif
+
+            invUi = inv;
 
             canv.Width = SystemParameters.PrimaryScreenWidth;
             canv.Height = SystemParameters.PrimaryScreenHeight;
@@ -61,11 +66,12 @@ namespace Survival
             // this.Show();
 
             preparationWindow = new PreparationWindow();
+            shopWindow = new Shop();
             //preparationWindow.Owner = this;
             //preparationWindow.Hide();
 
-            homeUI = new Home();
-            homeUI.ShowDialog();
+            homeWindow = new Home();
+            homeWindow.ShowDialog();
 
             itemContainer.Width = inv.Width - 400;
             itemContainer.Height = inv.Height - 50;
@@ -87,27 +93,15 @@ namespace Survival
             inv.Children.Add(but);
             Canvas.SetLeft(but, inv.Width - but.Width - 20);
             Canvas.SetTop(but, 20);
-
-            itemName[0] = "Iron";
-            itemName[1] = "Stone";
-            itemName[2] = "Copper";
-            itemName[3] = "Sword";
-            itemName[4] = "Bow";
-
-            itemDescription[itemName[0]] = "Just a iron ingot";
-            itemDescription[itemName[1]] = "Classic stone";
-            itemDescription[itemName[2]] = "Copper rust";
-            itemDescription[itemName[3]] = "A sword find in a dungeon";
-            itemDescription[itemName[4]] = "Bow find on a mob";
-
-            LoadInventory();
         }
 
         public void OpenInventory()
         {
+            Engine.Instance.timer.Stop();
+            canv.Children.Add(invUi);
             bInventory = true;
-            inv.Visibility = Visibility.Visible;
-            Canvas.SetZIndex(inv, 2);
+            invUi.Visibility = Visibility.Visible;
+            Canvas.SetZIndex(invUi, 1);
         }
 
         public void CloseInventory()
@@ -118,8 +112,20 @@ namespace Survival
 
         public void LaunchGame()
         {
-            homeUI.Hide();
+            homeWindow.Hide();
+            preparationWindow.LoadInventory();
             preparationWindow.ShowDialog();
+        }
+        public void OpenShop()
+        {
+            homeWindow.Hide();
+            shopWindow.ShowDialog();
+        }
+
+        public void ExitShop()
+        {
+            shopWindow.Hide();
+            homeWindow.ShowDialog();
         }
 
         public void StartGame()
@@ -136,13 +142,14 @@ namespace Survival
 
         private void LoadInventory()
         {
-            foreach (string item in itemName)
+            foreach (Item item in Engine.Instance.Player.Inventory.InventoryList)
             {
                 Button itemBut = new Button()
                 {
                     Width = 100,
                     Height = 100,
-                    Content = item
+                    Content = item.Name,
+                    Background = item.Texture
                 };
                 itemBut.MouseEnter += ShowItemDescription;
                 itemBut.MouseLeave += ClearItemDescription;
@@ -153,10 +160,11 @@ namespace Survival
         private void ShowItemDescription(object sender, MouseEventArgs e)
         {
             Button butHover = sender as Button;
+            string description = Engine.Instance.Player.Inventory.GetDescriptionByItemName(butHover.Content.ToString());
             Label itemD = new Label()
             {
                 Width = double.NaN,
-                Content = itemDescription[butHover.Content.ToString()],
+                Content = description,
                 FontSize = 30,
                 Foreground = new SolidColorBrush(Colors.White)
             };
@@ -190,6 +198,11 @@ namespace Survival
         private void canv_KeyUp(object sender, KeyEventArgs e)
         {
             Engine.Instance.Controller.KeyUp(e);
+        }
+
+        private void canv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Engine.Instance.Controller.MouseLeft(e);
         }
 
         private void Window_Closed(object sender, EventArgs e)

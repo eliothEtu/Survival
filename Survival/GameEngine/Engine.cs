@@ -38,6 +38,9 @@ namespace Survival.GameEngine
         private Renderer renderer;
         public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
 
+        private List<Entity> toRemove = new List<Entity>();
+        public List<Entity> ToRemove { get => toRemove; }
+
         private DateTime lastTick = DateTime.Now;
 
         public Engine() 
@@ -47,6 +50,10 @@ namespace Survival.GameEngine
                 throw new InvalidOperationException("Engine cannot be instancied twice.");
             }
             instance = this;
+
+            this.Player = new Player("Player", 10, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
+            this.Controller = new PlayerController();
+            this.Entities.Add(Player);
 
             lastTick = DateTime.Now;
 
@@ -59,9 +66,7 @@ namespace Survival.GameEngine
             this.MapGenerator.CreateMap();
             this.MapGenerator.SmoothMap(5);
 
-            this.Player = new Player("Player", 10, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetPlayerSpawnPos(), new Vector2(0f, 0f));
-            this.Controller = new PlayerController();
-            this.Entities.Add(Player);
+            player.Position = MapGenerator.GetPlayerSpawnPos();
 
             Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetMobSpawnPos(2, 5), new Vector2(0f, 0f));
             FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
@@ -99,6 +104,12 @@ namespace Survival.GameEngine
 
             this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
             this.Renderer.Draw(Entities);
+
+            foreach (Entity entity in this.ToRemove)
+            {
+                this.Entities.Remove(entity);
+            }
+            this.ToRemove.Clear();
 
             this.lastTick = DateTime.Now;
         }

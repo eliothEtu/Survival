@@ -10,6 +10,6 @@
     Height="450"
     Background="#FF6B6B6B"
     mc:Ignorable="d">
-    <Canvas x:Name="canvPW" >
+    <Canvas x:Name="canvPW" PreviewMouseMove="canvPW_PreviewMouseMove" PreviewMouseUp="canvPW_PreviewMouseUp">
     </Canvas>
 </Window>

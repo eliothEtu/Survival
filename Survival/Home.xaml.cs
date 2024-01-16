@@ -49,6 +49,7 @@ namespace Survival
                 Content = "Shop",
                 FontSize = 30
             };
+            openShop.Click += OpenShop;
             canvHome.Children.Add(openShop);
             Canvas.SetTop(openShop, SystemParameters.PrimaryScreenHeight / 2 - openShop.Height / 2 + launchGame.Height);
             Canvas.SetLeft(openShop, SystemParameters.PrimaryScreenWidth / 2 - openShop.Width / 2);
@@ -80,6 +81,10 @@ namespace Survival
         public void LaunchGame(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).LaunchGame();
+        }
+        public void OpenShop(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).OpenShop();
         }
     }
 }

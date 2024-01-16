@@ -1,0 +1,25 @@
+﻿<Window x:Class="Survival.Shop"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Survival"
+        mc:Ignorable="d"
+        Title="Shop" Height="450" Width="800" Background="#FF6B6B6B">
+    <Canvas x:Name="canvShop" PreviewMouseWheel="canvShop_PreviewMouseWheel" Focusable="True">
+        <Canvas.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF96A1FF"/>
+                <GradientStop Color="#FFF57373" Offset="1"/>
+            </LinearGradientBrush>
+        </Canvas.Background>
+        <Canvas x:Name="canvContainer" Height="334" Width="1703" Canvas.Left="53" Canvas.Top="50" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Canvas.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFC11313" Offset="0.007"/>
+                    <GradientStop Color="#FF6086E6" Offset="1"/>
+                </RadialGradientBrush>
+            </Canvas.Background>
+        </Canvas>
+    </Canvas>
+</Window>

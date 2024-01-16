@@ -79,5 +79,11 @@ namespace Survival.GameEngine
                 player.Velocity = new Vector2(0, player.Velocity.Y);
             }
         }
+        public void MouseLeft(MouseEventArgs key)
+        {
+            Point mouse = key.GetPosition(((MainWindow)Application.Current.MainWindow).canv);
+            Vector2 mouseV = new Vector2((float)mouse.X, (float)mouse.Y);
+            Engine.Instance.Player.Fire(mouseV);
+        }
     }
 }
