@@ -3,8 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Survival.GameEngine.entities.ai
 {
@@ -14,10 +20,10 @@ namespace Survival.GameEngine.entities.ai
 
         private List<Tile> cachedPath = new List<Tile>();
         private DateTime lastCalculation = DateTime.Now;
+        private Vector2 target;
 
         public override void Update(Mob entity)
         {
-            return;
             double distance = entity.GetDistanceFrom(this.Player.Position);
             if (distance < 2 || distance > entity.FocusDistance)
             {
@@ -25,11 +31,12 @@ namespace Survival.GameEngine.entities.ai
                 return;
             }
 
-            if ((DateTime.Now - this.lastCalculation > TimeSpan.FromSeconds(5)) || (DateTime.Now - this.lastCalculation > TimeSpan.FromSeconds(5)) && ((this.cachedPath.Count < 2) || (this.GetCurrentTile(entity) != this.cachedPath[0])))
+            if (((this.cachedPath.Count < 2) || (this.GetCurrentTile(entity) != this.cachedPath[0]) || this.target != entity.Position))
             {
                 Console.WriteLine("a");
                 this.cachedPath = this.CalculatePath(entity);
                 this.lastCalculation = DateTime.Now;
+                this.target = entity.Position;
             }
 
             if (this.cachedPath.Count < 2)
@@ -38,18 +45,20 @@ namespace Survival.GameEngine.entities.ai
                 return;
             }
 
+            
+
 
             // follow path
 
-            Tile targetTile = this.cachedPath[1];
+            Tile targetTile = this.cachedPath[0];
 
+            //this.cachedPath.RemoveAt(0);
             this.cachedPath.RemoveAt(0);
-            this.cachedPath.RemoveAt(0);
 
-            float deltaX = entity.Position.X - targetTile.X;
-            float deltaY = entity.Position.Y - targetTile.Y;
+            float deltaX = targetTile.X - entity.Position.X;
+            float deltaY = targetTile.Y - entity.Position.Y;
 
-            entity.Velocity = new System.Numerics.Vector2(-deltaX, -deltaY);
+            entity.Velocity = Vector2.Normalize(new Vector2(deltaX, deltaY));
             Console.WriteLine($"Velocity: {entity.Velocity}");
         }
 
@@ -72,6 +81,17 @@ namespace Survival.GameEngine.entities.ai
                 if (checkTile.X == finish.X && checkTile.Y == finish.Y)
                 {
                     // we arrived at the destination
+                    List<Tile> tiles = new List<Tile>();
+                    Tile tile = checkTile;
+
+                    while (true)
+                    {
+                        tiles.Add(tile);
+                        tile = tile.Parent;
+                        if (tile == null)
+                            return tiles;
+                    }
+
                     return activeTiles;
                 }
 
@@ -106,21 +126,13 @@ namespace Survival.GameEngine.entities.ai
         }
 
         private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile, int distance) {
-            List<Tile> tiles = new List<Tile>();
-
-            for (int x = 0; x < Engine.Instance.MapGenerator.SizeMap.X; x++)
+            List<Tile> tiles = new List<Tile>()
             {
-                for (int y = 0; y < Engine.Instance.MapGenerator.SizeMap.Y; y++)
-                {
-                    Tile tile = new Tile();
-                    tile.X = x;
-                    tile.Y = y;
-                    tile.Parent = currentTile;
-                    tile.Cost = currentTile.Cost + 1;
-                    tile.SetDistance(targetTile.X, targetTile.Y);
-                    tiles.Add(tile);
-                }
-            }
+                new Tile { X = currentTile.X, Y = currentTile.Y - 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
+                new Tile { X = currentTile.X, Y = currentTile.Y + 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
+                new Tile { X = currentTile.X - 1, Y = currentTile.Y, Parent = currentTile, Cost = currentTile.Cost + 1 },
+                new Tile { X = currentTile.X + 1, Y = currentTile.Y, Parent = currentTile, Cost = currentTile.Cost + 1 },
+            };
 
             // Only return tiles where there are no walls and no borders
             return tiles

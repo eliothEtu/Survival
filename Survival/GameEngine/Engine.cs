@@ -68,12 +68,16 @@ namespace Survival.GameEngine
 
             player.Position = MapGenerator.GetPlayerSpawnPos();
 
-            Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetMobSpawnPos(2, 5), new Vector2(0f, 0f));
-            FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
-            followPlayerBehavior.Player = this.Player;
-            mob.FocusDistance = 10;
-            mob.behaviors.Add(followPlayerBehavior);
-            this.Entities.Add(mob);
+
+            for (int i = 0; i < 100; i++)
+            {
+                Mob mob = new Mob("Mob" + i.ToString(), 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetMobSpawnPos(2, 15), new Vector2(0f, 0f));
+                FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
+                followPlayerBehavior.Player = this.Player;
+                mob.FocusDistance = 100;
+                mob.behaviors.Add(followPlayerBehavior);
+                this.Entities.Add(mob);
+            }
 
             this.Renderer = new Renderer();
 
@@ -88,7 +92,7 @@ namespace Survival.GameEngine
         private void Update(object sender, EventArgs e)
         {
             TimeSpan deltaTime = DateTime.Now - this.lastTick;
-            foreach (Entity entity in Entities)
+            foreach (Entity entity in new List<Entity>(Entities))
             {
                 entity.Update((float)deltaTime.TotalSeconds);
 

@@ -32,7 +32,7 @@ namespace Survival.GameEngine
         }
 
 #if DEBUG
-        StackPanel overlayPanel = new StackPanel()
+        public StackPanel overlayPanel = new StackPanel()
         {
             Width = double.NaN,
             Height = double.NaN,
@@ -64,7 +64,7 @@ namespace Survival.GameEngine
             return new Rect(this.Pos.X, this.Pos.Y, w, h);
         }
 
-        private Vector2? GetPosOnCanvas(Vector2 worldPos)
+        public Vector2? GetPosOnCanvas(Vector2 worldPos)
         {
             Rect cameraRect = this.GetCameraRect();
             if (worldPos.X + MapGenerator.BLOCK_SIZE < cameraRect.X - (cameraRect.Width / 2) ||
