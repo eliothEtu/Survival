@@ -11,11 +11,15 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Survival.GameEngine.entities.ai
 {
     internal class FollowPlayerBehavior : Behavior
     {
+        private static TaskFactory TASK_FACTORY = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(3));
+
         public Player Player { get; set; }
 
         private List<Tile> cachedPath = new List<Tile>();
@@ -33,10 +37,13 @@ namespace Survival.GameEngine.entities.ai
 
             if (((this.cachedPath.Count < 2) || (this.GetCurrentTile(entity) != this.cachedPath[0]) || this.target != entity.Position))
             {
-                Console.WriteLine("a");
-                this.cachedPath = this.CalculatePath(entity);
-                this.lastCalculation = DateTime.Now;
-                this.target = entity.Position;
+                TASK_FACTORY.StartNew(() =>
+                {
+                    Console.WriteLine("a");
+                    this.cachedPath = this.CalculatePath(entity);
+                    this.lastCalculation = DateTime.Now;
+                    this.target = entity.Position;
+                });
             }
 
             if (this.cachedPath.Count < 2)
