@@ -186,6 +186,7 @@ namespace Survival
 
         private void LoadInventory()
         {
+            itemContainer.Children.Clear();
             foreach (Item item in Engine.Instance.Player.Inventory.InventoryList)
             {
                 Button itemBut = new Button()

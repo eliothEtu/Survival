@@ -41,7 +41,7 @@ namespace Survival
 
         public override void Update(float deltaTime)
         {
-            base.Update(deltaTime);
+            //base.Update(deltaTime);
         }
 
         public bool IsCollidingWith(Rect r)
