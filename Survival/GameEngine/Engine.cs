@@ -42,8 +42,8 @@ namespace Survival.GameEngine
 
         public MobSpawner MobSpawner { get => this.mobSpawner; }
 
-        private List<Entity> toRemove = new List<Entity>();
-        public List<Entity> ToRemove { get => toRemove; }
+        private List<Entity> entityToRemove = new List<Entity>();
+        public List<Entity> EntityToRemove { get => entityToRemove; }
 
         private DateTime lastTick = DateTime.Now;
 
@@ -99,11 +99,12 @@ namespace Survival.GameEngine
                 }
             }
 
-            foreach (Entity entity in this.ToRemove)
+            foreach (Entity entity in this.entityToRemove)
             {
                 this.Entities.Remove(entity);
             }
-            this.ToRemove.Clear();
+            this.entityToRemove.Clear();
+            EntityToRemove.Clear();
 
             this.MobSpawner.Update();
 

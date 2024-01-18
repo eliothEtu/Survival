@@ -106,7 +106,7 @@ namespace Survival
 
 		public virtual void OnDeath()
 		{
-			Engine.Instance.ToRemove.Add(this);
+			Engine.Instance.EntityToRemove.Add(this);
 		}
 	}
 

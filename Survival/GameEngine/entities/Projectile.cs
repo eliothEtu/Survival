@@ -42,6 +42,11 @@ namespace Survival
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
+
+			if (DateTime.Now - spawnTime > lifeSpan)
+			{
+				Engine.Instance.EntityToRemove.Add(this);
+			}
         }
 
         public bool IsCollidingWith(Rect r)
