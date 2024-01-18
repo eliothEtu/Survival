@@ -53,6 +53,8 @@ namespace Survival
         {
             base.Collide(otherEntity);
 
+			Console.WriteLine($"{this.Rect} -> {otherEntity.Rect}");
+
             float deltaX = this.Position.X - otherEntity.Position.X;
             float deltaY = this.Position.Y - otherEntity.Position.Y;
 

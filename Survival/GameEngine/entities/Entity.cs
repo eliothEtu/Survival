@@ -30,7 +30,7 @@ namespace Survival.GameEngine
 			set 
 			{ 
 				this.position = value;
-                this.rect = new Rect(this.position.X, this.position.Y, this.rectangle.Width, this.rectangle.Height);
+                this.rect = new Rect(this.position.X, this.position.Y, this.rectangle.Width / MapGenerator.BLOCK_SIZE, this.rectangle.Height / MapGenerator.BLOCK_SIZE);
             }
 		}
 
@@ -79,7 +79,7 @@ namespace Survival.GameEngine
             this.Rectangle = new Rectangle();
             this.Rectangle.Width = texture.Width;
             this.Rectangle.Height = texture.Height;
-            this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
+            //this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
 
             this.Position = position;
             this.Velocity = velocity;
@@ -98,7 +98,7 @@ namespace Survival.GameEngine
             this.Rectangle.Height = MapGenerator.BLOCK_SIZE;
 
             this.Rectangle.Fill = texture;
-            this.Rect = new Rect(position.X, position.Y, this.Rectangle.Width, this.Rectangle.Height);
+            //this.Rect = new Rect(position.X, position.Y, this.Rectangle.Width, this.Rectangle.Height);
 
             this.Position = position;
             this.Velocity = velocity;
