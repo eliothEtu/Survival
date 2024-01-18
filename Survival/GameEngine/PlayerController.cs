@@ -53,8 +53,7 @@ namespace Survival.GameEngine
 
             if (key.Key == Key.A)
             {
-                Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), Engine.Instance.MapGenerator.GetMobSpawnPos(5, 10), new Vector2(0f, 0f));
-                Engine.Instance.Entities.Add(mob);
+                Engine.Instance.MobSpawner.EndWave();
             }
         }
 

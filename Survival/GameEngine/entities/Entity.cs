@@ -29,12 +29,9 @@ namespace Survival.GameEngine
 			}
 			set 
 			{ 
-				/*if(value.X < 0 || value.Y > 0)
-				{
-					throw new ArgumentOutOfRangeException("Y must be negative and X positive");
-				}*/
-				this.position = value; 
-			}
+				this.position = value;
+                this.rect = new Rect(this.position.X, this.position.Y, this.rectangle.Width, this.rectangle.Height);
+            }
 		}
 
 		private Vector2 velocity;
@@ -77,16 +74,18 @@ namespace Survival.GameEngine
 
 		public Entity(string name, BitmapImage texture, Vector2 position, Vector2 velocity)
 		{
-			this.Position = position;
-			this.Velocity = velocity;
-			this.Name = name;
+			
 
-			this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
-			this.Rectangle = new Rectangle();
-			this.Rectangle.Width = texture.Width;
-			this.Rectangle.Height = texture.Height;
+            this.Rectangle = new Rectangle();
+            this.Rectangle.Width = texture.Width;
+            this.Rectangle.Height = texture.Height;
+            this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
 
-			Canvas.SetLeft(this.Rectangle, position.X);
+            this.Position = position;
+            this.Velocity = velocity;
+            this.Name = name;
+
+            Canvas.SetLeft(this.Rectangle, position.X);
 			Canvas.SetTop(this.Rectangle, position.Y);
 
 			this.Rectangle.Fill = new ImageBrush(texture);
@@ -94,19 +93,23 @@ namespace Survival.GameEngine
 
         public Entity(string name, ImageBrush texture, Vector2 position, Vector2 velocity)
         {
+            this.Rectangle = new Rectangle();
+            this.Rectangle.Width = MapGenerator.BLOCK_SIZE;
+            this.Rectangle.Height = MapGenerator.BLOCK_SIZE;
+
+            this.Rectangle.Fill = texture;
+            this.Rect = new Rect(position.X, position.Y, this.Rectangle.Width, this.Rectangle.Height);
+
             this.Position = position;
             this.Velocity = velocity;
             this.Name = name;
 
-            this.Rectangle = new Rectangle();
-            this.Rectangle.Width = MapGenerator.BLOCK_SIZE; 
-            this.Rectangle.Height = MapGenerator.BLOCK_SIZE;
+            
 
             Canvas.SetLeft(this.Rectangle, position.X);
             Canvas.SetTop(this.Rectangle, position.Y);
 
-            this.Rectangle.Fill = texture;
-            this.Rect = new Rect(position.X, position.Y, this.Rectangle.Width, this.Rectangle.Height);
+           
         }
 
         public virtual void Update(float deltaTime)
@@ -117,10 +120,10 @@ namespace Survival.GameEngine
 				this.Position += this.Velocity * 5 * deltaTime;
 		}
 
-		public void Collide(Entity otherEntity)
-			{
-
-			}
+		public virtual void Collide(Entity otherEntity)
+		{
+			
+		}
 
 		public double GetDistanceFrom(Vector2 pos)
 		{

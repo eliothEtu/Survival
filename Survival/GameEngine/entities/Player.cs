@@ -78,6 +78,8 @@ namespace Survival
 
         ImageBrush[] animeCoteDroit = new ImageBrush[2];
 
+        
+
 
         public Player(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, life, texture, position, velocity)
         {
@@ -178,6 +180,16 @@ namespace Survival
 
                 }
                 AncienVecteur = this.Velocity;
+            }
+        }
+
+        public override void Collide(Entity otherEntity)
+        {
+            base.Collide(otherEntity);
+
+            if (otherEntity is Mob)
+            {
+                this.TakeDamage(10);
             }
         }
 

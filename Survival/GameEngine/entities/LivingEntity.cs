@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Survival
@@ -30,7 +31,9 @@ namespace Survival
 			}
 		}
 
-		public LivingEntity(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, texture, position, velocity)
+        private DateTime lastDamageTaken = DateTime.Now;
+
+        public LivingEntity(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, texture, position, velocity)
 		{
 			this.Life = life;
 		}
@@ -39,19 +42,31 @@ namespace Survival
         {
             base.Update(deltaTime);
 			this.Velocity = Vector2.Zero;
+
+			if((DateTime.Now - this.lastDamageTaken).TotalMilliseconds > 1000)
+			{
+				//this.Rectangle.Fill = Brushes.White;
+			}
+        }
+
+        public override void Collide(Entity otherEntity)
+        {
+            base.Collide(otherEntity);
+
+            float deltaX = this.Position.X - otherEntity.Position.X;
+            float deltaY = this.Position.Y - otherEntity.Position.Y;
+
+            Vector2 delta = Vector2.Normalize(new Vector2(deltaX, deltaY));
+            this.Velocity = this.Velocity + delta;
         }
 
         public void TakeDamage(int damage)
 		{
-			if(this.Life - damage < 0)
-			{
-				this.Life = 0;
-			}
-			else
-			{
-				this.Life -= damage;
-			}
-		}
+			if ((DateTime.Now - this.lastDamageTaken).TotalMilliseconds <= 1000) return;
+            this.Life = Math.Max(0, this.Life - damage);
+            this.lastDamageTaken = DateTime.Now;
+			
+        }
 	}
 
 

@@ -38,6 +38,10 @@ namespace Survival.GameEngine
         private Renderer renderer;
         public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
 
+        private MobSpawner mobSpawner = new MobSpawner();
+
+        public MobSpawner MobSpawner { get => this.mobSpawner; }
+
         private List<Entity> toRemove = new List<Entity>();
         public List<Entity> ToRemove { get => toRemove; }
 
@@ -67,17 +71,6 @@ namespace Survival.GameEngine
             this.MapGenerator.SmoothMap(5);
 
             player.Position = MapGenerator.GetPlayerSpawnPos();
-
-
-            for (int i = 0; i < 100; i++)
-            {
-                Mob mob = new Mob("Mob" + i.ToString(), 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetMobSpawnPos(2, 15), new Vector2(0f, 0f));
-                FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
-                followPlayerBehavior.Player = this.Player;
-                mob.FocusDistance = 100;
-                mob.behaviors.Add(followPlayerBehavior);
-                this.Entities.Add(mob);
-            }
 
             this.Renderer = new Renderer();
 

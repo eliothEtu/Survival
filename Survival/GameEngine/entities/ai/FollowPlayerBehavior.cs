@@ -23,7 +23,6 @@ namespace Survival.GameEngine.entities.ai
         public Player Player { get; set; }
 
         private List<Tile> cachedPath = new List<Tile>();
-        private DateTime lastCalculation = DateTime.Now;
         private Vector2 target;
 
         public override void Update(Mob entity)
@@ -39,9 +38,7 @@ namespace Survival.GameEngine.entities.ai
             {
                 TASK_FACTORY.StartNew(() =>
                 {
-                    Console.WriteLine("a");
                     this.cachedPath = this.CalculatePath(entity);
-                    this.lastCalculation = DateTime.Now;
                     this.target = entity.Position;
                 });
             }
@@ -66,7 +63,6 @@ namespace Survival.GameEngine.entities.ai
             float deltaY = targetTile.Y - entity.Position.Y;
 
             entity.Velocity = Vector2.Normalize(new Vector2(deltaX, deltaY));
-            Console.WriteLine($"Velocity: {entity.Velocity}");
         }
 
         private List<Tile> CalculatePath(Mob entity)
@@ -98,8 +94,6 @@ namespace Survival.GameEngine.entities.ai
                         if (tile == null)
                             return tiles;
                     }
-
-                    return activeTiles;
                 }
 
                 visitedTiles.Add(checkTile);
