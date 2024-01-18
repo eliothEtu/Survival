@@ -135,6 +135,8 @@ namespace Survival.GameEngine.entities.ai
                 new Tile { X = currentTile.X + 1, Y = currentTile.Y, Parent = currentTile, Cost = currentTile.Cost + 1 },
             };
 
+            tiles.ForEach(tile => tile.SetDistance(targetTile.X, targetTile.Y));
+
             // Only return tiles where there are no walls and no borders
             return tiles
                 .Where(tile => Engine.Instance.MapGenerator.Map[tile.X][tile.Y] == 0)

@@ -12,7 +12,7 @@ namespace Survival.GameEngine
 {
     public class MobSpawner
     {
-        private int wave = 1;
+        private int wave = 0;
         private double waveMultiplier = 3.5;
 
         public void SpawnMobs()
@@ -28,10 +28,18 @@ namespace Survival.GameEngine
             }
         }
 
-        public void EndWave()
+        public void StartNewWave()
         {
             this.wave++;
             this.SpawnMobs();
+        }
+
+        public void Update()
+        {
+            if (Engine.Instance.Entities.Where(e => e is Mob).Count() == 0)
+            {
+                this.StartNewWave();
+            }
         }
     }
 }

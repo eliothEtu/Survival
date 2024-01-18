@@ -16,25 +16,6 @@ namespace Survival
 
 		public int FocusDistance { get; set; }
 
-
-		private int baseDamage;
-
-		public int BaseDamage
-		{
-			get 
-			{ 
-				return this.baseDamage; 
-			}
-			set 
-			{ 
-				if(value < 0)
-				{
-					throw new ArgumentOutOfRangeException("Damage must be positive");
-				}
-				this.baseDamage = value; 
-			}
-		}
-
 		public Mob(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, life, texture, position, velocity)
         {
 
@@ -50,15 +31,20 @@ namespace Survival
 			}
 		}
 
-        public void GoToPlayer()
-		{
+        public override void Collide(Entity otherEntity)
+        {
+            base.Collide(otherEntity);
 
-		}
-		public void AttackPlayer()
-		{
+            if (otherEntity is Mob)
+            {
+                float deltaX = this.Position.X - otherEntity.Position.X;
+                float deltaY = this.Position.Y - otherEntity.Position.Y;
 
-		}
+                Vector2 delta = Vector2.Normalize(new Vector2(deltaX, deltaY)) / 2;
+                this.Velocity = this.Velocity + delta;
+            }
+        }
 
 
-	}
+    }
 }

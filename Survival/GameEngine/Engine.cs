@@ -99,14 +99,16 @@ namespace Survival.GameEngine
                 }
             }
 
-            this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
-            this.Renderer.Draw(Entities);
-
             foreach (Entity entity in this.ToRemove)
             {
                 this.Entities.Remove(entity);
             }
             this.ToRemove.Clear();
+
+            this.MobSpawner.Update();
+
+            this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
+            this.Renderer.Draw(Entities);
 
             this.lastTick = DateTime.Now;
         }

@@ -187,10 +187,21 @@ namespace Survival
         {
             base.Collide(otherEntity);
 
-            if (otherEntity is Mob)
+            if (otherEntity is Mob && (DateTime.Now - this.lastDamageTaken).TotalMilliseconds > 1000)
             {
-                this.TakeDamage(10);
+                float deltaX = this.Position.X - otherEntity.Position.X;
+                float deltaY = this.Position.Y - otherEntity.Position.Y;
+
+                Vector2 delta = Vector2.Normalize(new Vector2(deltaX, deltaY));
+                this.Velocity = this.Velocity + delta;
+                
+                this.TakeDamage(((Mob) otherEntity).BaseDamage);
             }
+        }
+
+        public override void OnDeath()
+        {
+            base.OnDeath();
         }
 
         public void Fire(Vector2 direction)

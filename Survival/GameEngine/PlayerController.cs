@@ -50,11 +50,6 @@ namespace Survival.GameEngine
             {
                 player.Velocity = new Vector2(1, player.Velocity.Y);
             }
-
-            if (key.Key == Key.A)
-            {
-                Engine.Instance.MobSpawner.EndWave();
-            }
         }
 
         public void KeyUp(KeyEventArgs key)
