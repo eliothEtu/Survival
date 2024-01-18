@@ -12,6 +12,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Survival.GameEngine.world;
 using Survival.GameEngine.entities.ai;
+using System.Windows.Media;
+
+/*
+    verifier si il y a des settings a ajouter
+    faire le systeme d'argent pour ouvrir les coffres
+    faire les images
+    finir les collisions
+    finir le take damage
+    relancer la game
+    son
+ */
 
 namespace Survival.GameEngine
 {
@@ -19,6 +30,8 @@ namespace Survival.GameEngine
     {
         private static Engine instance;
         public static Engine Instance { get => instance; }
+
+        public static int xValue = 1, yValue = 1;
 
         private List<Entity> entities = new List<Entity>();
         public List<Entity> Entities { get => entities; }
@@ -38,15 +51,12 @@ namespace Survival.GameEngine
         private Renderer renderer;
         public Renderer Renderer { get => this.renderer; set => this.renderer = value; }
 
-        private MobSpawner mobSpawner = new MobSpawner();
-
-        public MobSpawner MobSpawner { get => this.mobSpawner; }
-
-        private List<Entity> toRemove = new List<Entity>();
-        public List<Entity> ToRemove { get => toRemove; }
+        private List<Entity> entityToRemove = new List<Entity>();
+        public List<Entity> EntityToRemove { get => entityToRemove; }
 
         private DateTime lastTick = DateTime.Now;
 
+        MediaPlayer mediaPlayer = new MediaPlayer();
         public Engine() 
         {
             if (instance != null)
@@ -55,11 +65,13 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            this.Player = new Player("Player", 10, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
+            this.Player = new Player("Player", 10, 5, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
             this.Entities.Add(Player);
 
             lastTick = DateTime.Now;
+
+            //mediaPlayer.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Heuss LEnfoiré - Saiyan ft. Gazo (Clip Officiel).mp3"));
 
             this.timer.Tick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
@@ -67,12 +79,24 @@ namespace Survival.GameEngine
 
         public void Start()
         {
+            Vector2 sizeMap = new Vector2(10 * xValue, 10 * yValue);
+            this.MapGenerator.SizeMap = sizeMap;
+
             this.MapGenerator.CreateMap();
             this.MapGenerator.SmoothMap(5);
 
             player.Position = MapGenerator.GetPlayerSpawnPos();
 
+            /*Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetMobSpawnPos(2, 5), new Vector2(0f, 0f));
+            FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
+            followPlayerBehavior.Player = this.Player;
+            mob.FocusDistance = 10;
+            mob.behaviors.Add(followPlayerBehavior);
+            this.Entities.Add(mob);*/
+
             this.Renderer = new Renderer();
+
+            //mediaPlayer.Play();
 
             this.timer.Start();
         }
@@ -85,7 +109,7 @@ namespace Survival.GameEngine
         private void Update(object sender, EventArgs e)
         {
             TimeSpan deltaTime = DateTime.Now - this.lastTick;
-            foreach (Entity entity in new List<Entity>(Entities))
+            foreach (Entity entity in Entities)
             {
                 entity.Update((float)deltaTime.TotalSeconds);
 
@@ -102,11 +126,11 @@ namespace Survival.GameEngine
             this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
             this.Renderer.Draw(Entities);
 
-            foreach (Entity entity in this.ToRemove)
+            foreach (Entity entity in this.EntityToRemove)
             {
                 this.Entities.Remove(entity);
             }
-            this.ToRemove.Clear();
+            this.EntityToRemove.Clear();
 
             this.lastTick = DateTime.Now;
         }

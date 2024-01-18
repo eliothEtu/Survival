@@ -28,13 +28,14 @@ namespace Survival
         public Home homeWindow;
         public PreparationWindow preparationWindow;
         public Shop shopWindow;
+        public Settings settingsWindow;
 
         private string[] itemName = new string[5];
         private Dictionary<string, string> itemDescription = new Dictionary<string, string>();
 
         private Canvas invUi;
 
-        bool bInventory = false;
+        public bool bInventory = false, bSettings = false;
 
         public MainWindow()
         {
@@ -67,6 +68,7 @@ namespace Survival
 
             preparationWindow = new PreparationWindow();
             shopWindow = new Shop();
+            settingsWindow = new Settings();
             //preparationWindow.Owner = this;
             //preparationWindow.Hide();
 
@@ -100,6 +102,7 @@ namespace Survival
             Engine.Instance.timer.Stop();
             canv.Children.Add(invUi);
             bInventory = true;
+            LoadInventory();
             invUi.Visibility = Visibility.Visible;
             Canvas.SetZIndex(invUi, 1);
         }
@@ -108,6 +111,7 @@ namespace Survival
         {
             bInventory = false;
             inv.Visibility = Visibility.Hidden;
+            Engine.Instance.timer.Start();
         }
 
         public void LaunchGame()
@@ -116,6 +120,13 @@ namespace Survival
             preparationWindow.LoadInventory();
             preparationWindow.ShowDialog();
         }
+
+        public void ExitPreparation()
+        {
+            preparationWindow.Hide();
+            homeWindow.ShowDialog();
+        }
+
         public void OpenShop()
         {
             homeWindow.Hide();
@@ -128,10 +139,43 @@ namespace Survival
             homeWindow.ShowDialog();
         }
 
+        public void OpenSettings()
+        {
+            homeWindow.Hide();
+            settingsWindow.ShowDialog();
+        }
+
+        public void ExitSettings()
+        {
+            settingsWindow.Hide();
+            homeWindow.ShowDialog();
+        }
+
+        public void OpenSettingsInGame()
+        {
+            bSettings = true;
+            settingsWindow.Exit.Visibility = Visibility.Hidden;
+            settingsWindow.ShowDialog();
+        }
+
+        public void CloseSettingsInGame()
+        {
+            bSettings = false;
+            settingsWindow.Exit.Visibility = Visibility.Visible;
+            settingsWindow.Hide();
+        }
+
         public void StartGame()
         {
             preparationWindow.Hide();
             Engine.Instance.Start();
+        }
+
+        public void ExitGame()
+        {
+            Engine.Instance.timer.Stop();
+            this.Close();
+            Application.Current.Shutdown();
         }
 
         public void CloseInventory(object sender, RoutedEventArgs e)
@@ -160,7 +204,7 @@ namespace Survival
         private void ShowItemDescription(object sender, MouseEventArgs e)
         {
             Button butHover = sender as Button;
-            string description = Engine.Instance.Player.Inventory.GetDescriptionByItemName(butHover.Content.ToString());
+            string description = $"{Engine.Instance.Player.Inventory.GetDescriptionByItemName(butHover.Content.ToString())} \n Quantity : {Engine.Instance.Player.Inventory.GetItemByName(butHover.Content.ToString()).Quantity} \n Tier : {Engine.Instance.Player.Inventory.GetItemByName(butHover.Content.ToString()).Tier}";
             Label itemD = new Label()
             {
                 Width = double.NaN,
@@ -177,21 +221,7 @@ namespace Survival
         }
 
         private void canv_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!bInventory && e.Key == Key.I)
-            {
-                OpenInventory();
-            }
-            else
-            {
-                CloseInventory();
-            }
-
-            if (e.Key == Key.Escape)
-            {
-                Engine.Instance.timer.Stop();
-                this.Close();
-            }
+        {            
             Engine.Instance.Controller.KeyDown(e);
         }
 

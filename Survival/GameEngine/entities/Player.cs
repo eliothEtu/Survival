@@ -50,12 +50,21 @@ namespace Survival
         private Inventory inventory = new Inventory();
         public Inventory Inventory { get => inventory; set => inventory = value; }
 
+        private double damage;
+        public double Damage { get => damage; set => damage = value; }
+
+        private float projectileVelocity;
+        public float ProjectileVelocity { get => projectileVelocity; set => projectileVelocity = value; }
+
+        private TimeSpan projectileLifeSpan;
+        public TimeSpan ProjectileLifeSpan { get => projectileLifeSpan; set => projectileLifeSpan = value; }
+
         //animation de face
         ImageBrush face = new ImageBrush();
         ImageBrush pied_droit = new ImageBrush();
         ImageBrush pied_gauche = new ImageBrush();
 
-        ImageBrush[] animeFace = new ImageBrush[3];
+        ImageBrush[] animeFace = new ImageBrush[2];
 
         //animation de dos
 
@@ -78,19 +87,21 @@ namespace Survival
 
         ImageBrush[] animeCoteDroit = new ImageBrush[2];
 
-        
 
-
-        public Player(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, life, texture, position, velocity)
+        public Player(string name, int life, double damage, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, life, texture, position, velocity)
         {
+            this.Damage = damage;
+            this.ProjectileVelocity = 1;
+            this.ProjectileLifeSpan = TimeSpan.FromSeconds(2);
+
             //chargement des images de face
             face.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png"));
             pied_droit.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\pied_droit.png"));
             pied_gauche.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\pied_gauche.png"));
 
-            animeFace[0] = face;
-            animeFace[1] = pied_droit;
-            animeFace[2] = pied_gauche;
+            //animeFace[0] = face;
+            animeFace[0] = pied_droit;
+            animeFace[1] = pied_gauche;
 
             // chargement des images de dos
             dos.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\dos.png"));
@@ -123,15 +134,13 @@ namespace Survival
         int accDos = 0;
         int accCoteGauche = 0;
         int accCoteDroit = 0;
-        int accAnimation = 0;
-        Vector2 AncienVecteur = Vector2.Zero;
-        public static readonly int LATENCE = 7;
+
+        double timeAnim = 0;
 
         public override void Update(float deltaTime)
         {
-            base.Update(deltaTime);
 
-            if (this.Velocity != Vector2.Zero)
+            /*if (this.Velocity != Vector2.Zero)
             {
                 accAnimation++;
                 if (accAnimation == LATENCE || this.Velocity.X != AncienVecteur.X || this.Velocity.Y != AncienVecteur.Y)
@@ -180,35 +189,72 @@ namespace Survival
 
                 }
                 AncienVecteur = this.Velocity;
-            }
-        }
+            }*/
 
-        public override void Collide(Entity otherEntity)
-        {
-            base.Collide(otherEntity);
-
-            if (otherEntity is Mob)
+            if (this.Velocity.Y == 1)
             {
-                this.TakeDamage(10);
+                if (accFace == animeFace.Length)
+                {
+                    accFace = 0;
+                }
+                this.Rectangle.Fill = animeFace[accFace];
+                if (timeAnim > 0.25)
+                {
+                    timeAnim = 0;
+                    accFace++;
+                }
             }
+            if (this.Velocity.Y == -1)
+            {
+                if (accDos == animeDos.Length)
+                {
+                    accDos = 0;
+                }
+                this.Rectangle.Fill = animeDos[accDos];
+                if (timeAnim > 0.25)
+                {
+                    timeAnim = 0;
+                    accDos++;
+                }
+            }
+            if (this.Velocity.X == 1)
+            {
+                if (accCoteGauche == animeCoteGauche.Length)
+                {
+                    accCoteGauche = 0;
+                }
+                this.Rectangle.Fill = animeCoteGauche[accCoteGauche];
+                if (timeAnim > 0.25)
+                {
+                    timeAnim = 0;
+                    accCoteGauche++;
+                }
+            }
+            if (this.Velocity.X == -1)
+            {
+                if (accCoteDroit == animeCoteDroit.Length)
+                {
+                    accCoteDroit = 0;
+                }
+                this.Rectangle.Fill = animeCoteDroit[accCoteDroit];
+                if (timeAnim > 0.25)
+                {
+                    timeAnim = 0;
+                    accCoteDroit++;
+                }
+            }
+            timeAnim += deltaTime;
+            base.Update(deltaTime);
         }
 
         public void Fire(Vector2 direction)
         {
-
             if (this.ItemEquiped != null)
             {
-                Vector2 velo = direction - this.Position;
-                Console.WriteLine(direction + " " + this.Position);
-                velo = Vector2.Normalize(velo);
-                Engine.Instance.Entities.Add(new Projectile("", this, TimeSpan.FromSeconds(3), this.ItemEquiped.Texture, this.Position, velo));
+                Vector2 dir = direction - this.Position;
+                dir = Vector2.Normalize(dir);
+                Engine.Instance.Entities.Add(new Projectile("", this, this.ProjectileLifeSpan, this.ItemEquiped.Texture, this.Position, dir * this.ProjectileVelocity));
             }
-
-
         }
-
     }
-
-	
-
 }

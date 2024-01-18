@@ -23,7 +23,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
             }
         }
 
-        public Ring(string name, string description, BitmapImage image, string type, Tuple<string, double> bonus) : base (name, description, image, type)
+        public Ring(string name, string description, BitmapImage image, string type, Tuple<string, double> bonus, int tier) : base(name, description, image, type, tier)
         {
             Bonus = bonus;
         }

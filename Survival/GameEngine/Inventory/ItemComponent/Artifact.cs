@@ -25,7 +25,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
         }
 
 
-        public Artifact(string name, string description, BitmapImage image, string type,TimeSpan coolDown) : base(name, description, image, type)
+        public Artifact(string name, string description, BitmapImage image, string type,TimeSpan coolDown, int tier) : base(name, description, image, type, tier)
         {
             this.CoolDown = coolDown;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Survival.GameEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,6 +62,7 @@ namespace Survival
                 Content = "Settings",
                 FontSize = 24
             };
+            settingsButton.Click += OpenSettings;
             canvHome.Children.Add(settingsButton);
             Canvas.SetTop(settingsButton, SystemParameters.PrimaryScreenHeight - settingsButton.Height - 20);
             Canvas.SetLeft(settingsButton, 20);
@@ -85,6 +87,11 @@ namespace Survival
         public void OpenShop(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).OpenShop();
+        }
+
+        public void OpenSettings(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).OpenSettings();
         }
     }
 }
