@@ -99,7 +99,7 @@ namespace Survival.GameEngine.entities.ai
                 visitedTiles.Add(checkTile);
                 activeTiles.Remove(checkTile);
 
-                List<Tile> walkableTiles = this.GetWalkableTiles(checkTile, finish, entity.FocusDistance);
+                List<Tile> walkableTiles = this.GetWalkableTiles(checkTile, finish);
                 foreach (Tile walkableTile in walkableTiles)
                 {
                     // we already visited this tile
@@ -126,7 +126,7 @@ namespace Survival.GameEngine.entities.ai
             return new List<Tile>();
         }
 
-        private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile, int distance) {
+        private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile) {
             List<Tile> tiles = new List<Tile>()
             {
                 new Tile { X = currentTile.X, Y = currentTile.Y - 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
@@ -140,7 +140,6 @@ namespace Survival.GameEngine.entities.ai
             // Only return tiles where there are no walls and no borders
             return tiles
                 .Where(tile => Engine.Instance.MapGenerator.Map[tile.X][tile.Y] == 0)
-                .Where(tile => Math.Sqrt(Math.Abs((Math.Pow(tile.X, 2) + Math.Pow(tile.Y, 2)))) <= distance)
                 .ToList();
         }
 

@@ -19,11 +19,12 @@ namespace Survival.GameEngine
         {
             for (int i = 0; i < (int)(wave * waveMultiplier); i++)
             {
-                Mob mob = new Mob("Mob" + i.ToString(), 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), Engine.Instance.MapGenerator.GetMobSpawnPos(2, 15), new Vector2(0f, 0f));
+                Mob mob = new Mob("Mob" + i.ToString(), 3 * wave, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), Engine.Instance.MapGenerator.GetMobSpawnPos(2, 15), new Vector2(0f, 0f));
                 FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
                 followPlayerBehavior.Player = Engine.Instance.Player;
                 mob.FocusDistance = 100;
                 mob.behaviors.Add(followPlayerBehavior);
+                mob.BaseDamage = 1;
                 Engine.Instance.Entities.Add(mob);
             }
         }

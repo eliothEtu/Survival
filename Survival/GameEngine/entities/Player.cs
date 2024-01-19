@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Survival.GameEngine.Inventory.ItemComponent;
+using System.Windows;
 
 namespace Survival
 {
@@ -117,6 +118,7 @@ namespace Survival
             animeCoteDroit[0] = cote_droit;
             animeCoteDroit[1] = cote_droit_pied;
 
+            this.ItemEquiped = (Artifact)Inventory.ITEMS_POSSIBLE["Artifact"][0];
         }
 
         int accFace = 0;
@@ -202,6 +204,9 @@ namespace Survival
         public override void OnDeath()
         {
             base.OnDeath();
+            Engine.Instance.Pause();
+            // TODO: Death screen
+            Application.Current.Shutdown();
         }
 
         public void Fire(Vector2 direction)

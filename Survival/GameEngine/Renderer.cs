@@ -107,7 +107,7 @@ namespace Survival.GameEngine
                 for (int y = 0; y < Engine.Instance.MapGenerator.SizeMap.Y; y++)
                 {
                     if (y + MapGenerator.BLOCK_SIZE < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;
-
+                    
                     Rectangle rec;
                     switch (Engine.Instance.MapGenerator.Map[x][y])
                     {

@@ -31,7 +31,7 @@ namespace Survival
 			}
 		}
 
-        private int baseDamage;
+        private int baseDamage = 2;
 
         public int BaseDamage
         {
@@ -83,15 +83,17 @@ namespace Survival
         {
             base.Collide(otherEntity);
 
-			if (otherEntity is Projectile)
+			if (otherEntity is Projectile && ((Projectile) otherEntity).Owner != this)
 			{
 				Projectile projectile = (Projectile) otherEntity;
 				LivingEntity owner = projectile.Owner;
 				this.TakeDamage(owner.BaseDamage);
+
+				Engine.Instance.EntityToRemove.Add(otherEntity);
 			}
 		
         }
-
+		
         public void TakeDamage(int damage)
 		{
 			
@@ -107,6 +109,11 @@ namespace Survival
 		public virtual void OnDeath()
 		{
 			Engine.Instance.EntityToRemove.Add(this);
+
+			if (!(this is Player))
+			{
+				Engine.Instance.Player.Money = Engine.Instance.Player.Money + 1;	
+			}
 		}
 	}
 
