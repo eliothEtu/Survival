@@ -115,7 +115,7 @@ namespace Survival.GameEngine
                 for (int y = 0; y < Engine.Instance.MapGenerator.SizeMap.Y; y++)
                 {
                     if (y + MapGenerator.BLOCK_SIZE < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;
-
+                    
                     Rectangle rec;
                     switch (Engine.Instance.MapGenerator.Map[x][y])
                     {
@@ -158,10 +158,21 @@ namespace Survival.GameEngine
             }
 #if DEBUG
             overlayPanel.Children.Clear();
+            TextBlock moneytext = new TextBlock()
+            {
+                Height = double.NaN,
+                Width = double.NaN,
+                FontSize = 20,
+                FontWeight = FontWeights.Bold,
+                Text = $"Money : {Engine.Instance.Player.Money})"
+            };
+            overlayPanel.Children.Add(moneytext);
 #endif
 
             healthBar.Width = 25 * Engine.Instance.Player.Life;
             ((MainWindow)Application.Current.MainWindow).canv.Children.Add(healthBar);
+
+
 
             foreach (Entity e in entities)
             {
@@ -172,7 +183,7 @@ namespace Survival.GameEngine
                     Width = double.NaN,
                     FontSize = 20,
                     FontWeight = FontWeights.Bold,
-                    Text = $"{e.Name} : {e.Position}"
+                    Text = $"{e.Name} : {e.Position})"
                 };
                 overlayPanel.Children.Add(text);
 #endif

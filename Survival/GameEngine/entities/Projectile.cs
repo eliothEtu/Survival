@@ -43,10 +43,10 @@ namespace Survival
         {
             base.Update(deltaTime);
 
-            if (DateTime.Now - spawnTime > lifeSpan)
-            {
-                Engine.Instance.EntityToRemove.Add(this);
-            }
+			if (DateTime.Now - spawnTime > lifeSpan)
+			{
+				Engine.Instance.EntityToRemove.Add(this);
+			}
         }
 
         public bool IsCollidingWith(Rect r)

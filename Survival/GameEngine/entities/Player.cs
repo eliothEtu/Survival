@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Survival.GameEngine.Inventory.ItemComponent;
+using System.Windows;
 
 namespace Survival
 {
@@ -126,6 +127,7 @@ namespace Survival
             animeCoteDroit[0] = cote_droit;
             animeCoteDroit[1] = cote_droit_pied;
 
+            this.ItemEquiped = (Artifact)Inventory.ITEMS_POSSIBLE["Artifact"][0];
         }
 
         int accFace = 0;
@@ -151,6 +153,7 @@ namespace Survival
                     accFace++;
                 }
             }
+
             if (this.Velocity.Y == -1)
             {
                 if (accDos == animeDos.Length)
@@ -176,22 +179,36 @@ namespace Survival
                     timeAnim = 0;
                     accCoteGauche++;
                 }
-            }
-            if (this.Velocity.X == -1)
-            {
-                if (accCoteDroit == animeCoteDroit.Length)
-                {
-                    accCoteDroit = 0;
-                }
-                this.Rectangle.Fill = animeCoteDroit[accCoteDroit];
-                if (timeAnim > 0.25)
-                {
-                    timeAnim = 0;
-                    accCoteDroit++;
-                }
+                
             }
             timeAnim += deltaTime;
             base.Update(deltaTime);
+
+        }
+
+        public override void Collide(Entity otherEntity)
+        {
+            base.Collide(otherEntity);
+
+            if (otherEntity is Mob && (DateTime.Now - this.lastDamageTaken).TotalMilliseconds > 1000)
+            {
+                float deltaX = this.Position.X - otherEntity.Position.X;
+                float deltaY = this.Position.Y - otherEntity.Position.Y;
+
+                Vector2 delta = Vector2.Normalize(new Vector2(deltaX, deltaY));
+                this.Velocity = this.Velocity + delta;
+                
+                this.TakeDamage(((Mob) otherEntity).BaseDamage);
+
+            }
+        }
+
+        public override void OnDeath()
+        {
+            base.OnDeath();
+            Engine.Instance.Pause();
+            Engine.Instance.EntityToRemove.AddRange(Engine.Instance.Entities);
+            // TODO: Death screen
         }
 
         public void Fire(Vector2 direction)

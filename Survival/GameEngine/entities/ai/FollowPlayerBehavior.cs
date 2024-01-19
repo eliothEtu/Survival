@@ -55,8 +55,6 @@ namespace Survival.GameEngine.entities.ai
             // follow path
 
             Tile targetTile = this.cachedPath[0];
-
-            //this.cachedPath.RemoveAt(0);
             this.cachedPath.RemoveAt(0);
 
             float deltaX = targetTile.X - entity.Position.X;
@@ -69,6 +67,9 @@ namespace Survival.GameEngine.entities.ai
         {
             Tile start = this.GetCurrentTile(entity);
             Tile finish = this.GetCurrentTile(this.Player);
+
+            if (Engine.Instance.MapGenerator.Map[start.X][start.Y] != 0 || Engine.Instance.MapGenerator.Map[finish.X][finish.Y] != 0)
+                return new List<Tile>();
 
             start.SetDistance(finish.X, finish.Y);
 
@@ -90,7 +91,10 @@ namespace Survival.GameEngine.entities.ai
                     while (true)
                     {
                         tiles.Add(tile);
+                        if (Engine.Instance.MapGenerator.Map[tile.X][tile.Y] != 0)
+                            Console.WriteLine("AAAAAAA");
                         tile = tile.Parent;
+                        
                         if (tile == null)
                             return tiles;
                     }
@@ -99,7 +103,7 @@ namespace Survival.GameEngine.entities.ai
                 visitedTiles.Add(checkTile);
                 activeTiles.Remove(checkTile);
 
-                List<Tile> walkableTiles = this.GetWalkableTiles(checkTile, finish, entity.FocusDistance);
+                List<Tile> walkableTiles = this.GetWalkableTiles(checkTile, finish);
                 foreach (Tile walkableTile in walkableTiles)
                 {
                     // we already visited this tile
@@ -126,7 +130,7 @@ namespace Survival.GameEngine.entities.ai
             return new List<Tile>();
         }
 
-        private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile, int distance) {
+        private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile) {
             List<Tile> tiles = new List<Tile>()
             {
                 new Tile { X = currentTile.X, Y = currentTile.Y - 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
@@ -135,10 +139,11 @@ namespace Survival.GameEngine.entities.ai
                 new Tile { X = currentTile.X + 1, Y = currentTile.Y, Parent = currentTile, Cost = currentTile.Cost + 1 },
             };
 
+            tiles.ForEach(tile => tile.SetDistance(targetTile.X, targetTile.Y));
+
             // Only return tiles where there are no walls and no borders
             return tiles
                 .Where(tile => Engine.Instance.MapGenerator.Map[tile.X][tile.Y] == 0)
-                .Where(tile => Math.Sqrt(Math.Abs((Math.Pow(tile.X, 2) + Math.Pow(tile.Y, 2)))) <= distance)
                 .ToList();
         }
 

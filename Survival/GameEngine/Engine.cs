@@ -54,9 +54,11 @@ namespace Survival.GameEngine
 
         private List<Entity> entityToRemove = new List<Entity>();
         public List<Entity> EntityToRemove { get => entityToRemove; }
-
+      
         private double soundVolume;
         public double SoundVolume { get => soundVolume; set => soundVolume = value; }
+
+        public MobSpawner MobSpawner { get => this.mobSpawner; }
 
         private DateTime lastTick = DateTime.Now;
 
@@ -128,11 +130,13 @@ namespace Survival.GameEngine
             this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
             this.Renderer.Draw(Entities);
 
-            foreach (Entity entity in this.EntityToRemove)
+            foreach (Entity entity in this.entityToRemove)
             {
                 this.Entities.Remove(entity);
             }
             this.EntityToRemove.Clear();
+
+            this.MobSpawner.Update();
 
             this.lastTick = DateTime.Now;
         }
