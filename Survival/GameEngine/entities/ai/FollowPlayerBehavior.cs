@@ -55,8 +55,6 @@ namespace Survival.GameEngine.entities.ai
             // follow path
 
             Tile targetTile = this.cachedPath[0];
-
-            //this.cachedPath.RemoveAt(0);
             this.cachedPath.RemoveAt(0);
 
             float deltaX = targetTile.X - entity.Position.X;
@@ -69,6 +67,9 @@ namespace Survival.GameEngine.entities.ai
         {
             Tile start = this.GetCurrentTile(entity);
             Tile finish = this.GetCurrentTile(this.Player);
+
+            if (Engine.Instance.MapGenerator.Map[start.X][start.Y] != 0 || Engine.Instance.MapGenerator.Map[finish.X][finish.Y] != 0)
+                return new List<Tile>();
 
             start.SetDistance(finish.X, finish.Y);
 
@@ -90,7 +91,10 @@ namespace Survival.GameEngine.entities.ai
                     while (true)
                     {
                         tiles.Add(tile);
+                        if (Engine.Instance.MapGenerator.Map[tile.X][tile.Y] != 0)
+                            Console.WriteLine("AAAAAAA");
                         tile = tile.Parent;
+                        
                         if (tile == null)
                             return tiles;
                     }

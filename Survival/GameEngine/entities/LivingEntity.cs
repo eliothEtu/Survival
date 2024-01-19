@@ -112,7 +112,7 @@ namespace Survival
 
 			if (!(this is Player))
 			{
-				Engine.Instance.Player.Money = Engine.Instance.Player.Money + 1;	
+				Engine.Instance.Player.Money = Engine.Instance.Player.Money + (int)(Engine.Instance.MobSpawner.Wave * Engine.Instance.MobSpawner.WaveMultiplier);	
 			}
 		}
 	}

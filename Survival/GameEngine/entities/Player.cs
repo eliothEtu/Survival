@@ -205,8 +205,8 @@ namespace Survival
         {
             base.OnDeath();
             Engine.Instance.Pause();
+            Engine.Instance.EntityToRemove.AddRange(Engine.Instance.Entities);
             // TODO: Death screen
-            Application.Current.Shutdown();
         }
 
         public void Fire(Vector2 direction)

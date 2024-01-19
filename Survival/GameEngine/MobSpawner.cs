@@ -15,6 +15,13 @@ namespace Survival.GameEngine
         private int wave = 0;
         private double waveMultiplier = 3.5;
 
+        public int Wave { get => this.wave; set => this.wave = value; }
+        public double WaveMultiplier
+        {
+            get => this.waveMultiplier;
+            set => this.waveMultiplier = value;
+        }
+
         public void SpawnMobs()
         {
             for (int i = 0; i < (int)(wave * waveMultiplier); i++)
