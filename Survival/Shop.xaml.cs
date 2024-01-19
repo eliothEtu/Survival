@@ -23,8 +23,10 @@ namespace Survival
     /// </summary>
     public partial class Shop : Window
     {
+        public static List<List<double>> RARITY = new List<List<double>>() { new List<double> { 0.8, 0.2, 0.1}, new List<double> { 0.5, 0.35, 0.15}, new List<double> { 0.2, 0.5, 0.3 } };
+
         private BitmapImage imgButton = new BitmapImage();
-        private string[] nameButton = new string[] { "Armor", "Ring", "Artifact"};
+        private string[] nameButton = new string[] { "Armures", "Anneaux", "Artéfacts"};
         public Shop()
         {
             InitializeComponent();
@@ -46,9 +48,10 @@ namespace Survival
 
             Button exit = new Button()
             {
-                Width = 50,
-                Height = 50,
-                Content = "Exit"
+                Width = 75,
+                Height = 75,
+                Background = new ImageBrush(Engine.imageExit),
+                FocusVisualStyle = null,
             };
             exit.Click += ExitShop;
             canvShop.Children.Add(exit);
@@ -61,35 +64,60 @@ namespace Survival
             {
                 for (int j = -1; j < 1; j++)
                 {
-                    pos = (j < 0) ? -1 : 1;
+                    if (tier < 3) { 
+                        pos = (j < 0) ? -1 : 1;
 
-                    Chest chest = new Chest(new List<double> { 0.7, 0.20, 0.08, 0.02}, Inventory.ITEMS_POSSIBLE[nameButton[i/2]], new Vector2((float)(canvContainer.Height - 20) / 3, (float)(canvContainer.Height - 20) / 3), imgButton);
-                    canvContainer.Children.Add(chest.But);
-                    Canvas.SetTop(chest.But, canvContainer.Height / 2 + j * chest.But.Height + pos * 80 + 35);
-                    Canvas.SetLeft(chest.But, 10 + chest.But.Width * i + chest.But.Width / 2 * i);
+                        Chest chest = new Chest(RARITY[tier], new Vector2((float)(canvContainer.Height - 20) / 3, (float)(canvContainer.Height - 20) / 3), imgButton, nameButton[i / 2], Chest.PRICE[tier + 1]);
+                        canvContainer.Children.Add(chest.But);
+                        Canvas.SetTop(chest.But, canvContainer.Height / 2 + j * chest.But.Height + pos * 80 + 35);
+                        Canvas.SetLeft(chest.But, 10 + chest.But.Width * i + chest.But.Width / 2 * i);
 
-                    tier++;
-                    TextBlock nameBox = new TextBlock()
-                    {
-                        Width = (canvContainer.Height - 20) / 3,
-                        Height = 35,
-                        FontSize = 20,
-                        TextAlignment = TextAlignment.Center,
-                        Text = nameButton[i / 2] + " Tier " + tier,
-                    };
-                    canvContainer.Children.Add(nameBox);
-                    Canvas.SetTop(nameBox, canvContainer.Height / 2 + j * chest.But.Height + pos * 80 + 35 + nameBox.Height + chest.But.Height);
-                    Canvas.SetLeft(nameBox, 10 + chest.But.Width * i + chest.But.Width / 2 * i);
-                    if (tier == 4)
-                    {
+                        tier++;
+                        TextBlock nameBox = new TextBlock()
+                        {
+                            Width = (canvContainer.Height - 20) / 3,
+                            Height = 35,
+                            FontSize = 20,
+                            TextAlignment = TextAlignment.Center,
+                            Text = nameButton[i / 2] + " Tier " + tier,
+                            FontWeight = FontWeights.Bold,
+                            Foreground = new SolidColorBrush(Color.FromRgb(255 ,255, 255))
+                        };
+                        canvContainer.Children.Add(nameBox);
+                        Canvas.SetTop(nameBox, canvContainer.Height / 2 + j * chest.But.Height + pos * 80 + 35 + nameBox.Height + chest.But.Height);
+                        Canvas.SetLeft(nameBox, 10 + chest.But.Width * i + chest.But.Width / 2 * i);
+                    } else {
                         tier = 0;
                     }
                 }
             }
+
+            Image moneyImage = new Image()
+            {
+                Width = 50,
+                Height = 50,
+                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\tresor.png"))
+            };
+            canvShop.Children.Add(moneyImage);
+            Canvas.SetTop(moneyImage, 10);
+            Canvas.SetLeft(moneyImage, 10);
+
+            Label money = new Label()
+            {
+                Height = 50,
+                Width = double.NaN,
+                Content = ": " + Engine.Instance.Player.Money,
+                FontSize = 30,
+                FontWeight = FontWeights.Bold,
+            };
+            canvShop.Children.Add(money);
+            Canvas.SetTop(money, 10);
+            Canvas.SetLeft(money, Canvas.GetLeft(moneyImage) + moneyImage.Width + 10);
         }
 
         private void ExitShop(object sender, RoutedEventArgs e)
         {
+            Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).ExitShop();
         }
 

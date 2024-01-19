@@ -48,7 +48,7 @@ namespace Survival
             {
                 Height = 200,
                 Width = SystemParameters.PrimaryScreenWidth,
-                Content = "Choice your equipment",
+                Content = "Choississez votre équipement",
                 FontSize = 50,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 FontWeight = FontWeights.Bold
@@ -57,7 +57,7 @@ namespace Survival
             Canvas.SetTop(title, 20);
             Canvas.SetLeft(title, 0);
 
-            playerImage.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face (1).png"));
+            playerImage.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png"));
 
             player = new Rectangle()
             {
@@ -104,7 +104,7 @@ namespace Survival
             {
                 Width = 100,
                 Height = 70,
-                Content = "Start",
+                Content = "Lancer",
                 FontSize = 18
             };
             startGame.Click += Start;
@@ -115,6 +115,7 @@ namespace Survival
 
         void Start(object sender, RoutedEventArgs e)
         {
+            Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).StartGame();
         }
         public void LoadInventory()

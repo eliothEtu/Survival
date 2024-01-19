@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Survival.GameEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace Survival
             {
                 Height = 80,
                 Width = SystemParameters.PrimaryScreenWidth / 4,
-                Content = "Launch Game",
+                Content = "Se préparer pour le combat",
                 FontSize = 30
             };
             launchGame.Click += LaunchGame;
@@ -46,21 +47,34 @@ namespace Survival
             {
                 Height = 80,
                 Width = SystemParameters.PrimaryScreenWidth / 4,
-                Content = "Shop",
+                Content = "Boutique",
                 FontSize = 30
             };
             openShop.Click += OpenShop;
             canvHome.Children.Add(openShop);
-            Canvas.SetTop(openShop, SystemParameters.PrimaryScreenHeight / 2 - openShop.Height / 2 + launchGame.Height);
+            Canvas.SetTop(openShop, Canvas.GetTop(launchGame) + launchGame.Height);
             Canvas.SetLeft(openShop, SystemParameters.PrimaryScreenWidth / 2 - openShop.Width / 2);
+
+            Button creditButton = new Button()
+            {
+                Height = 80,
+                Width = SystemParameters.PrimaryScreenWidth / 4,
+                Content = "Crédits",
+                FontSize = 30
+            };
+            creditButton.Click += OpenCredits;
+            canvHome.Children.Add(creditButton);
+            Canvas.SetTop(creditButton, Canvas.GetTop(openShop) + openShop.Height);
+            Canvas.SetLeft(creditButton, SystemParameters.PrimaryScreenWidth / 2 - creditButton.Width / 2);
 
             Button settingsButton = new Button()
             {
                 Height = 80,
                 Width = 80,
-                Content = "Settings",
+                Content = "Paramètre",
                 FontSize = 24
             };
+            settingsButton.Click += OpenSettings;
             canvHome.Children.Add(settingsButton);
             Canvas.SetTop(settingsButton, SystemParameters.PrimaryScreenHeight - settingsButton.Height - 20);
             Canvas.SetLeft(settingsButton, 20);
@@ -73,18 +87,32 @@ namespace Survival
                 Height = 200,
                 Fill = titleImage
             };
-            //canvHome.Children.Add(title);
+            canvHome.Children.Add(title);
             Canvas.SetTop(title, 200);
             Canvas.SetLeft(title, SystemParameters.PrimaryScreenWidth - title.Width);
         }
 
-        public void LaunchGame(object sender, RoutedEventArgs e)
+        private void LaunchGame(object sender, RoutedEventArgs e)
         {
+            Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).LaunchGame();
         }
-        public void OpenShop(object sender, RoutedEventArgs e)
+        private void OpenShop(object sender, RoutedEventArgs e)
         {
+            Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).OpenShop();
+        }
+
+        private void OpenSettings(object sender, RoutedEventArgs e)
+        {
+            Engine.Instance.PlaySoundButton();
+            ((MainWindow)Application.Current.MainWindow).OpenSettings();
+        }
+
+        private void OpenCredits(object sender, RoutedEventArgs e)
+        {
+            Engine.Instance.PlaySoundButton();
+            ((MainWindow)Application.Current.MainWindow).OpenCredits();
         }
     }
 }

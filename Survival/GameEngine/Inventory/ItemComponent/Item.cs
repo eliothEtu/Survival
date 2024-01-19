@@ -21,6 +21,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
     public class Item
     {
         private readonly string[] TYPE_NAME = new string[] { "Armor", "Ring", "Artifact" };
+        private readonly string[] BONUS_TYPE = new string[] { "Health", "Damage", "ProjectileVelocity", "ProjectileLifeSpan" };
 
         private string name;
         public string Name { get => name; set => name = value; }
@@ -54,16 +55,23 @@ namespace Survival.GameEngine.Inventory.ItemComponent
         private int quantity;
         public int Quantity { get => quantity; set => quantity = value; }
 
+        private int tier;
+        public int Tier { get => tier; set => tier = value; }
+
         private bool bcanDrag;
         public bool bCanDrag { get => bcanDrag; set => bcanDrag = value; }
 
-        public Item(string name, string description, BitmapImage image, string type)
+        public Item()
         {
-            Name = name;
-            Description = description;
-            if (Texture == null)
+
+        }
+        public Item(string name, string description, BitmapImage image, string type, int tier)
+        {
+            this.Name = name;
+            this.Description = description;
+            if (this.Texture == null)
             {
-                Texture = new ImageBrush();
+                this.Texture = new ImageBrush();
             }
 
             Texture.ImageSource = image;
@@ -75,9 +83,10 @@ namespace Survival.GameEngine.Inventory.ItemComponent
                 Stroke = Brushes.Yellow,
             };
             Rectangle.PreviewMouseDown += MD;
-            Type = type;
-            Quantity = 1;
-            bcanDrag = true;
+            this.Type = type;
+            this.Quantity = 1;
+            this.bCanDrag = true;
+            this.tier = tier;
         }
 
         public void MD(object sender, MouseButtonEventArgs e)

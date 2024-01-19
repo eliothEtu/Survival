@@ -24,6 +24,8 @@ namespace Survival.GameEngine
     internal class PlayerController
     {
 
+        Player player = Engine.Instance.Player;
+
         public PlayerController() 
         { 
 
@@ -32,23 +34,39 @@ namespace Survival.GameEngine
 
         public void KeyDown(KeyEventArgs key)
         {
-            Player player = Engine.Instance.Player;
+            if (!((MainWindow)Application.Current.MainWindow).bInventory)
+            {
+                if (key.Key == Key.Z && player.Velocity.Y != -1)
+                {
+                    player.Velocity = new Vector2(player.Velocity.X, -1);
+                }
+                if (key.Key == Key.S && player.Velocity.Y != 1)
+                {
+                    player.Velocity = new Vector2(player.Velocity.X, 1);
+                }
+                if (key.Key == Key.Q && player.Velocity.X != -1)
+                {
+                    player.Velocity = new Vector2(-1, player.Velocity.Y);
+                }
+                if (key.Key == Key.D && player.Velocity.X != 1)
+                {
+                    player.Velocity = new Vector2(1, player.Velocity.Y);
+                }
+            }
 
-            if (key.Key == Key.Z && player.Velocity.Y != -1)
+            if (!((MainWindow)Application.Current.MainWindow).bSettings && key.Key == Key.Escape)
             {
-                player.Velocity = new Vector2(player.Velocity.X, -1);
+                Engine.Instance.timer.Stop();
+                ((MainWindow)Application.Current.MainWindow).OpenSettingsInGame();
+            } 
+
+            if (!((MainWindow)Application.Current.MainWindow).bInventory && key.Key == Key.I)
+            {
+                ((MainWindow)Application.Current.MainWindow).OpenInventory();
             }
-            if(key.Key == Key.S && player.Velocity.Y != 1)
+            else if (((MainWindow)Application.Current.MainWindow).bInventory && key.Key == Key.I)
             {
-                player.Velocity = new Vector2(player.Velocity.X, 1);
-            }
-            if(key.Key == Key.Q && player.Velocity.X != -1)
-            {
-                player.Velocity = new Vector2(-1, player.Velocity.Y);
-            }
-            if(key.Key == Key.D && player.Velocity.X != 1)
-            {
-                player.Velocity = new Vector2(1, player.Velocity.Y);
+                ((MainWindow)Application.Current.MainWindow).CloseInventory();
             }
         }
 

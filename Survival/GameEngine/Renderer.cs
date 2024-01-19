@@ -31,15 +31,6 @@ namespace Survival.GameEngine
             set => this.pos = value;
         }
 
-#if DEBUG
-        public StackPanel overlayPanel = new StackPanel()
-        {
-            Width = double.NaN,
-            Height = double.NaN,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-#endif
-
         Rectangle healthBar = new Rectangle()
         {
             Height = 30,
@@ -48,13 +39,30 @@ namespace Survival.GameEngine
             Stroke = Brushes.Black,
         };
 
+        private ImageBrush grassTexture;
+        public ImageBrush GrassTexture { get => grassTexture; set => grassTexture = value; }
+
+        private ImageBrush stoneTexture;
+        public ImageBrush StoneTexture { get => stoneTexture; set => stoneTexture = value; }
+
 #if DEBUG
+        public StackPanel overlayPanel = new StackPanel()
+        {
+            Width = double.NaN,
+            Height = double.NaN,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+#endif
         public Renderer()
         {
+#if DEBUG
             overlayPanel.Children.Add(healthBar);
             ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlayPanel);
-        }
 #endif
+            GrassTexture = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\map\\grass2.png")));
+            StoneTexture = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\map\\stone2.png")));
+        }
+
 
         private Rect GetCameraRect()
         {
@@ -126,16 +134,14 @@ namespace Survival.GameEngine
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE,
-                                Fill = Brushes.Red,
-                                Stroke = Brushes.Red,
-                                StrokeThickness = 2,
+                                Fill = StoneTexture,
                             };
                             break;
                         default:
                             rec = new Rectangle()
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
-                                Height = MapGenerator.BLOCK_SIZE
+                                Height = MapGenerator.BLOCK_SIZE,
                             };
                             break;
                     }

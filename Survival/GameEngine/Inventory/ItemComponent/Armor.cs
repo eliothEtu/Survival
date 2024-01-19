@@ -39,7 +39,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
             }
         }
 
-        public Armor(string name, string part, string description, BitmapImage image, string type, Tuple<string, int> bonus) : base(name, description, image, type)
+        public Armor(string name, string part, string description, BitmapImage image, string type, Tuple<string, int> bonus, int tier) : base(name, description, image, type, tier)
         {
             Bonus = bonus;
             Part = part;
