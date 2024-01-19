@@ -130,6 +130,13 @@ namespace Survival
             invUi.Visibility = Visibility.Visible;
             Canvas.SetZIndex(invUi, 1);
         }
+        
+        public void CloseInventory(object sender, RoutedEventArgs e)
+        {
+            bInventory = false;
+            inv.Visibility = Visibility.Hidden;
+            Engine.Instance.timer.Start();
+        }
 
         public void CloseInventory()
         {
@@ -138,7 +145,7 @@ namespace Survival
             Engine.Instance.timer.Start();
         }
 
-        public void LaunchGame()
+        public void OpenPreparation()
         {
             homeWindow.Hide();
             preparationWindow.LoadInventory();
@@ -213,12 +220,6 @@ namespace Survival
         {
             deathWindow.Hide();
             homeWindow.ShowDialog();
-        }
-
-        public void CloseInventory(object sender, RoutedEventArgs e)
-        {
-            bInventory = false;
-            inv.Visibility = Visibility.Hidden;
         }
 
         private void LoadInventory()

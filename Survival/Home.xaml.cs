@@ -95,7 +95,7 @@ namespace Survival
         private void LaunchGame(object sender, RoutedEventArgs e)
         {
             Engine.Instance.PlaySoundButton();
-            ((MainWindow)Application.Current.MainWindow).LaunchGame();
+            ((MainWindow)Application.Current.MainWindow).OpenPreparation();
         }
         private void OpenShop(object sender, RoutedEventArgs e)
         {

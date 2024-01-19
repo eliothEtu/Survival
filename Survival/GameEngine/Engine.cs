@@ -76,7 +76,7 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            this.Player = new Player("Player", 10, 5, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
+            this.Player = new Player("Player", 10, 2, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
 
             lastTick = DateTime.Now;

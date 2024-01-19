@@ -83,7 +83,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
                         tier = 1;
                     }
 
-                    List<Item> itemTier = Engine.Instance.Player.Inventory.GetItemByTierAndType(this.TypeItem, 1);
+                    List<Item> itemTier = Engine.Instance.Player.Inventory.GetItemByTierAndType(this.TypeItem, tier);
                     Item itemToAdd = new Item();
                     if (itemTier.Count > 0)
                     {

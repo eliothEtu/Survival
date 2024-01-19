@@ -9,7 +9,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
 {
     internal class Armor : Item
     {
-        private readonly string[] PARTS_POSSIBLE = new string[] { "Helmet", "Chestplate", "Leggings", "Boots", "Gloves"};
+        private readonly string[] PARTS_POSSIBLE = new string[] { "Helmet", "Chestplate", "Boots", "Gloves"};
 
         private Tuple<string, int> bonus;
         public Tuple<string, int> Bonus

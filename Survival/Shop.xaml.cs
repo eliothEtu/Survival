@@ -52,7 +52,7 @@ namespace Survival
 
             canvShop.Focus();
 
-            imgButton = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\tresor.png"));
+            imgButton = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\item\\tresor.png"));
 
             Button exit = new Button()
             {
@@ -126,7 +126,7 @@ namespace Survival
             {
                 Width = 50,
                 Height = 50,
-                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\tresor.png"))
+                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\item\\tresor.png"))
             };
             canvShop.Children.Add(moneyImage);
             Canvas.SetTop(moneyImage, 10);

@@ -418,6 +418,7 @@ namespace Survival
                 separator.Visibility = Visibility.Hidden;
                 labelMoney.Visibility = Visibility.Hidden;
                 moneyText.Visibility = Visibility.Hidden;
+                AddMoneyButton.Visibility = Visibility.Hidden;
                 textInvincible.Visibility = Visibility.Hidden;
                 checkDamage.Visibility = Visibility.Hidden;
                 passwordCheat.Password = "";
@@ -429,6 +430,7 @@ namespace Survival
             separator.Visibility = Visibility.Visible;
             labelMoney.Visibility = Visibility.Visible;
             moneyText.Visibility = Visibility.Visible;
+            AddMoneyButton.Visibility = Visibility.Visible;
             textInvincible.Visibility = Visibility.Visible;
             checkDamage.Visibility = Visibility.Visible;
         }

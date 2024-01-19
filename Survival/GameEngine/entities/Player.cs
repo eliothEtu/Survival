@@ -51,9 +51,6 @@ namespace Survival
         private Inventory inventory = new Inventory();
         public Inventory Inventory { get => inventory; set => inventory = value; }
 
-        private double damage;
-        public double Damage { get => damage; set => damage = value; }
-
         private float projectileVelocity;
         public float ProjectileVelocity { get => projectileVelocity; set => projectileVelocity = value; }
 
@@ -100,7 +97,7 @@ namespace Survival
 
         public Player(string name, int life, double damage, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, life, texture, position, velocity)
         {
-            this.Damage = damage;
+            this.BaseDamage = damage;
             this.ProjectileVelocity = 1;
             this.ProjectileLifeSpan = TimeSpan.FromSeconds(2);
             this.BCanTakeDamage = true;
@@ -238,7 +235,7 @@ namespace Survival
                 this.ProjectileFire++;
                 Vector2 dir = direction - this.Position;
                 dir = Vector2.Normalize(dir);
-                Engine.Instance.Entities.Add(new Projectile("", this, this.ProjectileLifeSpan, this.ItemEquiped.Texture, this.Position, dir * this.ProjectileVelocity));
+                Engine.Instance.Entities.Add(new Projectile("", this, this.ProjectileLifeSpan, new ImageBrush(this.ItemEquiped.ProjectileTexture), this.Position, dir * this.ProjectileVelocity));
             }
         }
     }

@@ -22,43 +22,46 @@
     <None Update="Image\anneaufeu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Boots.png">
+    <None Update="Image\armor\Tier1Boots.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\BootsR.png">
+    <None Update="Image\armor\Tier1Chestplate.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Chestplate.png">
+    <None Update="Image\armor\Tier2Boots.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\ChestplateR.png">
+    <None Update="Image\armor\Tier2Chestplate.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Glove 2.png">
+    <None Update="Image\armor\Tier2Glove.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Glove 2R.png">
+    <None Update="Image\armor\Tier1Glove.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Glove.png">
+    <None Update="Image\armor\Tier2Helmet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\GloveR.png">
+    <None Update="Image\armor\Tier1Helmet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Helmet 2.png">
+    <None Update="Image\armor\Tier3Helmet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Helmet 2R.png">
+    <None Update="Image\armor\Tier3Boots.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Helmet R.png">
+    <None Update="Image\armor\Tier3Chestplate.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\armor\Helmet.png">
+    <None Update="Image\armor\Tier3Glove.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\attacks\flamme.png">
+    <None Update="Image\attacks\corupt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\attacks\flame.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Image\attacks\flammePresentation.png">
@@ -67,10 +70,31 @@
     <None Update="Image\attacks\glacePrésentation.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\attacks\pixil-frame-0%284%29.png">
+    <None Update="Image\attacks\ice.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\attacks\Tier1Artifact.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\attacks\Tier2Artifact.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\attacks\Tier3Artifact.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Image\close.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\item\Tier1Ring.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\item\Tier2Ring.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\item\Tier3Ring.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\item\tresor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Image\map\grass.png">

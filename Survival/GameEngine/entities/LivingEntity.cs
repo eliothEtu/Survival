@@ -31,9 +31,9 @@ namespace Survival
 			}
 		}
 
-        private int baseDamage = 2;
+        private double baseDamage = 2;
 
-        public int BaseDamage
+        public double BaseDamage
         {
             get
             {
@@ -94,7 +94,7 @@ namespace Survival
 		
         }
 		
-        public void TakeDamage(int damage)
+        public void TakeDamage(double damage)
 		{
 			if ((DateTime.Now - this.lastDamageTaken).TotalMilliseconds <= 1000) return;
             this.Life = Math.Max(0, this.Life - damage);

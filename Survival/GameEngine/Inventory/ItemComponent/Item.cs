@@ -94,6 +94,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
             if (bCanDrag)
             {
                 ((MainWindow)Application.Current.MainWindow).preparationWindow.dragObject = this;
+                ((MainWindow)Application.Current.MainWindow).preparationWindow.ShowSlot();
                 ((MainWindow)Application.Current.MainWindow).preparationWindow.canvPW.CaptureMouse();
             }
         }

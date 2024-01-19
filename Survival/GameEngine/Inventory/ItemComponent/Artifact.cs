@@ -24,10 +24,13 @@ namespace Survival.GameEngine.Inventory.ItemComponent
             }
         }
 
+        private BitmapImage projectileTexture;
+        public BitmapImage ProjectileTexture { get => projectileTexture; set => projectileTexture = value; }
 
-        public Artifact(string name, string description, BitmapImage image, string type,TimeSpan coolDown, int tier) : base(name, description, image, type, tier)
+        public Artifact(string name, string description, BitmapImage image, BitmapImage projectileImage, string type,TimeSpan coolDown, int tier) : base(name, description, image, type, tier)
         {
             this.CoolDown = coolDown;
+            this.ProjectileTexture = projectileImage;
         }
     }
 }
