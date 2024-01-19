@@ -13,7 +13,7 @@ namespace Survival.GameEngine.Inventory
     {
         public static readonly Dictionary<string, List<Item>> ITEMS_POSSIBLE = new Dictionary<string, List<Item>>()
         {
-            { "Armor", new List<Item>
+            { "Armure", new List<Item>
                 {
                     new Armor("Helmet", "Helmet", "Simple helmet", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Helmet R.png")), "Armor", Tuple.Create("Health", 1), 1),
                     new Armor("Chestplate", "Chestplate", "Simple Chestplate", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\ChestplateR.png")), "Armor", Tuple.Create("", 1), 1),
@@ -22,14 +22,14 @@ namespace Survival.GameEngine.Inventory
                     new Armor("Gloves", "Gloves", "Simple Gloves", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\GloveR.png")), "Armor", Tuple.Create("", 1), 1)
                 }
             },
-            { "Ring", new List<Item>
+            { "Anneau", new List<Item>
                 {
                     new Ring("Ring of Fire", "Fire Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("Health", 1.5), 1),
                     new Ring("Ring of Ice", "Ice Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("", 1.0), 2),
                     new Ring("Ring of Sound", "Sound Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("", 1.0), 3),
                 }
             },
-            { "Artifact", new List<Item>
+            { "Artéfact", new List<Item>
                 {
                 new Artifact("fire","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\flamme.png")),"Artifact", TimeSpan.FromSeconds(1), 1)
                 }

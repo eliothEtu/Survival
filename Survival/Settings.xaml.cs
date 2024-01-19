@@ -34,10 +34,12 @@ namespace Survival
         private Rectangle separator;
         private Label labelMoney;
         private TextBox moneyText;
-        private Label texInvicible;
+        private Button addMoneyButton;
+        private Label textInvincible;
         private CheckBox checkDamage;
 
         public Button Exit { get => exit; set => exit = value; }
+        public Button AddMoneyButton { get => addMoneyButton; set => addMoneyButton = value; }
 
         public Settings()
         {
@@ -90,9 +92,9 @@ namespace Survival
 
             Label labelSize = new Label()
             {
-                Width = 500,
+                Width = 600,
                 Height = 50,
-                Content = "Taille de la map (base : x = 10 / y = 10) :",
+                Content = "Taille de la map (base : x = 20 / y = 20) :",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -306,23 +308,6 @@ namespace Survival
             ((MainWindow)Application.Current.MainWindow).OpenHowToPlay();
         }
 
-        private void SetSize(object sender, RoutedEventArgs e)
-        {
-            if (int.TryParse(xValueText.Text, out Engine.xValue) && int.TryParse(xValueText.Text, out Engine.xValue))
-            {
-                confirmSizeButton.Background = Brushes.LightGreen;
-            }
-        }
-
-        private void TextInput(object sender, TextCompositionEventArgs e)
-        {
-            // Vérifier si le texte saisi est un chiffre
-            if (!char.IsDigit(e.Text, 0))
-            {
-                e.Handled = true; // Annuler l'événement si ce n'est pas un chiffre
-            }
-        }
-
         private void canvSettings_KeyDown(object sender, KeyEventArgs e)
         {
             if (((MainWindow)Application.Current.MainWindow).bSettings == true && e.Key == Key.Escape)
@@ -387,8 +372,20 @@ namespace Survival
             canvSettings.Children.Add(moneyText);
             Canvas.SetLeft(moneyText, Canvas.GetLeft(labelMoney) + labelMoney.Width + 20);
             Canvas.SetTop(moneyText, Canvas.GetTop(labelMoney));
-            
-            texInvicible = new Label()
+
+            AddMoneyButton = new Button()
+            {
+                Width = 120,
+                Height = 50,
+                Content = "Ajouter",
+                FontSize = 25
+            };
+            AddMoneyButton.Click += AddMoney;
+            canvSettings.Children.Add(AddMoneyButton);
+            Canvas.SetLeft(AddMoneyButton, Canvas.GetLeft(moneyText) + moneyText.Width + 20);
+            Canvas.SetTop(AddMoneyButton, Canvas.GetTop(moneyText));
+
+            textInvincible = new Label()
             {
                 Width = 500,
                 Height = 50,
@@ -398,9 +395,9 @@ namespace Survival
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            canvSettings.Children.Add(texInvicible);
-            Canvas.SetLeft(texInvicible, 30);
-            Canvas.SetTop(texInvicible, Canvas.GetTop(moneyText) + moneyText.Height + 70);
+            canvSettings.Children.Add(textInvincible);
+            Canvas.SetLeft(textInvincible, 30);
+            Canvas.SetTop(textInvincible, Canvas.GetTop(moneyText) + moneyText.Height + 70);
 
             checkDamage = new CheckBox()
             {
@@ -410,8 +407,8 @@ namespace Survival
             };
             checkDamage.Click += ChangeCanDamagePlayer;
             canvSettings.Children.Add(checkDamage);
-            Canvas.SetLeft(checkDamage, Canvas.GetLeft(texInvicible) + texInvicible.Width + 20);
-            Canvas.SetTop(checkDamage, Canvas.GetTop(texInvicible));
+            Canvas.SetLeft(checkDamage, Canvas.GetLeft(textInvincible) + textInvincible.Width + 20);
+            Canvas.SetTop(checkDamage, Canvas.GetTop(textInvincible));
         }
 
         public void ClearGodMod(object sender, DependencyPropertyChangedEventArgs e)
@@ -421,7 +418,7 @@ namespace Survival
                 separator.Visibility = Visibility.Hidden;
                 labelMoney.Visibility = Visibility.Hidden;
                 moneyText.Visibility = Visibility.Hidden;
-                texInvicible.Visibility = Visibility.Hidden;
+                textInvincible.Visibility = Visibility.Hidden;
                 checkDamage.Visibility = Visibility.Hidden;
                 passwordCheat.Password = "";
             }
@@ -432,8 +429,34 @@ namespace Survival
             separator.Visibility = Visibility.Visible;
             labelMoney.Visibility = Visibility.Visible;
             moneyText.Visibility = Visibility.Visible;
-            texInvicible.Visibility = Visibility.Visible;
+            textInvincible.Visibility = Visibility.Visible;
             checkDamage.Visibility = Visibility.Visible;
+        }
+
+        public void AddMoney(object sender, RoutedEventArgs e)
+        {
+            int moneyToAdd;
+            if (int.TryParse(moneyText.Text, out moneyToAdd))
+            {
+                AddMoneyButton.Background = Brushes.LightGreen;
+                Engine.Instance.Player.Money += moneyToAdd;
+            }
+        }
+        private void SetSize(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(xValueText.Text, out Engine.xValue) && int.TryParse(xValueText.Text, out Engine.xValue))
+            {
+                confirmSizeButton.Background = Brushes.LightGreen;
+            }
+        }
+
+        private void TextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Vérifier si le texte saisi est un chiffre
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true; // Annuler l'événement si ce n'est pas un chiffre
+            }
         }
 
         private void GotFocusOnTextBox(object sender, RoutedEventArgs e)
@@ -452,7 +475,7 @@ namespace Survival
         {
             int difficulty = (int)Math.Round(sliderDifficulty.Value);
             labelShowDifficulty.Content = difficulty;
-            //Engine.Instance.MobSpawner.WaveMultiplier = value;
+            Engine.Instance.MobSpawner.WaveMultiplier = difficulty;
         }
 
         public void ChangeVolume(object sender, RoutedPropertyChangedEventArgs<double> e)

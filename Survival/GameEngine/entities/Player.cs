@@ -30,7 +30,7 @@ namespace Survival
             }
         }
 
-        private int money;
+        private int money = 0;
 
         public int Money
         {
@@ -59,6 +59,15 @@ namespace Survival
 
         private TimeSpan projectileLifeSpan;
         public TimeSpan ProjectileLifeSpan { get => projectileLifeSpan; set => projectileLifeSpan = value; }
+
+        private int mobKill;
+        public int MobKill { get => mobKill; set => mobKill = value; }
+
+        private int projectileFire;
+        public int ProjectileFire { get => projectileFire; set => projectileFire = value; }
+
+        private bool bCanTakeDamage;
+        public bool BCanTakeDamage { get => bCanTakeDamage; set => bCanTakeDamage = value; }
 
         //animation de face
         ImageBrush face = new ImageBrush();
@@ -94,6 +103,7 @@ namespace Survival
             this.Damage = damage;
             this.ProjectileVelocity = 1;
             this.ProjectileLifeSpan = TimeSpan.FromSeconds(2);
+            this.BCanTakeDamage = true;
 
             //chargement des images de face
             face.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png"));
@@ -127,7 +137,7 @@ namespace Survival
             animeCoteDroit[0] = cote_droit;
             animeCoteDroit[1] = cote_droit_pied;
 
-            this.ItemEquiped = (Artifact)Inventory.ITEMS_POSSIBLE["Artifact"][0];
+            this.Inventory.InventoryList.Add((Artifact)Inventory.ITEMS_POSSIBLE["Artéfact"][0]);
         }
 
         int accFace = 0;
@@ -178,8 +188,20 @@ namespace Survival
                 {
                     timeAnim = 0;
                     accCoteGauche++;
+                }                
+            }
+            if (this.Velocity.X == -1)
+            {
+                if (accCoteDroit == animeCoteDroit.Length)
+                {
+                    accCoteDroit = 0;
                 }
-                
+                this.Rectangle.Fill = animeCoteDroit[accCoteDroit];
+                if (timeAnim > 0.25)
+                {
+                    timeAnim = 0;
+                    accCoteDroit++;
+                }
             }
             timeAnim += deltaTime;
             base.Update(deltaTime);
@@ -190,16 +212,14 @@ namespace Survival
         {
             base.Collide(otherEntity);
 
-            if (otherEntity is Mob && (DateTime.Now - this.lastDamageTaken).TotalMilliseconds > 1000)
+            if (otherEntity is Mob && (DateTime.Now - this.lastDamageTaken).TotalMilliseconds > 1000 && BCanTakeDamage)
             {
                 float deltaX = this.Position.X - otherEntity.Position.X;
                 float deltaY = this.Position.Y - otherEntity.Position.Y;
 
                 Vector2 delta = Vector2.Normalize(new Vector2(deltaX, deltaY));
                 this.Velocity = this.Velocity + delta;
-                
-                this.TakeDamage(((Mob) otherEntity).BaseDamage);
-
+                this.TakeDamage(((Mob)otherEntity).BaseDamage);
             }
         }
 
@@ -207,7 +227,7 @@ namespace Survival
         {
             base.OnDeath();
             Engine.Instance.Pause();
-            Engine.Instance.EntityToRemove.AddRange(Engine.Instance.Entities);
+            //Engine.Instance.EntityToRemove.AddRange(Engine.Instance.Entities);
             // TODO: Death screen
         }
 
@@ -215,6 +235,7 @@ namespace Survival
         {
             if (this.ItemEquiped != null)
             {
+                this.ProjectileFire++;
                 Vector2 dir = direction - this.Position;
                 dir = Vector2.Normalize(dir);
                 Engine.Instance.Entities.Add(new Projectile("", this, this.ProjectileLifeSpan, this.ItemEquiped.Texture, this.Position, dir * this.ProjectileVelocity));

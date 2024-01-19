@@ -58,9 +58,14 @@ namespace Survival.GameEngine
         private double soundVolume;
         public double SoundVolume { get => soundVolume; set => soundVolume = value; }
 
+        private MobSpawner mobSpawner = new MobSpawner();
         public MobSpawner MobSpawner { get => this.mobSpawner; }
 
-        private DateTime lastTick = DateTime.Now;
+        private DateTime timeStartGame, lastTick = DateTime.Now;
+
+        private int moneyStartgame;
+        public int MoneyStartgame { get => moneyStartgame; set => moneyStartgame = value; }
+        public DateTime TimeStartGame { get => timeStartGame; set => timeStartGame = value; }
 
         MediaPlayer soundButton = new MediaPlayer();
         public Engine() 
@@ -73,7 +78,6 @@ namespace Survival.GameEngine
 
             this.Player = new Player("Player", 10, 5, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
-            this.Entities.Add(Player);
 
             lastTick = DateTime.Now;
 
@@ -85,20 +89,22 @@ namespace Survival.GameEngine
 
         public void Start()
         {
-            Vector2 sizeMap = new Vector2(10 * xValue, 10 * yValue);
+            Vector2 sizeMap = new Vector2(20 * xValue, 20 * yValue);
             this.MapGenerator.SizeMap = sizeMap;
+
+            this.MobSpawner.MaxDistanceSpawn = (ushort)Math.Clamp(this.MapGenerator.SizeMap.X / 2, 4, 15);
 
             this.MapGenerator.CreateMap();
             this.MapGenerator.SmoothMap(5);
 
+            this.Entities.Add(player);
+            player.Life = 10;
             player.Position = MapGenerator.GetPlayerSpawnPos();
 
-            /*Mob mob = new Mob("Mob", 100, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), MapGenerator.GetMobSpawnPos(2, 5), new Vector2(0f, 0f));
-            FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
-            followPlayerBehavior.Player = this.Player;
-            mob.FocusDistance = 10;
-            mob.behaviors.Add(followPlayerBehavior);
-            this.Entities.Add(mob);*/
+            MobSpawner.Wave = 0;
+
+            this.MoneyStartgame = Player.Money;
+            this.TimeStartGame = DateTime.Now;
 
             this.Renderer = new Renderer();
 
@@ -132,6 +138,11 @@ namespace Survival.GameEngine
 
             foreach (Entity entity in this.entityToRemove)
             {
+                if (entity is Player)
+                {
+                    OnPlayerDeath();
+                    break;
+                }
                 this.Entities.Remove(entity);
             }
             this.EntityToRemove.Clear();
@@ -141,11 +152,10 @@ namespace Survival.GameEngine
             this.lastTick = DateTime.Now;
         }
 
-        public void OnPlayerDie()
+        public void OnPlayerDeath()
         {
-            timer.Stop();
             Entities.Clear();
-            //Appel un fenetre de mort
+            ((MainWindow)Application.Current.MainWindow).OpenDeathWindow();
         }
 
         public void SetVolumeSound()

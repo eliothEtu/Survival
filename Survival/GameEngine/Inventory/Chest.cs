@@ -55,20 +55,39 @@ namespace Survival.GameEngine.Inventory.ItemComponent
             this.But.Click += OpenBox;
 
             this.TypeItem = typeItem;
+            this.Price = price;
         }
 
         void OpenBox(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 2; i++)
+            ((MainWindow)Application.Current.MainWindow).shopWindow.ErrorMoney.Visibility = Visibility.Hidden;
+            if (Engine.Instance.Player.Money >= this.Price)
             {
-                double chance = random.NextDouble();
-                if (chance < Rarity[2])
+                Engine.Instance.Player.Money = Engine.Instance.Player.Money - this.Price;
+                ((MainWindow)Application.Current.MainWindow).shopWindow.UpdateMoneyPlayer();
+                ((MainWindow)Application.Current.MainWindow).shopWindow.ResetItemInfo();
+                int tier = 0;
+                for (int i = 0; i < random.Next(2, 10); i++)
                 {
-                    List<Item> itemTier3 = Engine.Instance.Player.Inventory.GetItemByTierAndType(this.TypeItem, 3);
-                    Item itemToAdd = new Item();
-                    if (itemTier3.Count > 0)
+                    double chance = random.NextDouble();
+                    if (chance < Rarity[2])
                     {
-                        itemToAdd = itemTier3[random.Next(itemTier3.Count)];
+                        tier = 3;
+                    }
+                    else if (chance < Rarity[1])
+                    {
+                        tier = 2;
+                    }
+                    else
+                    {
+                        tier = 1;
+                    }
+
+                    List<Item> itemTier = Engine.Instance.Player.Inventory.GetItemByTierAndType(this.TypeItem, 1);
+                    Item itemToAdd = new Item();
+                    if (itemTier.Count > 0)
+                    {
+                        itemToAdd = itemTier[random.Next(itemTier.Count)];
 
                         if (!Engine.Instance.Player.Inventory.InventoryList.Contains(itemToAdd))
                         {
@@ -79,40 +98,40 @@ namespace Survival.GameEngine.Inventory.ItemComponent
                             Engine.Instance.Player.Inventory.InventoryList[Engine.Instance.Player.Inventory.InventoryList.IndexOf(itemToAdd)].Quantity++;
                         }
                     }
-                }
-                else if (chance < Rarity[1])
-                {
-                    List<Item> itemTier2 = Engine.Instance.Player.Inventory.GetItemByTierAndType(this.TypeItem, 2);
-                    if (itemTier2.Count > 0)
+                    WrapPanel borderItemInfo = new WrapPanel()
                     {
-                        Item itemToAdd = itemTier2[random.Next(itemTier2.Count)];
-                        if (!Engine.Instance.Player.Inventory.InventoryList.Contains(itemToAdd))
-                        {
-                            Engine.Instance.Player.Inventory.InventoryList.Add(itemToAdd);
-                        }
-                        else
-                        {
-                            Engine.Instance.Player.Inventory.InventoryList[Engine.Instance.Player.Inventory.InventoryList.IndexOf(itemToAdd)].Quantity++;
-                        }
-                    }
-                }
-                else
-                {
-                    List<Item> itemTier1 = Engine.Instance.Player.Inventory.GetItemByTierAndType(this.TypeItem, 1);
-                    Item itemToAdd = new Item();
-                    if (itemTier1.Count > 0)
+                        Height = 90,
+                        Width = ((MainWindow)Application.Current.MainWindow).shopWindow.ItemInfo.Width,
+                        Orientation = Orientation.Horizontal,
+                        Background = new SolidColorBrush(Color.FromArgb(180, 0, 0, 0)),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                    };
+                    Rectangle itemRectangle = new Rectangle()
                     {
-                        itemToAdd = itemTier1[random.Next(itemTier1.Count)];
-                        if (!Engine.Instance.Player.Inventory.InventoryList.Contains(itemToAdd))
-                        {
-                            Engine.Instance.Player.Inventory.InventoryList.Add(itemToAdd);
-                        }
-                        else
-                        {
-                            Engine.Instance.Player.Inventory.InventoryList[Engine.Instance.Player.Inventory.InventoryList.IndexOf(itemToAdd)].Quantity++;
-                        }
-                    }                    
+                        Width = itemToAdd.Rectangle.Width,
+                        Height = itemToAdd.Rectangle.Height,
+                        Fill = itemToAdd.Rectangle.Fill
+                    };
+                    Label nameItem = new Label()
+                    {
+                        Height = 90,
+                        Width = double.NaN,
+                        Content = itemToAdd.Name,
+                        Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                        FontSize = 40,
+                        HorizontalContentAlignment = HorizontalAlignment.Center,
+                        VerticalContentAlignment = VerticalAlignment.Center,
+                    };
+                    borderItemInfo.Children.Add(itemRectangle);
+                    borderItemInfo.Children.Add(nameItem);
+
+                    ((MainWindow)Application.Current.MainWindow).shopWindow.ItemInfo.Visibility = Visibility.Visible;
+                    ((MainWindow)Application.Current.MainWindow).shopWindow.ItemInfo.Children.Insert(0, borderItemInfo);
+                    borderItemInfo = null;
                 }
+            } else
+            {
+                ((MainWindow)Application.Current.MainWindow).shopWindow.ErrorMoney.Visibility = Visibility.Visible;
             }
         }
     }

@@ -34,8 +34,6 @@ namespace Survival.GameEngine.world
 
         public void CreateMap()
         {
-            SizeMap = new Vector2(40, 100);//new Vector2((float)Math.Round(MainWindow.canvas.Width / BLOCK_SIZE), (float)Math.Round(MainWindow.canvas.Height / BLOCK_SIZE));
-
             Map.Clear();
 
             for (int x = 0; x < SizeMap.X; x++)
@@ -114,7 +112,7 @@ namespace Survival.GameEngine.world
 
         public Vector2 GetPlayerSpawnPos()
         {
-            Vector2 randomPos = new Vector2(random.Next(0, (int)sizeMap.X), random.Next(0, (int)sizeMap.Y));
+            Vector2 randomPos = new Vector2(random.Next(3, (int)sizeMap.X-3), random.Next(3, (int)sizeMap.Y-3));
             for (int x = (int)randomPos.X; x < sizeMap.X; x++)
             {
                 for (int y = (int)randomPos.Y ; y < sizeMap.Y; y++)
@@ -143,13 +141,13 @@ namespace Survival.GameEngine.world
 
             for (int x = (int)playerPos.X - maxLength; x < (int)playerPos.X + maxLength; x++)
             {
-                if (x >= playerPos.X - minLength && x >= playerPos.X + minLength)
+                if (x >= playerPos.X - minLength && x <= playerPos.X + minLength)
                 {
-                    continue;
+                    //continue;
                 }
                 for (int y = (int)playerPos.Y - maxLength; y < (int)playerPos.Y + maxLength; y++)
                 {
-                    if (y >= playerPos.Y - minLength && y >= playerPos.Y + minLength)
+                    if (y >= playerPos.Y - minLength && y <= playerPos.Y + minLength)
                     {
                         continue;
                     }
@@ -164,7 +162,7 @@ namespace Survival.GameEngine.world
                 }
             }
 
-            return availableSpawns[random.Next(1, availableSpawns.Count)-1];
+            return availableSpawns[Math.Clamp(random.Next(0, availableSpawns.Count) - 1, 0, availableSpawns.Count)];
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Survival
         public PreparationWindow preparationWindow;
         public Shop shopWindow;
         public Settings settingsWindow;
+        public DeathWindow deathWindow;
 
         private string[] itemName = new string[5];
         private Dictionary<string, string> itemDescription = new Dictionary<string, string>();
@@ -69,6 +70,7 @@ namespace Survival
             preparationWindow = new PreparationWindow();
             shopWindow = new Shop();
             settingsWindow = new Settings();
+            deathWindow = new DeathWindow();
 
             howTPWindow.ShowDialog();
 
@@ -152,6 +154,7 @@ namespace Survival
         public void OpenShop()
         {
             homeWindow.Hide();
+            shopWindow.UpdateMoneyPlayer();
             shopWindow.ShowDialog();
         }
 
@@ -197,6 +200,19 @@ namespace Survival
         {
             Engine.Instance.timer.Stop();
             Application.Current.Shutdown();
+        }
+
+        public void OpenDeathWindow()
+        {
+            itemContainer.Children.Clear();
+            deathWindow.UpdateStat();
+            deathWindow.ShowDialog();
+        }
+
+        public void ExitDeathWindow()
+        {
+            deathWindow.Hide();
+            homeWindow.ShowDialog();
         }
 
         public void CloseInventory(object sender, RoutedEventArgs e)
