@@ -26,7 +26,7 @@ namespace Survival
         public static List<List<double>> RARITY = new List<List<double>>() { new List<double> { 0.8, 0.2, 0.1}, new List<double> { 0.5, 0.35, 0.15}, new List<double> { 0.2, 0.5, 0.3 } };
 
         private BitmapImage imgButton = new BitmapImage();
-        private string[] nameButton = new string[] { "Armor", "Ring", "Artifact"};
+        private string[] nameButton = new string[] { "Armures", "Anneaux", "Artéfacts"};
         public Shop()
         {
             InitializeComponent();
@@ -48,9 +48,10 @@ namespace Survival
 
             Button exit = new Button()
             {
-                Width = 50,
-                Height = 50,
-                Content = "Exit"
+                Width = 75,
+                Height = 75,
+                Background = new ImageBrush(Engine.imageExit),
+                FocusVisualStyle = null,
             };
             exit.Click += ExitShop;
             canvShop.Children.Add(exit);
@@ -79,6 +80,8 @@ namespace Survival
                             FontSize = 20,
                             TextAlignment = TextAlignment.Center,
                             Text = nameButton[i / 2] + " Tier " + tier,
+                            FontWeight = FontWeights.Bold,
+                            Foreground = new SolidColorBrush(Color.FromRgb(255 ,255, 255))
                         };
                         canvContainer.Children.Add(nameBox);
                         Canvas.SetTop(nameBox, canvContainer.Height / 2 + j * chest.But.Height + pos * 80 + 35 + nameBox.Height + chest.But.Height);
@@ -114,6 +117,7 @@ namespace Survival
 
         private void ExitShop(object sender, RoutedEventArgs e)
         {
+            Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).ExitShop();
         }
 

@@ -24,19 +24,18 @@ namespace Survival
     {
         private readonly string CODE = "*";
 
-        Button exit;
-        TextBox xValueText, yValueText;
-        Button confirmSizeButton;
-        Slider sliderDifficulty;
-        Label labelShowDifficulty;
-        PasswordBox passwordCheat;
+        private Button exit, confirmSizeButton;
+        private TextBox xValueText, yValueText;
+        private Slider sliderDifficulty, sliderVolumeSound;
+        private Label labelShowDifficulty, labelShowVolumeSound;
+        private PasswordBox passwordCheat;
 
         //God Mod UI
-        Rectangle separator;
-        Label labelMoney;
-        TextBox moneyText;
-        Label texInvicible;
-        CheckBox checkDamage;
+        private Rectangle separator;
+        private Label labelMoney;
+        private TextBox moneyText;
+        private Label texInvicible;
+        private CheckBox checkDamage;
 
         public Button Exit { get => exit; set => exit = value; }
 
@@ -53,10 +52,10 @@ namespace Survival
 
             Exit = new Button()
             {
-                Width = 100,
-                Height = 100,
-                Content = "Exit",
-                FontSize = 25
+                Width = 75,
+                Height = 75,
+                Background = new ImageBrush(Engine.imageExit),
+                FocusVisualStyle = null
             };
             Exit.Click += ExitSettings;
             canvSettings.Children.Add(Exit);
@@ -66,8 +65,8 @@ namespace Survival
             Button exitGame = new Button()
             {
                 Width = 150,
-                Height = 100,
-                Content = "Exit Game",
+                Height = 75,
+                Content = "Fermer le jeu",
                 FontSize = 25
             };
             exitGame.Click += ExitGame;
@@ -79,7 +78,7 @@ namespace Survival
             {
                 Width = canvSettings.Width / 2,
                 Height = 180,
-                Content = "Settings",
+                Content = "Paramètres",
                 FontSize = 90,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -93,7 +92,7 @@ namespace Survival
             {
                 Width = 500,
                 Height = 50,
-                Content = "Size map (base : x = 10 / y = 10) :",
+                Content = "Taille de la map (base : x = 10 / y = 10) :",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -107,7 +106,7 @@ namespace Survival
             {
                 Width = 200,
                 Height = 50,
-                Text = "Multiply X Value",
+                Text = "Multipliez la valeur X",
                 FontSize = 20,
                 FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush(Color.FromArgb(127, 0, 0, 0)),
@@ -123,7 +122,7 @@ namespace Survival
             {
                 Width = 200,
                 Height = 50,
-                Text = "Multiply Y Value",
+                Text = "Multipliez la valeur Y",
                 FontSize = 20,
                 FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush(Color.FromArgb(127, 0, 0, 0)),
@@ -137,9 +136,9 @@ namespace Survival
 
             confirmSizeButton = new Button()
             {
-                Width = 100,
+                Width = 120,
                 Height = 50,
-                Content = "Confirm Size",
+                Content = "Confirmer",
                 FontSize = 25
             };
             confirmSizeButton.Click += SetSize;
@@ -151,7 +150,7 @@ namespace Survival
             {
                 Width = 500,
                 Height = 50,
-                Content = "Difficulty : ",
+                Content = "Difficulté : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -170,7 +169,7 @@ namespace Survival
                 TickFrequency = 1,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(0, 10, 0, 0)
-        };
+            };
             sliderDifficulty.ValueChanged += ChangeDifficulty;
             canvSettings.Children.Add(sliderDifficulty);
             Canvas.SetLeft(sliderDifficulty, Canvas.GetLeft(labelDifficulty) + labelDifficulty.Width + 20);
@@ -191,11 +190,71 @@ namespace Survival
             Canvas.SetLeft(labelShowDifficulty, Canvas.GetLeft(sliderDifficulty) + sliderDifficulty.Width + 20);
             Canvas.SetTop(labelShowDifficulty, Canvas.GetTop(labelDifficulty));
 
+            Label labelExplainDifficulty = new Label()
+            {
+                Width = double.NaN,
+                Height = 50,
+                Content = "Numéro de la vague multipliée par la valeur du slider",
+                Foreground = Brushes.LightGray,
+                FontSize = 20,
+                FontWeight = FontWeights.Bold,
+                BorderBrush = Brushes.Black,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            canvSettings.Children.Add(labelExplainDifficulty);
+            Canvas.SetLeft(labelExplainDifficulty, Canvas.GetLeft(labelShowDifficulty) + labelShowDifficulty.Width + 20);
+            Canvas.SetTop(labelExplainDifficulty, Canvas.GetTop(labelDifficulty));
+
+            Label labelVolumeSound = new Label()
+            {
+                Width = 500,
+                Height = 50,
+                Content = "Volume des son : ",
+                FontSize = 30,
+                FontWeight = FontWeights.Bold,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            canvSettings.Children.Add(labelVolumeSound);
+            Canvas.SetLeft(labelVolumeSound, 30);
+            Canvas.SetTop(labelVolumeSound, Canvas.GetTop(labelDifficulty) + labelDifficulty.Height + 70);
+
+            sliderVolumeSound = new Slider()
+            {
+                Width = 500,
+                Height = 50,
+                Minimum = 0,
+                Maximum = 100,
+                TickFrequency = 1,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+            sliderVolumeSound.ValueChanged += ChangeVolume;
+            canvSettings.Children.Add(sliderVolumeSound);
+            Canvas.SetLeft(sliderVolumeSound, Canvas.GetLeft(labelVolumeSound) + labelVolumeSound.Width + 20);
+            Canvas.SetTop(sliderVolumeSound, Canvas.GetTop(labelVolumeSound));
+
+            labelShowVolumeSound = new Label()
+            {
+                Width = 100,
+                Height = 50,
+                Content = "0",
+                FontSize = 30,
+                FontWeight = FontWeights.Bold,
+                BorderBrush = Brushes.Black,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            canvSettings.Children.Add(labelShowVolumeSound);
+            Canvas.SetLeft(labelShowVolumeSound, Canvas.GetLeft(sliderVolumeSound) + sliderVolumeSound.Width + 20);
+            Canvas.SetTop(labelShowVolumeSound, Canvas.GetTop(labelVolumeSound));
+
             Label labelCheat = new Label()
             {
                 Width = 500,
                 Height = 50,
-                Content = "Enter Cheat Code : ",
+                Content = "Entrer le code de triche : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -203,7 +262,7 @@ namespace Survival
             };
             canvSettings.Children.Add(labelCheat);
             Canvas.SetLeft(labelCheat, 30);
-            Canvas.SetTop(labelCheat, Canvas.GetTop(sliderDifficulty) + sliderDifficulty.Height + 70);
+            Canvas.SetTop(labelCheat, Canvas.GetTop(labelVolumeSound) + labelVolumeSound.Height + 70);
 
             passwordCheat = new PasswordBox()
             {
@@ -216,16 +275,35 @@ namespace Survival
             canvSettings.Children.Add(passwordCheat);
             Canvas.SetLeft(passwordCheat, Canvas.GetLeft(labelCheat) + labelCheat.Width + 20);
             Canvas.SetTop(passwordCheat, Canvas.GetTop(labelCheat));
+
+            Button aboutButton = new Button()
+            {
+                Width = 100,
+                Height = 75,
+                Content = "A propos"
+            };
+            aboutButton.Click += OpenHTP;
+            canvSettings.Children.Add(aboutButton);
+            Canvas.SetLeft(aboutButton, canvSettings.Width - aboutButton.Width - 10);
+            Canvas.SetTop(aboutButton, canvSettings.Height - aboutButton.Height - 10);
         }
 
         private void ExitSettings(object sender, RoutedEventArgs e)
         {
+            Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).ExitSettings();
         }
 
         private void ExitGame(object sender, RoutedEventArgs e)
         {
+            Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).ExitGame();
+        }
+
+        private void OpenHTP(object sender, RoutedEventArgs e)
+        {
+            Engine.Instance.PlaySoundButton();
+            ((MainWindow)Application.Current.MainWindow).OpenHowToPlay();
         }
 
         private void SetSize(object sender, RoutedEventArgs e)
@@ -285,7 +363,7 @@ namespace Survival
             {
                 Width = 500,
                 Height = 50,
-                Content = "Enter a amount of money : ",
+                Content = "Entrer un montant d'argent : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -299,7 +377,7 @@ namespace Survival
             {
                 Width = 200,
                 Height = 50,
-                Text = "Money To Add",
+                Text = "Argent à ajouter",
                 FontSize = 20,
                 FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush(Color.FromArgb(127, 0, 0, 0)),
@@ -314,7 +392,7 @@ namespace Survival
             {
                 Width = 500,
                 Height = 50,
-                Content = "Player Can Get Damage : ",
+                Content = "Joueur invincible : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -326,7 +404,7 @@ namespace Survival
 
             checkDamage = new CheckBox()
             {
-                Content = "Allow Damage",
+                Content = "Permettre les dégats",
                 RenderTransform = new ScaleTransform(3, 3),
                 IsChecked = true,
             };
@@ -375,6 +453,14 @@ namespace Survival
             int difficulty = (int)Math.Round(sliderDifficulty.Value);
             labelShowDifficulty.Content = difficulty;
             //Engine.Instance.MobSpawner.WaveMultiplier = value;
+        }
+
+        public void ChangeVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            double volume = Math.Round(sliderVolumeSound.Value);
+            labelShowVolumeSound.Content = volume + "%";
+            Engine.Instance.SoundVolume = volume;
+            Engine.Instance.SetVolumeSound();
         }
     }
 }

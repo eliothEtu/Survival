@@ -6,7 +6,17 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="background.jpg" />
+    <None Remove="battlefield.jpg" />
     <None Remove="GameEngine\entities\2lhj13jo.obh~" />
+    <None Remove="homeBackground.jpg" />
+    <None Remove="shopBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="background.jpg" />
+    <Resource Include="battlefield.jpg" />
+    <Resource Include="homeBackground.jpg" />
+    <Resource Include="shopBackground.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Image\anneaufeu.png">
@@ -60,13 +70,31 @@
     <None Update="Image\attacks\pixil-frame-0%284%29.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\face %281%29.png">
+    <None Update="Image\close.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\face.png">
+    <None Update="Image\map\grass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Image\monster\pixil-frame-0.png">
+    <None Update="Image\map\grass2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\map\stone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\map\stone2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\monster\flameMonster.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\monster\skeleton.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\monster\zombie.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\monster\zombie2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Image\player\cote_droit_pied.png">
@@ -106,6 +134,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Image\tresor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\WindowAssets\homeBackground.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Image\WindowAssets\shopBackground.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sound\ButtonSound.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

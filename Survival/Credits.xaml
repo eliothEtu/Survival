@@ -1,14 +1,10 @@
-﻿<Window x:Class="Survival.Home"
+﻿<Window x:Class="Survival.Credits"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Survival"
         mc:Ignorable="d"
-        Title="Home" Height="450" Width="800" Background="#FF6B6B6B">
-    <Canvas x:Name="canvHome">
-        <Canvas.Background>
-            <ImageBrush ImageSource="/homeBackground.jpg"/>
-        </Canvas.Background>
-    </Canvas>
+        Title="Credits" Height="450" Width="800" Background="#FF6B6B6B">
+    <Canvas x:Name="canvCredits"/>
 </Window>

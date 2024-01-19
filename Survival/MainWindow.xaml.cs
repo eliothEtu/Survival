@@ -25,7 +25,9 @@ namespace Survival
     /// </summary>
     public partial class MainWindow : Window
     {
+        public HowToPlay howTPWindow;
         public Home homeWindow;
+        public Credits creditsWindow;        
         public PreparationWindow preparationWindow;
         public Shop shopWindow;
         public Settings settingsWindow;
@@ -62,15 +64,13 @@ namespace Survival
             // Engine's constructor define a static instance property in Engine
             new Engine();
 
-            // ((MainWindow)Application.Current.MainWindow).canv
-
-            // this.Show();
-
+            howTPWindow = new HowToPlay();
+            creditsWindow = new Credits();
             preparationWindow = new PreparationWindow();
             shopWindow = new Shop();
             settingsWindow = new Settings();
-            //preparationWindow.Owner = this;
-            //preparationWindow.Hide();
+
+            howTPWindow.ShowDialog();
 
             homeWindow = new Home();
             homeWindow.ShowDialog();
@@ -95,6 +95,28 @@ namespace Survival
             inv.Children.Add(but);
             Canvas.SetLeft(but, inv.Width - but.Width - 20);
             Canvas.SetTop(but, 20);
+        }
+        
+        public void OpenHowToPlay()
+        {
+            howTPWindow.ShowDialog();
+        }
+
+        public void ExitHowToPlay()
+        {
+            howTPWindow.Hide();
+        }
+
+        public void OpenCredits()
+        {
+            homeWindow.Hide();
+            creditsWindow.ShowDialog();
+        }
+
+        public void ExitCredits()
+        {
+            creditsWindow.Hide();
+            homeWindow.ShowDialog();
         }
 
         public void OpenInventory()
@@ -174,7 +196,6 @@ namespace Survival
         public void ExitGame()
         {
             Engine.Instance.timer.Stop();
-            this.Close();
             Application.Current.Shutdown();
         }
 

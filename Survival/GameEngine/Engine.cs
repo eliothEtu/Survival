@@ -15,7 +15,6 @@ using Survival.GameEngine.entities.ai;
 using System.Windows.Media;
 
 /*
-    verifier si il y a des settings a ajouter
     faire le systeme d'argent pour ouvrir les coffres
     faire les images
     finir les collisions
@@ -32,6 +31,8 @@ namespace Survival.GameEngine
         public static Engine Instance { get => instance; }
 
         public static int xValue = 1, yValue = 1;
+
+        public static BitmapImage imageExit = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\close.png"));
 
         private List<Entity> entities = new List<Entity>();
         public List<Entity> Entities { get => entities; }
@@ -54,9 +55,12 @@ namespace Survival.GameEngine
         private List<Entity> entityToRemove = new List<Entity>();
         public List<Entity> EntityToRemove { get => entityToRemove; }
 
+        private double soundVolume;
+        public double SoundVolume { get => soundVolume; set => soundVolume = value; }
+
         private DateTime lastTick = DateTime.Now;
 
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        MediaPlayer soundButton = new MediaPlayer();
         public Engine() 
         {
             if (instance != null)
@@ -65,13 +69,13 @@ namespace Survival.GameEngine
             }
             instance = this;
 
-            this.Player = new Player("Player", 10, 5, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
+            this.Player = new Player("Player", 10, 5, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\face.png")), new Vector2(0, 0), new Vector2(0f, 0f));
             this.Controller = new PlayerController();
             this.Entities.Add(Player);
 
             lastTick = DateTime.Now;
 
-            //mediaPlayer.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Heuss LEnfoiré - Saiyan ft. Gazo (Clip Officiel).mp3"));
+            soundButton.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Sound\\ButtonSound.mp3"));
 
             this.timer.Tick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
@@ -95,8 +99,6 @@ namespace Survival.GameEngine
             this.Entities.Add(mob);*/
 
             this.Renderer = new Renderer();
-
-            //mediaPlayer.Play();
 
             this.timer.Start();
         }
@@ -133,6 +135,24 @@ namespace Survival.GameEngine
             this.EntityToRemove.Clear();
 
             this.lastTick = DateTime.Now;
+        }
+
+        public void OnPlayerDie()
+        {
+            timer.Stop();
+            Entities.Clear();
+            //Appel un fenetre de mort
+        }
+
+        public void SetVolumeSound()
+        {
+            soundButton.Volume = soundVolume / 100;
+        }
+
+        public void PlaySoundButton()
+        {
+            soundButton.Position = TimeSpan.Zero;
+            soundButton.Play();
         }
     }
 }

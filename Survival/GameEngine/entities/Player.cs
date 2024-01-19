@@ -72,7 +72,7 @@ namespace Survival
         ImageBrush dos_droit = new ImageBrush();
         ImageBrush dos_gauche = new ImageBrush();
 
-        ImageBrush[] animeDos = new ImageBrush[3];
+        ImageBrush[] animeDos = new ImageBrush[2];
 
         //animation de coté gauche
         ImageBrush cote_gauche = new ImageBrush();
@@ -107,10 +107,8 @@ namespace Survival
             dos.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\dos.png"));
             dos_droit.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\dos_droit.png"));
             dos_gauche.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\player\\dos_gauche.png"));
-
-            animeDos[0] = dos;
-            animeDos[1] = dos_gauche;
-            animeDos[2] = dos_droit;
+            animeDos[0] = dos_gauche;
+            animeDos[1] = dos_droit;
 
             // chargement des images sur le coté gauche
 
@@ -139,57 +137,6 @@ namespace Survival
 
         public override void Update(float deltaTime)
         {
-
-            /*if (this.Velocity != Vector2.Zero)
-            {
-                accAnimation++;
-                if (accAnimation == LATENCE || this.Velocity.X != AncienVecteur.X || this.Velocity.Y != AncienVecteur.Y)
-                {
-                    accAnimation = 0;
-                    if (this.Velocity.Y == 1)
-                    {
-
-                        if (accFace == animeFace.Length)
-                        {
-                            accFace = 0;
-                        }
-                        this.Rectangle.Fill = animeFace[accFace];
-                        accFace++;
-                    }
-                    else if (this.Velocity.Y == -1)
-                    {
-
-                        if (accDos == animeDos.Length)
-                        {
-                            accDos = 0;
-                        }
-                        this.Rectangle.Fill = animeDos[accDos];
-                        accDos++;
-                    }
-                    else if (this.Velocity.X == 1)
-                    {
-
-                        if (accCoteGauche == animeCoteGauche.Length)
-                        {
-                            accCoteGauche = 0;
-                        }
-                        this.Rectangle.Fill = animeCoteGauche[accCoteGauche];
-                        accCoteGauche++;
-                    }
-                    else if (this.Velocity.X == -1)
-                    {
-
-                        if (accCoteDroit == animeCoteDroit.Length)
-                        {
-                            accCoteDroit = 0;
-                        }
-                        this.Rectangle.Fill = animeCoteDroit[accCoteDroit];
-                        accCoteDroit++;
-                    }
-
-                }
-                AncienVecteur = this.Velocity;
-            }*/
 
             if (this.Velocity.Y == 1)
             {
