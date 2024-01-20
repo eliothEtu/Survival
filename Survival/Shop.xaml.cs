@@ -31,9 +31,10 @@ namespace Survival
         WrapPanel itemInfo;
         public WrapPanel ItemInfo { get => itemInfo; set => itemInfo = value; }
 
-        Label errorMoney, money;
+        Label errorMoney, money, rarity;
         public Label ErrorMoney { get => errorMoney; set => errorMoney = value; }
         public Label Money { get => money; set => money = value; }
+        public Label Rarity { get => rarity; set => rarity = value; }
 
         public Shop()
         {
@@ -126,7 +127,7 @@ namespace Survival
             {
                 Width = 50,
                 Height = 50,
-                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\item\\tresor.png"))
+                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\money.png"))
             };
             canvShop.Children.Add(moneyImage);
             Canvas.SetTop(moneyImage, 10);
@@ -149,7 +150,7 @@ namespace Survival
             {
                 Height = 50,
                 Width = canvShop.Width/2,
-                Content = "Not enough Money",
+                Content = "Pas assez d'argent",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush(Colors.Red),
@@ -205,6 +206,32 @@ namespace Survival
             }
             newPos = Math.Clamp(newPos, -(canvContainer.Width/3), 30);
             Canvas.SetLeft(canvContainer,  newPos);
+        }
+
+        public void ShowChestRarity(List<double> rarity)
+        {
+            string text = "";
+            for (int i = 0 ; i < rarity.Count; i++) { text += $"Tier {i + 1} : {rarity[i] * 100} % / "; }
+            this.Rarity = new Label()
+            {
+                Width = canvShop.Width,
+                Height = 50,
+                Content = text,
+                FontSize = 30,
+                Foreground = new SolidColorBrush(Colors.White),
+                FontWeight = FontWeights.Bold,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            canvShop.Children.Add(this.Rarity);
+            Canvas.SetTop(Rarity, canvShop.Height - Rarity.Height - 10);
+            Canvas.SetLeft(Rarity, 0);
+        }
+
+        public void ClearShowChestRarity()
+        {
+            canvShop.Children.Remove(this.Rarity);
+            this.Rarity = null;
         }
     }
 }

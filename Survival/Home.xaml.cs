@@ -71,13 +71,14 @@ namespace Survival
             {
                 Height = 80,
                 Width = 80,
-                Content = "Paramètre",
+                Background = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\settings.png"))),
+                FocusVisualStyle = null,
                 FontSize = 24
             };
             settingsButton.Click += OpenSettings;
             canvHome.Children.Add(settingsButton);
-            Canvas.SetTop(settingsButton, SystemParameters.PrimaryScreenHeight - settingsButton.Height - 20);
-            Canvas.SetLeft(settingsButton, 20);
+            Canvas.SetTop(settingsButton, 20);
+            Canvas.SetLeft(settingsButton, SystemParameters.PrimaryScreenWidth - settingsButton.Width - 20);
 
             titleImage.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "image\\title.png"));
 

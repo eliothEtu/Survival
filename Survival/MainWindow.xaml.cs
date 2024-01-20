@@ -192,6 +192,7 @@ namespace Survival
 
         public void CloseSettingsInGame()
         {
+            Engine.Instance.timer.Start();
             bSettings = false;
             settingsWindow.Exit.Visibility = Visibility.Visible;
             settingsWindow.Hide();

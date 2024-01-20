@@ -63,7 +63,8 @@ namespace Survival
             {
                 Width = 100,
                 Height = 75,
-                Content = "Continuer"
+                Content = "Continuer",
+                FontSize = 20
             };
             exit.Click += ExitHTP;
             canvHTP.Children.Add(exit);

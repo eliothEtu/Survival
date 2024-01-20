@@ -53,6 +53,8 @@ namespace Survival.GameEngine.Inventory.ItemComponent
                 Background = brush,
             };
             this.But.Click += OpenBox;
+            this.But.MouseEnter += ShowRarity;
+            this.But.MouseLeave += ClearShowRarity;
 
             this.TypeItem = typeItem;
             this.Price = price;
@@ -133,6 +135,16 @@ namespace Survival.GameEngine.Inventory.ItemComponent
             {
                 ((MainWindow)Application.Current.MainWindow).shopWindow.ErrorMoney.Visibility = Visibility.Visible;
             }
+        }
+
+        private void ShowRarity(object sender, EventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).shopWindow.ShowChestRarity(this.Rarity);
+        }
+
+        private void ClearShowRarity(object sender, EventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).shopWindow.ClearShowChestRarity();
         }
     }
 }
