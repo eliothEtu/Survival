@@ -62,7 +62,7 @@ namespace Survival
             {
                 Width = double.NaN,
                 Height = double.NaN,
-                Content = $"Nombre de mob tué : {Engine.Instance.Player.MobKill} \n\nNombre de projectile lancé :  {Engine.Instance.Player.ProjectileFire} \n\nArgent gagné : {Engine.Instance.Player.Money - Engine.Instance.MoneyStartgame} \n\nTemps en vie : {Math.Round((DateTime.Now - Engine.Instance.TimeStartGame).TotalSeconds)} secondes",
+                Content = $"Nombre de mob tués : {Engine.Instance.Player.MobKill} \n\nNombre de projectiles lancées :  {Engine.Instance.Player.ProjectileFire} \n\nArgent gagné : {Engine.Instance.Player.Money - Engine.Instance.MoneyStartgame} \n\nTemps en vie : {Math.Round((DateTime.Now - Engine.Instance.TimeStartGame).TotalSeconds)} secondes",
                 FontSize = 25,
                 FontWeight = FontWeights.Bold,
             };
@@ -91,7 +91,7 @@ namespace Survival
 
         public void UpdateStat()
         {
-            stat.Content = $"Nombre de mob tué : {Engine.Instance.Player.MobKill} \n\nNombre de projectile lancé :  {Engine.Instance.Player.ProjectileFire} \n\nArgent gagné : {Engine.Instance.Player.Money - Engine.Instance.MoneyStartgame} \n\nTemps en vie : {Math.Round((DateTime.Now - Engine.Instance.TimeStartGame).TotalSeconds)} secondes";
+            stat.Content = $"Nombre de mob tués : {Engine.Instance.Player.MobKill} \n\nNombre de projectiles lancées :  {Engine.Instance.Player.ProjectileFire} \n\nArgent gagné : {Engine.Instance.Player.Money - Engine.Instance.MoneyStartgame} \n\nTemps en vie : {Math.Round((DateTime.Now - Engine.Instance.TimeStartGame).TotalSeconds)} secondes";
         }
     }
 }

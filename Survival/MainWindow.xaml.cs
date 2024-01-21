@@ -32,6 +32,7 @@ namespace Survival
         public Shop shopWindow;
         public Settings settingsWindow;
         public DeathWindow deathWindow;
+        public Archives archivesWindow;
 
         private string[] itemName = new string[5];
         private Dictionary<string, string> itemDescription = new Dictionary<string, string>();
@@ -71,6 +72,7 @@ namespace Survival
             shopWindow = new Shop();
             settingsWindow = new Settings();
             deathWindow = new DeathWindow();
+            archivesWindow = new Archives();
 
             howTPWindow.ShowDialog();
 
@@ -183,21 +185,6 @@ namespace Survival
             homeWindow.ShowDialog();
         }
 
-        public void OpenSettingsInGame()
-        {
-            bSettings = true;
-            settingsWindow.Exit.Visibility = Visibility.Hidden;
-            settingsWindow.ShowDialog();
-        }
-
-        public void CloseSettingsInGame()
-        {
-            Engine.Instance.timer.Start();
-            bSettings = false;
-            settingsWindow.Exit.Visibility = Visibility.Visible;
-            settingsWindow.Hide();
-        }
-
         public void StartGame()
         {
             preparationWindow.Hide();
@@ -220,6 +207,18 @@ namespace Survival
         public void ExitDeathWindow()
         {
             deathWindow.Hide();
+            homeWindow.ShowDialog();
+        }
+
+        public void OpenArchives()
+        {
+            homeWindow.Hide();
+            archivesWindow.ShowDialog();
+        }
+
+        public void ExitArchives()
+        {
+            archivesWindow.Hide();
             homeWindow.ShowDialog();
         }
 

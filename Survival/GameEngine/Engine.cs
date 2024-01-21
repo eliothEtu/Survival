@@ -15,11 +15,8 @@ using Survival.GameEngine.entities.ai;
 using System.Windows.Media;
 
 /*
-    faire le systeme d'argent pour ouvrir les coffres
-    faire les images
+    Faire une fenêtre pour donner les items et leur bonus
     finir les collisions
-    finir le take damage
-    relancer la game
     son
  */
 

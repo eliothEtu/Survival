@@ -150,7 +150,7 @@ namespace Survival
             {
                 Height = 50,
                 Width = canvShop.Width/2,
-                Content = "Pas assez d'argent",
+                Content = "Montant insuffisant",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush(Colors.Red),
@@ -173,11 +173,17 @@ namespace Survival
             ResetItemInfo();
         }
 
+        private void ClearItemInfo()
+        {
+            ItemInfo.Visibility = Visibility.Hidden;
+            ResetItemInfo();
+        }
+
         public void ResetItemInfo()
         {
             if (ItemInfo.Children.Count > 1)
             {
-                for (int i = 1; i < ItemInfo.Children.Count; i++)
+                for (int i = 0; i < ItemInfo.Children.Count+1; i++)
                 {
                     ItemInfo.Children.RemoveAt(0);
                 }
@@ -187,6 +193,7 @@ namespace Survival
         private void ExitShop(object sender, RoutedEventArgs e)
         {
             Engine.Instance.PlaySoundButton();
+            ClearItemInfo();
             ErrorMoney.Visibility = Visibility.Hidden;
             ((MainWindow)Application.Current.MainWindow).ExitShop();
         }

@@ -62,12 +62,12 @@ namespace Survival.GameEngine.Inventory.ItemComponent
 
         void OpenBox(object sender, RoutedEventArgs e)
         {
+            ((MainWindow)Application.Current.MainWindow).shopWindow.ResetItemInfo();
             ((MainWindow)Application.Current.MainWindow).shopWindow.ErrorMoney.Visibility = Visibility.Hidden;
             if (Engine.Instance.Player.Money >= this.Price)
             {
                 Engine.Instance.Player.Money = Engine.Instance.Player.Money - this.Price;
                 ((MainWindow)Application.Current.MainWindow).shopWindow.UpdateMoneyPlayer();
-                ((MainWindow)Application.Current.MainWindow).shopWindow.ResetItemInfo();
                 int tier = 0;
                 for (int i = 0; i < random.Next(2, 10); i++)
                 {

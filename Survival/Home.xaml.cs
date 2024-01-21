@@ -55,6 +55,18 @@ namespace Survival
             Canvas.SetTop(openShop, Canvas.GetTop(launchGame) + launchGame.Height);
             Canvas.SetLeft(openShop, SystemParameters.PrimaryScreenWidth / 2 - openShop.Width / 2);
 
+            Button archivesButton = new Button()
+            {
+                Height = 80,
+                Width = SystemParameters.PrimaryScreenWidth / 4,
+                Content = "Archives",
+                FontSize = 30
+            };
+            archivesButton.Click += OpenArchives;
+            canvHome.Children.Add(archivesButton);
+            Canvas.SetTop(archivesButton, Canvas.GetTop(openShop) + openShop.Height);
+            Canvas.SetLeft(archivesButton, SystemParameters.PrimaryScreenWidth / 2 - archivesButton.Width / 2);
+
             Button creditButton = new Button()
             {
                 Height = 80,
@@ -64,7 +76,7 @@ namespace Survival
             };
             creditButton.Click += OpenCredits;
             canvHome.Children.Add(creditButton);
-            Canvas.SetTop(creditButton, Canvas.GetTop(openShop) + openShop.Height);
+            Canvas.SetTop(creditButton, Canvas.GetTop(archivesButton) + archivesButton.Height);
             Canvas.SetLeft(creditButton, SystemParameters.PrimaryScreenWidth / 2 - creditButton.Width / 2);
 
             Button settingsButton = new Button()
@@ -114,6 +126,12 @@ namespace Survival
         {
             Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).OpenCredits();
+        }
+
+        private void OpenArchives(object sender, RoutedEventArgs e)
+        {
+            Engine.Instance.PlaySoundButton();
+            ((MainWindow)Application.Current.MainWindow).OpenArchives();
         }
     }
 }

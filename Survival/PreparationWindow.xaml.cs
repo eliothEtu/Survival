@@ -129,6 +129,12 @@ namespace Survival
         private void ExitPreparation( object sender, EventArgs e)
         {
             Engine.Instance.PlaySoundButton();
+            foreach (Item i in itemEquiped)
+            {
+                i.bCanDrag = true;
+                canvPW.Children.Remove(i.Rectangle);
+            }
+            itemEquiped.Clear();
             ((MainWindow)Application.Current.MainWindow).ExitPreparation();
         }
 
@@ -168,7 +174,7 @@ namespace Survival
                                 Engine.Instance.Player.BaseDamage += armor.Bonus.Item2;
                                 break;
                             case "ProjectileVelocity":
-                                Engine.Instance.Player.ProjectileVelocity += armor.Bonus.Item2;
+                                Engine.Instance.Player.ProjectileVelocity += (float)armor.Bonus.Item2;
                                 break;
                             case "ProjectileLifeSpan":
                                 Engine.Instance.Player.ProjectileLifeSpan += TimeSpan.FromSeconds(armor.Bonus.Item2);
@@ -201,6 +207,7 @@ namespace Survival
                 i.bCanDrag = true;
                 canvPW.Children.Remove(i.Rectangle);
             }
+            itemEquiped.Clear();
             ((MainWindow)Application.Current.MainWindow).StartGame();
         }
         public void LoadInventory()
@@ -216,9 +223,9 @@ namespace Survival
 
             inventoryEquipment.Children.Clear();
             foreach (Item i in Engine.Instance.Player.Inventory.InventoryList)
+            {
                 inventoryEquipment.Children.Add(i.Rectangle);
-
-            
+            }       
         }
 
         public void ShowSlot()
@@ -275,7 +282,6 @@ namespace Survival
                                 {
                                     foreach (Item i in itemEquiped)
                                     {
-                                        Console.WriteLine(i.Quantity);
                                         if (i is Armor)
                                         {
                                             Armor equiped = i as Armor;
@@ -302,6 +308,19 @@ namespace Survival
                                 Artifact artifact = dragObject as Artifact;
                                 if (artifact.Type == keyValuePair.Key)
                                 {
+                                    foreach (Item i in itemEquiped)
+                                    {
+                                        if (i is Artifact)
+                                        {
+                                            Artifact equiped = i as Artifact;
+                                            itemEquiped.Remove(i);
+                                            Rectangle remove = i.Rectangle;
+                                            canvPW.Children.Remove(remove);
+                                            i.bCanDrag = true;
+                                            inventoryEquipment.Children.Add(i.Rectangle);
+                                            break;
+                                        }
+                                    }
                                     dragObject.bCanDrag = false;
                                     Canvas.SetTop(dragObject.Rectangle, Canvas.GetTop(keyValuePair.Value));
                                     Canvas.SetLeft(dragObject.Rectangle, Canvas.GetLeft(keyValuePair.Value));
@@ -316,6 +335,19 @@ namespace Survival
                                 Ring ring = dragObject as Ring;
                                 if (ring.Type == keyValuePair.Key)
                                 {
+                                    foreach (Item i in itemEquiped)
+                                    {
+                                        if (i is Ring)
+                                        {
+                                            Ring equiped = i as Ring;
+                                            itemEquiped.Remove(i);
+                                            Rectangle remove = i.Rectangle;
+                                            canvPW.Children.Remove(remove);
+                                            i.bCanDrag = true;
+                                            inventoryEquipment.Children.Add(i.Rectangle);
+                                            break;
+                                        }
+                                    }
                                     dragObject.bCanDrag = false;
                                     Canvas.SetTop(dragObject.Rectangle, Canvas.GetTop(keyValuePair.Value));
                                     Canvas.SetLeft(dragObject.Rectangle, Canvas.GetLeft(keyValuePair.Value));

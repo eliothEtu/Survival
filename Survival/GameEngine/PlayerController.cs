@@ -62,11 +62,6 @@ namespace Survival.GameEngine
             {
                 ((MainWindow)Application.Current.MainWindow).CloseInventory();
             }
-            if (!((MainWindow)Application.Current.MainWindow).bSettings && key.Key == Key.Escape)
-            {
-                Engine.Instance.timer.Stop();
-                ((MainWindow)Application.Current.MainWindow).OpenSettingsInGame();
-            }
         }
 
         public void KeyUp(KeyEventArgs key)

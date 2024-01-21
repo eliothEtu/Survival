@@ -211,7 +211,7 @@ namespace Survival
             {
                 Width = double.NaN,
                 Height = 50,
-                Content = "Nombre de mob qui sapwn = numéro de la vague multipliée par la valeur du slider",
+                Content = "Nombre de mob qui spawn = numéro de la vague multiplié par la valeur du slider",
                 Foreground = Brushes.LightGray,
                 FontSize = 20,
                 FontWeight = FontWeights.Bold,
@@ -227,7 +227,7 @@ namespace Survival
             {
                 Width = 500,
                 Height = 50,
-                Content = "Volume des son : ",
+                Content = "Volume des sons : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -329,18 +329,8 @@ namespace Survival
             ((MainWindow)Application.Current.MainWindow).OpenHowToPlay();
         }
 
-        private void canvSettings_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (((MainWindow)Application.Current.MainWindow).bSettings == true && e.Key == Key.Escape)
-            {
-                ConfirmSizeButton.Background = new SolidColorBrush(Color.FromRgb(221, 221, 221)); 
-                if (AddMoneyButton != null)
-                {
-                    AddMoneyButton.Background = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-                }
-                ((MainWindow)Application.Current.MainWindow).CloseSettingsInGame();
-            }
-
+        private void canvSettings_KeyDown(object sender, KeyEventArgs e)        
+        { 
             if (e.Key == Key.Enter)
             {
                 if (PasswordCheat.Password == CODE)
@@ -374,7 +364,7 @@ namespace Survival
             {
                 Width = 500,
                 Height = 50,
-                Content = "Entrer un montant d'argent : ",
+                Content = "Entrer une somme d'argent : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,

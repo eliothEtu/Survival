@@ -11,8 +11,8 @@ namespace Survival.GameEngine.Inventory.ItemComponent
     {
         private readonly string[] PARTS_POSSIBLE = new string[] { "Helmet", "Chestplate", "Boots", "Gloves"};
 
-        private Tuple<string, int> bonus;
-        public Tuple<string, int> Bonus
+        private Tuple<string, double> bonus;
+        public Tuple<string, double> Bonus
         {
             get => bonus;
             set
@@ -39,7 +39,7 @@ namespace Survival.GameEngine.Inventory.ItemComponent
             }
         }
 
-        public Armor(string name, string part, string description, BitmapImage image, string type, Tuple<string, int> bonus, int tier) : base(name, description, image, type, tier)
+        public Armor(string name, string part, string description, BitmapImage image, string type, Tuple<string, double> bonus, int tier) : base(name, description, image, type, tier)
         {
             Bonus = bonus;
             Part = part;
