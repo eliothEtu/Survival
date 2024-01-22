@@ -52,13 +52,7 @@ namespace Survival.GameEngine
                 {
                     player.Velocity = new Vector2(1, player.Velocity.Y);
                 }
-            }
-
-            if (!((MainWindow)Application.Current.MainWindow).bSettings && key.Key == Key.Escape)
-            {
-                Engine.Instance.timer.Stop();
-                ((MainWindow)Application.Current.MainWindow).OpenSettingsInGame();
-            } 
+            }            
 
             if (!((MainWindow)Application.Current.MainWindow).bInventory && key.Key == Key.I)
             {

@@ -15,6 +15,9 @@ namespace Survival.GameEngine
         private int wave = 0;
         private double waveMultiplier = 3.5;
 
+        private ushort maxDistanceSpawn;
+        public ushort MaxDistanceSpawn { get => maxDistanceSpawn; set => maxDistanceSpawn = value; }
+
         public int Wave { get => this.wave; set => this.wave = value; }
         public double WaveMultiplier
         {
@@ -26,7 +29,7 @@ namespace Survival.GameEngine
         {
             for (int i = 0; i < (int)(wave * waveMultiplier); i++)
             {
-                Mob mob = new Mob("Mob" + i.ToString(), 3 * wave, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\face.png")), Engine.Instance.MapGenerator.GetMobSpawnPos(2, 15), new Vector2(0f, 0f));
+                Mob mob = new Mob("Mob" + i.ToString(), 3 * wave, new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\monster\\flameMonster.png")), Engine.Instance.MapGenerator.GetMobSpawnPos(2, this.MaxDistanceSpawn), new Vector2(0f, 0f));
                 FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
                 followPlayerBehavior.Player = Engine.Instance.Player;
                 mob.FocusDistance = 100;

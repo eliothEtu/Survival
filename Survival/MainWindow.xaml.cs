@@ -31,6 +31,8 @@ namespace Survival
         public PreparationWindow preparationWindow;
         public Shop shopWindow;
         public Settings settingsWindow;
+        public DeathWindow deathWindow;
+        public Archives archivesWindow;
 
         private string[] itemName = new string[5];
         private Dictionary<string, string> itemDescription = new Dictionary<string, string>();
@@ -69,6 +71,8 @@ namespace Survival
             preparationWindow = new PreparationWindow();
             shopWindow = new Shop();
             settingsWindow = new Settings();
+            deathWindow = new DeathWindow();
+            archivesWindow = new Archives();
 
             howTPWindow.ShowDialog();
 
@@ -128,6 +132,13 @@ namespace Survival
             invUi.Visibility = Visibility.Visible;
             Canvas.SetZIndex(invUi, 1);
         }
+        
+        public void CloseInventory(object sender, RoutedEventArgs e)
+        {
+            bInventory = false;
+            inv.Visibility = Visibility.Hidden;
+            Engine.Instance.timer.Start();
+        }
 
         public void CloseInventory()
         {
@@ -136,7 +147,7 @@ namespace Survival
             Engine.Instance.timer.Start();
         }
 
-        public void LaunchGame()
+        public void OpenPreparation()
         {
             homeWindow.Hide();
             preparationWindow.LoadInventory();
@@ -152,6 +163,7 @@ namespace Survival
         public void OpenShop()
         {
             homeWindow.Hide();
+            shopWindow.UpdateMoneyPlayer();
             shopWindow.ShowDialog();
         }
 
@@ -173,20 +185,6 @@ namespace Survival
             homeWindow.ShowDialog();
         }
 
-        public void OpenSettingsInGame()
-        {
-            bSettings = true;
-            settingsWindow.Exit.Visibility = Visibility.Hidden;
-            settingsWindow.ShowDialog();
-        }
-
-        public void CloseSettingsInGame()
-        {
-            bSettings = false;
-            settingsWindow.Exit.Visibility = Visibility.Visible;
-            settingsWindow.Hide();
-        }
-
         public void StartGame()
         {
             preparationWindow.Hide();
@@ -199,10 +197,29 @@ namespace Survival
             Application.Current.Shutdown();
         }
 
-        public void CloseInventory(object sender, RoutedEventArgs e)
+        public void OpenDeathWindow()
         {
-            bInventory = false;
-            inv.Visibility = Visibility.Hidden;
+            itemContainer.Children.Clear();
+            deathWindow.UpdateStat();
+            deathWindow.ShowDialog();
+        }
+
+        public void ExitDeathWindow()
+        {
+            deathWindow.Hide();
+            homeWindow.ShowDialog();
+        }
+
+        public void OpenArchives()
+        {
+            homeWindow.Hide();
+            archivesWindow.ShowDialog();
+        }
+
+        public void ExitArchives()
+        {
+            archivesWindow.Hide();
+            homeWindow.ShowDialog();
         }
 
         private void LoadInventory()

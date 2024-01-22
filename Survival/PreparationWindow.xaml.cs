@@ -27,12 +27,13 @@ namespace Survival
 
         Dictionary<string, Rectangle> equipments = new Dictionary<string, Rectangle>();
         List<Item> itemEquiped = new List<Item>();
-        string[] nameSlot = new string[] { "Helmet", "Chestplate", "Leggings", "Boots", "Gloves", "Ring", "Artifact" };
+        string[] nameSlot = new string[] { "Helmet", "Chestplate", "Boots", "Gloves", "Ring", "Artifact" };
 
         WrapPanel inventoryEquipment = new WrapPanel();
+        Label error = new Label();
 
         public Item dragObject = null;
-        bool bObjectSet = false;
+        bool bArtefactSet, bObjectSet = false;
 
         public PreparationWindow()
         {
@@ -43,6 +44,18 @@ namespace Survival
 
             canvPW.Width = SystemParameters.PrimaryScreenWidth;
             canvPW.Height = SystemParameters.PrimaryScreenHeight;
+
+            Button exit = new Button()
+            {
+                Width = 75,
+                Height = 75,
+                Background = new ImageBrush(Engine.imageExit),
+            };
+            Canvas.SetZIndex(exit, 1);
+            exit.Click += ExitPreparation;
+            canvPW.Children.Add(exit);
+            Canvas.SetLeft(exit, canvPW.Width - exit.Width - 10);
+            Canvas.SetTop(exit, 10);
 
             Label title = new Label()
             {
@@ -79,7 +92,7 @@ namespace Survival
                     Stroke = Brushes.Black
                 };
                 canvPW.Children.Add(rectangle);
-                if (i < 5)
+                if (i < nameSlot.Length-2)
                 {
                     Canvas.SetLeft(rectangle, 50 + player.Width + 20);
                     Canvas.SetTop(rectangle, player.Height / 2 - 10 + rectangle.Height * i + 10);
@@ -113,18 +126,130 @@ namespace Survival
             Canvas.SetLeft(startGame, SystemParameters.PrimaryScreenWidth - 20 - startGame.Width);
         }
 
+        private void ExitPreparation( object sender, EventArgs e)
+        {
+            Engine.Instance.PlaySoundButton();
+            foreach (Item i in itemEquiped)
+            {
+                i.bCanDrag = true;
+                canvPW.Children.Remove(i.Rectangle);
+            }
+            itemEquiped.Clear();
+            ((MainWindow)Application.Current.MainWindow).ExitPreparation();
+        }
+
         void Start(object sender, RoutedEventArgs e)
         {
             Engine.Instance.PlaySoundButton();
+            if (!bArtefactSet)
+            {
+                error = new Label()
+                {
+                    Width = canvPW.Width / 2,
+                    Height = 180,
+                    Content = "Vous n'avez pas équipé d'artéfacts. Veuillez en equiper un.",
+                    FontSize = 40,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = new SolidColorBrush(Color.FromRgb(225, 0, 0)),
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                };
+                canvPW.Children.Add(error);
+                Canvas.SetLeft(error, canvPW.Width / 2 - error.Width / 2);
+                Canvas.SetTop(error, canvPW.Height - error.Height);
+                return;
+            }
+            foreach (Item item in itemEquiped)
+            {
+                switch (item.Type)
+                {
+                    case "Armor":
+                        Armor armor = item as Armor;
+                        switch (armor.Bonus.Item1)
+                        {
+                            case "Health":
+                                Engine.Instance.Player.Life += armor.Bonus.Item2;
+                                break;
+                            case "Damage":
+                                Engine.Instance.Player.BaseDamage += armor.Bonus.Item2;
+                                break;
+                            case "ProjectileVelocity":
+                                Engine.Instance.Player.ProjectileVelocity += (float)armor.Bonus.Item2;
+                                break;
+                            case "ProjectileLifeSpan":
+                                Engine.Instance.Player.ProjectileLifeSpan += TimeSpan.FromSeconds(armor.Bonus.Item2);
+                                break;
+                        }
+                        break;
+
+                    case "Ring":
+                        Ring ring = item as Ring;
+                        switch (ring.Bonus.Item1)
+                        {
+                            case "Health":
+                                Engine.Instance.Player.Life *= ring.Bonus.Item2;
+                                break;
+                            case "Damage":
+                                Engine.Instance.Player.BaseDamage *= ring.Bonus.Item2;
+                                break;
+                            case "ProjectileVelocity":
+                                Engine.Instance.Player.ProjectileVelocity *= (float)ring.Bonus.Item2;
+                                break;
+                            case "ProjectileLifeSpan":
+                                Engine.Instance.Player.ProjectileLifeSpan *= ring.Bonus.Item2;
+                                break;
+                        }
+                        break;
+                    case "Artifact":
+                        Artifact a = item as Artifact;
+                        Engine.Instance.Player.BaseDamage += a.Damage;
+                        break;
+                }
+            }
+            foreach (Item i in itemEquiped)
+            {
+                i.bCanDrag = true;
+                canvPW.Children.Remove(i.Rectangle);
+            }
+            itemEquiped.Clear();
             ((MainWindow)Application.Current.MainWindow).StartGame();
         }
         public void LoadInventory()
         {
+            foreach (Item i in itemEquiped)
+            {
+                if (canvPW.Children.Contains(i.Rectangle))
+                {
+                    canvPW.Children.Remove(i.Rectangle);
+                    i.bCanDrag = true;
+                }
+            }
+
+            inventoryEquipment.Children.Clear();
             foreach (Item i in Engine.Instance.Player.Inventory.InventoryList)
+            {
                 inventoryEquipment.Children.Add(i.Rectangle);
+            }       
         }
 
-        private void canvPW_PreviewMouseMove(object sender, MouseEventArgs e) ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void ShowSlot()
+        {
+            switch (dragObject.Type)
+            {
+                case "Armor":
+                    Armor a = dragObject as Armor;
+                    equipments[a.Part].Fill = new SolidColorBrush(Colors.Yellow);
+                    break;
+                case "Ring":
+                    equipments[dragObject.Type].Fill = new SolidColorBrush(Colors.Yellow);
+                    break;
+                case "Artifact":
+                    equipments[dragObject.Type].Fill = new SolidColorBrush(Colors.Yellow);
+                    break;
+            }
+        }
+
+        private void canvPW_PreviewMouseMove(object sender, MouseEventArgs e) 
         {
             if (dragObject == null)
             {
@@ -140,8 +265,9 @@ namespace Survival
             Canvas.SetLeft(dragObject.Rectangle, position.X - dragObject.Rectangle.Width / 2);
         }
 
-        private void canvPW_PreviewMouseUp(object sender, MouseButtonEventArgs e) ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void canvPW_PreviewMouseUp(object sender, MouseButtonEventArgs e) 
         {
+            error.Content = string.Empty;
             bObjectSet = false;
             if (dragObject != null)
             {
@@ -160,7 +286,6 @@ namespace Survival
                                 {
                                     foreach (Item i in itemEquiped)
                                     {
-                                        Console.WriteLine(i.Quantity);
                                         if (i is Armor)
                                         {
                                             Armor equiped = i as Armor;
@@ -187,21 +312,25 @@ namespace Survival
                                 Artifact artifact = dragObject as Artifact;
                                 if (artifact.Type == keyValuePair.Key)
                                 {
+                                    foreach (Item i in itemEquiped)
+                                    {
+                                        if (i is Artifact)
+                                        {
+                                            Artifact equiped = i as Artifact;
+                                            itemEquiped.Remove(i);
+                                            Rectangle remove = i.Rectangle;
+                                            canvPW.Children.Remove(remove);
+                                            i.bCanDrag = true;
+                                            inventoryEquipment.Children.Add(i.Rectangle);
+                                            break;
+                                        }
+                                    }
                                     dragObject.bCanDrag = false;
                                     Canvas.SetTop(dragObject.Rectangle, Canvas.GetTop(keyValuePair.Value));
                                     Canvas.SetLeft(dragObject.Rectangle, Canvas.GetLeft(keyValuePair.Value));
                                     itemEquiped.Add(dragObject);
-
-                                    Rectangle imagePower = new Rectangle()
-                                    {
-                                        Width = 400,
-                                        Height = 400,
-                                        Fill = dragObject.Texture
-                                    };
-                                    canvPW.Children.Add(imagePower);
-                                    Canvas.SetTop(imagePower, Canvas.GetTop(player) + player.Height / 2 - 60);
-                                    Canvas.SetLeft(imagePower, Canvas.GetLeft(player) + 20);
                                     Engine.Instance.Player.ItemEquiped = artifact;
+                                    bArtefactSet = true;
                                     bObjectSet = true;
                                 }
                                 break;
@@ -210,6 +339,19 @@ namespace Survival
                                 Ring ring = dragObject as Ring;
                                 if (ring.Type == keyValuePair.Key)
                                 {
+                                    foreach (Item i in itemEquiped)
+                                    {
+                                        if (i is Ring)
+                                        {
+                                            Ring equiped = i as Ring;
+                                            itemEquiped.Remove(i);
+                                            Rectangle remove = i.Rectangle;
+                                            canvPW.Children.Remove(remove);
+                                            i.bCanDrag = true;
+                                            inventoryEquipment.Children.Add(i.Rectangle);
+                                            break;
+                                        }
+                                    }
                                     dragObject.bCanDrag = false;
                                     Canvas.SetTop(dragObject.Rectangle, Canvas.GetTop(keyValuePair.Value));
                                     Canvas.SetLeft(dragObject.Rectangle, Canvas.GetLeft(keyValuePair.Value));
@@ -226,8 +368,13 @@ namespace Survival
                 if (dragObject != null)
                 {
                     canvPW.Children.Remove(dragObject.Rectangle);
-                    inventoryEquipment.Children.Add(dragObject.Rectangle);
+                    inventoryEquipment.Children.Add(dragObject.Rectangle);                    
                 }
+            }
+            foreach (KeyValuePair<string, Rectangle> keyValuePair in equipments)
+            {
+                keyValuePair.Value.Fill = Brushes.DarkGray;
+                keyValuePair.Value.Stroke = Brushes.Black;
             }
             dragObject = null;
             canvPW.ReleaseMouseCapture();

@@ -13,25 +13,36 @@ namespace Survival.GameEngine.Inventory
     {
         public static readonly Dictionary<string, List<Item>> ITEMS_POSSIBLE = new Dictionary<string, List<Item>>()
         {
-            { "Armor", new List<Item>
+            { "Armure", new List<Item>
                 {
-                    new Armor("Helmet", "Helmet", "Simple helmet", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Helmet R.png")), "Armor", Tuple.Create("Health", 1), 1),
-                    new Armor("Chestplate", "Chestplate", "Simple Chestplate", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\ChestplateR.png")), "Armor", Tuple.Create("", 1), 1),
-                    new Armor("Leggings", "Leggings", "Simple Leggings", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\tresor.png")), "Armor", Tuple.Create("", 1), 1),
-                    new Armor("Boots", "Boots", "Simple Boots", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\BootsR.png")), "Armor", Tuple.Create("", 1), 1),
-                    new Armor("Gloves", "Gloves", "Simple Gloves", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\GloveR.png")), "Armor", Tuple.Create("", 1), 1)
+                    new Armor("Casque", "Helmet", "Simple helmet", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier1Helmet.png")), "Armor", Tuple.Create("ProjectileVelocity", 0.5), 1),
+                    new Armor("Plastron", "Chestplate", "Simple Chestplate", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier1Chestplate.png")), "Armor", Tuple.Create("Health", 2.0), 1),
+                    new Armor("Gants", "Gloves", "Simple Gloves", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier1Glove.png")), "Armor", Tuple.Create("Damage", 1.0), 1),
+                    new Armor("Chaussures", "Boots", "Simple Boots", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier1Boots.png")), "Armor", Tuple.Create("ProjectileLifeSpan", 1.0), 1),
+
+                    new Armor("Casque", "Helmet", "Simple helmet", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier2Helmet.png")), "Armor", Tuple.Create("ProjectileVelocity", 1.0), 2),
+                    new Armor("Plastron", "Chestplate", "Simple Chestplate", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier2Chestplate.png")), "Armor", Tuple.Create("Health", 5.0), 2),
+                    new Armor("Gants", "Gloves", "Simple Gloves", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier2Glove.png")), "Armor", Tuple.Create("Damage", 2.0), 2),
+                    new Armor("Chaussures", "Boots", "Simple Boots", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier2Boots.png")), "Armor", Tuple.Create("ProjectileLifeSpan", 2.0), 2),
+
+                    new Armor("Casque", "Helmet", "Simple helmet", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier3Helmet.png")), "Armor", Tuple.Create("ProjectileVelocity", 1.5), 3),
+                    new Armor("Plastron", "Chestplate", "Simple Chestplate", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier3Chestplate.png")), "Armor", Tuple.Create("Health", 16.0), 3),
+                    new Armor("Gants", "Gloves", "Simple Gloves", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier3Glove.png")), "Armor", Tuple.Create("Damage", 3.0), 3),
+                    new Armor("Chaussures", "Boots", "Simple Boots", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\armor\\Tier3Boots.png")), "Armor", Tuple.Create("ProjectileLifeSpan", 3.0), 3),
                 }
             },
-            { "Ring", new List<Item>
+            { "Anneau", new List<Item>
                 {
-                    new Ring("Ring of Fire", "Fire Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("Health", 1.5), 1),
-                    new Ring("Ring of Ice", "Ice Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("", 1.0), 2),
-                    new Ring("Ring of Sound", "Sound Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\anneauFeu.png")), "Ring", Tuple.Create("", 1.0), 3),
+                    new Ring("Bague de feu", "Fire Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\item\\Tier1Ring.png")), "Ring", Tuple.Create("ProjectileVelocity", 1.5), 1),
+                    new Ring("Bague de glace", "Ice Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\item\\Tier2Ring.png")), "Ring", Tuple.Create("Health", 5.0), 2),
+                    new Ring("Bague de corruption", "Sound Ring", new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\item\\Tier3Ring.png")), "Ring", Tuple.Create("Damage", 3.0), 3),
                 }
             },
-            { "Artifact", new List<Item>
+            { "Artéfact", new List<Item>
                 {
-                new Artifact("fire","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\flamme.png")),"Artifact", TimeSpan.FromSeconds(1), 1)
+                new Artifact("Flamme","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier1Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\flame.png")),"Artifact", TimeSpan.FromSeconds(1), 1, 1),
+                new Artifact("Glace","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier2Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\ice.png")),"Artifact", TimeSpan.FromSeconds(1), 3, 2),
+                new Artifact("Corruption","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier3Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\corupt.png")),"Artifact", TimeSpan.FromSeconds(1), 6, 3)
                 }
             }
         };

@@ -34,10 +34,27 @@ namespace Survival
         private Rectangle separator;
         private Label labelMoney;
         private TextBox moneyText;
-        private Label texInvicible;
+        private Button addMoneyButton;
+        private Label textInvincible;
         private CheckBox checkDamage;
 
-        public Button Exit { get => exit; set => exit = value; }
+        public Button Exit { get => Exit1; set => Exit1 = value; }
+        public Button AddMoneyButton { get => AddMoneyButton1; set => AddMoneyButton1 = value; }
+        public CheckBox CheckDamage { get => checkDamage; set => checkDamage = value; }
+        public Label TextInvincible { get => textInvincible; set => textInvincible = value; }
+        public Button AddMoneyButton1 { get => addMoneyButton; set => addMoneyButton = value; }
+        public TextBox MoneyText { get => moneyText; set => moneyText = value; }
+        public Label LabelMoney { get => labelMoney; set => labelMoney = value; }
+        public Rectangle Separator { get => separator; set => separator = value; }
+        public PasswordBox PasswordCheat { get => passwordCheat; set => passwordCheat = value; }
+        public Label LabelShowDifficulty { get => labelShowDifficulty; set => labelShowDifficulty = value; }
+        public Label LabelShowVolumeSound { get => labelShowVolumeSound; set => labelShowVolumeSound = value; }
+        public Slider SliderDifficulty { get => sliderDifficulty; set => sliderDifficulty = value; }
+        public Slider SliderVolumeSound { get => sliderVolumeSound; set => sliderVolumeSound = value; }
+        public TextBox XValueText { get => xValueText; set => xValueText = value; }
+        public TextBox YValueText { get => yValueText; set => yValueText = value; }
+        public Button Exit1 { get => exit; set => exit = value; }
+        public Button ConfirmSizeButton { get => confirmSizeButton; set => confirmSizeButton = value; }
 
         public Settings()
         {
@@ -90,9 +107,9 @@ namespace Survival
 
             Label labelSize = new Label()
             {
-                Width = 500,
+                Width = 600,
                 Height = 50,
-                Content = "Taille de la map (base : x = 10 / y = 10) :",
+                Content = "Taille de la map (base : x = 20 / y = 20) :",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -102,7 +119,7 @@ namespace Survival
             Canvas.SetLeft(labelSize, 30);
             Canvas.SetTop(labelSize, Canvas.GetTop(title) + title.Height + 100);
 
-            xValueText = new TextBox()
+            XValueText = new TextBox()
             {
                 Width = 200,
                 Height = 50,
@@ -112,13 +129,13 @@ namespace Survival
                 Foreground = new SolidColorBrush(Color.FromArgb(127, 0, 0, 0)),
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            xValueText.PreviewTextInput += TextInput;
-            xValueText.GotFocus += GotFocusOnTextBox;
-            canvSettings.Children.Add(xValueText);
-            Canvas.SetLeft(xValueText, Canvas.GetLeft(labelSize) + labelSize.Width + 20);
-            Canvas.SetTop(xValueText, Canvas.GetTop(labelSize));
+            XValueText.PreviewTextInput += TextInput;
+            XValueText.GotFocus += GotFocusOnTextBox;
+            canvSettings.Children.Add(XValueText);
+            Canvas.SetLeft(XValueText, Canvas.GetLeft(labelSize) + labelSize.Width + 20);
+            Canvas.SetTop(XValueText, Canvas.GetTop(labelSize));
 
-            yValueText = new TextBox()
+            YValueText = new TextBox()
             {
                 Width = 200,
                 Height = 50,
@@ -128,23 +145,23 @@ namespace Survival
                 Foreground = new SolidColorBrush(Color.FromArgb(127, 0, 0, 0)),
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            yValueText.PreviewTextInput += TextInput;
-            yValueText.GotFocus += GotFocusOnTextBox;
-            canvSettings.Children.Add(yValueText);
-            Canvas.SetLeft(yValueText, Canvas.GetLeft(xValueText) + xValueText.Width + 20);
-            Canvas.SetTop(yValueText, Canvas.GetTop(xValueText));
+            YValueText.PreviewTextInput += TextInput;
+            YValueText.GotFocus += GotFocusOnTextBox;
+            canvSettings.Children.Add(YValueText);
+            Canvas.SetLeft(YValueText, Canvas.GetLeft(XValueText) + XValueText.Width + 20);
+            Canvas.SetTop(YValueText, Canvas.GetTop(XValueText));
 
-            confirmSizeButton = new Button()
+            ConfirmSizeButton = new Button() 
             {
                 Width = 120,
                 Height = 50,
                 Content = "Confirmer",
                 FontSize = 25
             };
-            confirmSizeButton.Click += SetSize;
-            canvSettings.Children.Add(confirmSizeButton);
-            Canvas.SetLeft(confirmSizeButton, Canvas.GetLeft(yValueText) + yValueText.Width + 20);
-            Canvas.SetTop(confirmSizeButton, Canvas.GetTop(yValueText));
+            ConfirmSizeButton.Click += SetSize;
+            canvSettings.Children.Add(ConfirmSizeButton);
+            Canvas.SetLeft(ConfirmSizeButton, Canvas.GetLeft(YValueText) + YValueText.Width + 20);
+            Canvas.SetTop(ConfirmSizeButton, Canvas.GetTop(YValueText));
 
             Label labelDifficulty = new Label()
             {
@@ -160,7 +177,7 @@ namespace Survival
             Canvas.SetLeft(labelDifficulty, 30);
             Canvas.SetTop(labelDifficulty, Canvas.GetTop(labelSize) + labelSize.Height + 70);
 
-            sliderDifficulty = new Slider()
+            SliderDifficulty = new Slider()
             {
                 Width = 500,
                 Height = 50,
@@ -170,12 +187,12 @@ namespace Survival
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(0, 10, 0, 0)
             };
-            sliderDifficulty.ValueChanged += ChangeDifficulty;
-            canvSettings.Children.Add(sliderDifficulty);
-            Canvas.SetLeft(sliderDifficulty, Canvas.GetLeft(labelDifficulty) + labelDifficulty.Width + 20);
-            Canvas.SetTop(sliderDifficulty, Canvas.GetTop(labelDifficulty));
+            SliderDifficulty.ValueChanged += ChangeDifficulty;
+            canvSettings.Children.Add(SliderDifficulty);
+            Canvas.SetLeft(SliderDifficulty, Canvas.GetLeft(labelDifficulty) + labelDifficulty.Width + 20);
+            Canvas.SetTop(SliderDifficulty, Canvas.GetTop(labelDifficulty));
 
-            labelShowDifficulty = new Label()
+            LabelShowDifficulty = new Label()
             {
                 Width = 100,
                 Height = 50,
@@ -186,15 +203,15 @@ namespace Survival
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            canvSettings.Children.Add(labelShowDifficulty);
-            Canvas.SetLeft(labelShowDifficulty, Canvas.GetLeft(sliderDifficulty) + sliderDifficulty.Width + 20);
-            Canvas.SetTop(labelShowDifficulty, Canvas.GetTop(labelDifficulty));
+            canvSettings.Children.Add(LabelShowDifficulty);
+            Canvas.SetLeft(LabelShowDifficulty, Canvas.GetLeft(SliderDifficulty) + SliderDifficulty.Width + 20);
+            Canvas.SetTop(LabelShowDifficulty, Canvas.GetTop(labelDifficulty));
 
             Label labelExplainDifficulty = new Label()
             {
                 Width = double.NaN,
                 Height = 50,
-                Content = "Numéro de la vague multipliée par la valeur du slider",
+                Content = "Nombre de mob qui spawn = numéro de la vague multiplié par la valeur du slider",
                 Foreground = Brushes.LightGray,
                 FontSize = 20,
                 FontWeight = FontWeights.Bold,
@@ -203,14 +220,14 @@ namespace Survival
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
             canvSettings.Children.Add(labelExplainDifficulty);
-            Canvas.SetLeft(labelExplainDifficulty, Canvas.GetLeft(labelShowDifficulty) + labelShowDifficulty.Width + 20);
+            Canvas.SetLeft(labelExplainDifficulty, Canvas.GetLeft(LabelShowDifficulty) + LabelShowDifficulty.Width + 20);
             Canvas.SetTop(labelExplainDifficulty, Canvas.GetTop(labelDifficulty));
 
             Label labelVolumeSound = new Label()
             {
                 Width = 500,
                 Height = 50,
-                Content = "Volume des son : ",
+                Content = "Volume des sons : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -220,7 +237,7 @@ namespace Survival
             Canvas.SetLeft(labelVolumeSound, 30);
             Canvas.SetTop(labelVolumeSound, Canvas.GetTop(labelDifficulty) + labelDifficulty.Height + 70);
 
-            sliderVolumeSound = new Slider()
+            SliderVolumeSound = new Slider()
             {
                 Width = 500,
                 Height = 50,
@@ -230,12 +247,12 @@ namespace Survival
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(0, 10, 0, 0)
             };
-            sliderVolumeSound.ValueChanged += ChangeVolume;
-            canvSettings.Children.Add(sliderVolumeSound);
-            Canvas.SetLeft(sliderVolumeSound, Canvas.GetLeft(labelVolumeSound) + labelVolumeSound.Width + 20);
-            Canvas.SetTop(sliderVolumeSound, Canvas.GetTop(labelVolumeSound));
+            SliderVolumeSound.ValueChanged += ChangeVolume;
+            canvSettings.Children.Add(SliderVolumeSound);
+            Canvas.SetLeft(SliderVolumeSound, Canvas.GetLeft(labelVolumeSound) + labelVolumeSound.Width + 20);
+            Canvas.SetTop(SliderVolumeSound, Canvas.GetTop(labelVolumeSound));
 
-            labelShowVolumeSound = new Label()
+            LabelShowVolumeSound = new Label()
             {
                 Width = 100,
                 Height = 50,
@@ -246,9 +263,9 @@ namespace Survival
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            canvSettings.Children.Add(labelShowVolumeSound);
-            Canvas.SetLeft(labelShowVolumeSound, Canvas.GetLeft(sliderVolumeSound) + sliderVolumeSound.Width + 20);
-            Canvas.SetTop(labelShowVolumeSound, Canvas.GetTop(labelVolumeSound));
+            canvSettings.Children.Add(LabelShowVolumeSound);
+            Canvas.SetLeft(LabelShowVolumeSound, Canvas.GetLeft(SliderVolumeSound) + SliderVolumeSound.Width + 20);
+            Canvas.SetTop(LabelShowVolumeSound, Canvas.GetTop(labelVolumeSound));
 
             Label labelCheat = new Label()
             {
@@ -264,7 +281,7 @@ namespace Survival
             Canvas.SetLeft(labelCheat, 30);
             Canvas.SetTop(labelCheat, Canvas.GetTop(labelVolumeSound) + labelVolumeSound.Height + 70);
 
-            passwordCheat = new PasswordBox()
+            PasswordCheat = new PasswordBox()
             {
                 Width = 350,
                 Height = 50,
@@ -272,15 +289,16 @@ namespace Survival
                 FontWeight = FontWeights.Bold,
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            canvSettings.Children.Add(passwordCheat);
-            Canvas.SetLeft(passwordCheat, Canvas.GetLeft(labelCheat) + labelCheat.Width + 20);
-            Canvas.SetTop(passwordCheat, Canvas.GetTop(labelCheat));
+            canvSettings.Children.Add(PasswordCheat);
+            Canvas.SetLeft(PasswordCheat, Canvas.GetLeft(labelCheat) + labelCheat.Width + 20);
+            Canvas.SetTop(PasswordCheat, Canvas.GetTop(labelCheat));
 
             Button aboutButton = new Button()
             {
                 Width = 100,
                 Height = 75,
-                Content = "A propos"
+                Content = "A propos",
+                FontSize = 20
             };
             aboutButton.Click += OpenHTP;
             canvSettings.Children.Add(aboutButton);
@@ -290,6 +308,11 @@ namespace Survival
 
         private void ExitSettings(object sender, RoutedEventArgs e)
         {
+            ConfirmSizeButton.Background = new SolidColorBrush(Color.FromRgb(221, 221, 221));
+            if (AddMoneyButton != null)
+            {
+                AddMoneyButton.Background = new SolidColorBrush(Color.FromRgb(221, 221, 221));
+            }
             Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).ExitSettings();
         }
@@ -306,35 +329,13 @@ namespace Survival
             ((MainWindow)Application.Current.MainWindow).OpenHowToPlay();
         }
 
-        private void SetSize(object sender, RoutedEventArgs e)
-        {
-            if (int.TryParse(xValueText.Text, out Engine.xValue) && int.TryParse(xValueText.Text, out Engine.xValue))
-            {
-                confirmSizeButton.Background = Brushes.LightGreen;
-            }
-        }
-
-        private void TextInput(object sender, TextCompositionEventArgs e)
-        {
-            // Vérifier si le texte saisi est un chiffre
-            if (!char.IsDigit(e.Text, 0))
-            {
-                e.Handled = true; // Annuler l'événement si ce n'est pas un chiffre
-            }
-        }
-
-        private void canvSettings_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (((MainWindow)Application.Current.MainWindow).bSettings == true && e.Key == Key.Escape)
-            {
-                ((MainWindow)Application.Current.MainWindow).CloseSettingsInGame();
-            }
-
+        private void canvSettings_KeyDown(object sender, KeyEventArgs e)        
+        { 
             if (e.Key == Key.Enter)
             {
-                if (passwordCheat.Password == CODE)
+                if (PasswordCheat.Password == CODE)
                 {
-                    if (separator == null)
+                    if (Separator == null)
                     {
                         GodModActivated();
                     } else
@@ -347,7 +348,7 @@ namespace Survival
 
         private void GodModActivated()
         {
-            separator = new Rectangle()
+            Separator = new Rectangle()
             {
                 Height = 8,
                 Width = SystemParameters.PrimaryScreenWidth - 50,
@@ -355,25 +356,25 @@ namespace Survival
                 RadiusX = 10,
                 RadiusY = 10
             };
-            canvSettings.Children.Add(separator);
-            Canvas.SetLeft(separator, 25);
-            Canvas.SetTop(separator, Canvas.GetTop(passwordCheat) + passwordCheat.Height + 70);
+            canvSettings.Children.Add(Separator);
+            Canvas.SetLeft(Separator, 25);
+            Canvas.SetTop(Separator, Canvas.GetTop(PasswordCheat) + PasswordCheat.Height + 70);
 
-            labelMoney = new Label()
+            LabelMoney = new Label()
             {
                 Width = 500,
                 Height = 50,
-                Content = "Entrer un montant d'argent : ",
+                Content = "Entrer une somme d'argent : ",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            canvSettings.Children.Add(labelMoney);
-            Canvas.SetLeft(labelMoney, 30);
-            Canvas.SetTop(labelMoney, Canvas.GetTop(separator) + separator.Height + 70);
+            canvSettings.Children.Add(LabelMoney);
+            Canvas.SetLeft(LabelMoney, 30);
+            Canvas.SetTop(LabelMoney, Canvas.GetTop(Separator) + Separator.Height + 70);
 
-            moneyText = new TextBox()
+            MoneyText = new TextBox()
             {
                 Width = 200,
                 Height = 50,
@@ -383,12 +384,24 @@ namespace Survival
                 Foreground = new SolidColorBrush(Color.FromArgb(127, 0, 0, 0)),
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            moneyText.GotFocus += GotFocusOnTextBox;
-            canvSettings.Children.Add(moneyText);
-            Canvas.SetLeft(moneyText, Canvas.GetLeft(labelMoney) + labelMoney.Width + 20);
-            Canvas.SetTop(moneyText, Canvas.GetTop(labelMoney));
-            
-            texInvicible = new Label()
+            MoneyText.GotFocus += GotFocusOnTextBox;
+            canvSettings.Children.Add(MoneyText);
+            Canvas.SetLeft(MoneyText, Canvas.GetLeft(LabelMoney) + LabelMoney.Width + 20);
+            Canvas.SetTop(MoneyText, Canvas.GetTop(LabelMoney));
+
+            AddMoneyButton = new Button()
+            {
+                Width = 120,
+                Height = 50,
+                Content = "Ajouter",
+                FontSize = 25
+            };
+            AddMoneyButton.Click += AddMoney;
+            canvSettings.Children.Add(AddMoneyButton);
+            Canvas.SetLeft(AddMoneyButton, Canvas.GetLeft(MoneyText) + MoneyText.Width + 20);
+            Canvas.SetTop(AddMoneyButton, Canvas.GetTop(MoneyText));
+
+            TextInvincible = new Label()
             {
                 Width = 500,
                 Height = 50,
@@ -398,42 +411,69 @@ namespace Survival
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            canvSettings.Children.Add(texInvicible);
-            Canvas.SetLeft(texInvicible, 30);
-            Canvas.SetTop(texInvicible, Canvas.GetTop(moneyText) + moneyText.Height + 70);
+            canvSettings.Children.Add(TextInvincible);
+            Canvas.SetLeft(TextInvincible, 30);
+            Canvas.SetTop(TextInvincible, Canvas.GetTop(MoneyText) + MoneyText.Height + 70);
 
-            checkDamage = new CheckBox()
+            CheckDamage = new CheckBox()
             {
                 Content = "Permettre les dégats",
                 RenderTransform = new ScaleTransform(3, 3),
                 IsChecked = true,
             };
-            checkDamage.Click += ChangeCanDamagePlayer;
-            canvSettings.Children.Add(checkDamage);
-            Canvas.SetLeft(checkDamage, Canvas.GetLeft(texInvicible) + texInvicible.Width + 20);
-            Canvas.SetTop(checkDamage, Canvas.GetTop(texInvicible));
+            CheckDamage.Click += ChangeCanDamagePlayer;
+            canvSettings.Children.Add(CheckDamage);
+            Canvas.SetLeft(CheckDamage, Canvas.GetLeft(TextInvincible) + TextInvincible.Width + 20);
+            Canvas.SetTop(CheckDamage, Canvas.GetTop(TextInvincible));
         }
 
         public void ClearGodMod(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!this.IsVisible && separator != null)
+            if (!this.IsVisible && Separator != null)
             {
-                separator.Visibility = Visibility.Hidden;
-                labelMoney.Visibility = Visibility.Hidden;
-                moneyText.Visibility = Visibility.Hidden;
-                texInvicible.Visibility = Visibility.Hidden;
-                checkDamage.Visibility = Visibility.Hidden;
-                passwordCheat.Password = "";
+                Separator.Visibility = Visibility.Hidden;
+                LabelMoney.Visibility = Visibility.Hidden;
+                MoneyText.Visibility = Visibility.Hidden;
+                AddMoneyButton.Visibility = Visibility.Hidden;
+                TextInvincible.Visibility = Visibility.Hidden;
+                CheckDamage.Visibility = Visibility.Hidden;
+                PasswordCheat.Password = "";
             }
         }
 
         public void ShowGodMod()
         {
-            separator.Visibility = Visibility.Visible;
-            labelMoney.Visibility = Visibility.Visible;
-            moneyText.Visibility = Visibility.Visible;
-            texInvicible.Visibility = Visibility.Visible;
-            checkDamage.Visibility = Visibility.Visible;
+            Separator.Visibility = Visibility.Visible;
+            LabelMoney.Visibility = Visibility.Visible;
+            MoneyText.Visibility = Visibility.Visible;
+            AddMoneyButton.Visibility = Visibility.Visible;
+            TextInvincible.Visibility = Visibility.Visible;
+            CheckDamage.Visibility = Visibility.Visible;
+        }
+
+        public void AddMoney(object sender, RoutedEventArgs e)
+        {
+            int moneyToAdd;
+            if (int.TryParse(MoneyText.Text, out moneyToAdd))
+            {
+                AddMoneyButton.Background = Brushes.LightGreen;
+                Engine.Instance.Player.Money += moneyToAdd;
+            }
+        }
+        private void SetSize(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(XValueText.Text, out Engine.xValue) && int.TryParse(YValueText.Text, out Engine.yValue))
+            {
+                ConfirmSizeButton.Background = Brushes.LightGreen;
+            }
+        }
+
+        private void TextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+            }
         }
 
         private void GotFocusOnTextBox(object sender, RoutedEventArgs e)
@@ -445,20 +485,20 @@ namespace Survival
 
         private void ChangeCanDamagePlayer(object sender, RoutedEventArgs e)
         {
-            Engine.Instance.Player.BCanTakeDamage = (checkDamage.IsChecked == true) ? true : false;
+            Engine.Instance.Player.BCanTakeDamage = (CheckDamage.IsChecked == true) ? true : false;
         }
 
         public void ChangeDifficulty(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            int difficulty = (int)Math.Round(sliderDifficulty.Value);
-            labelShowDifficulty.Content = difficulty;
-            //Engine.Instance.MobSpawner.WaveMultiplier = value;
+            int difficulty = (int)Math.Round(SliderDifficulty.Value);
+            LabelShowDifficulty.Content = difficulty;
+            Engine.Instance.MobSpawner.WaveMultiplier = difficulty;
         }
 
         public void ChangeVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double volume = Math.Round(sliderVolumeSound.Value);
-            labelShowVolumeSound.Content = volume + "%";
+            double volume = Math.Round(SliderVolumeSound.Value);
+            LabelShowVolumeSound.Content = volume + "%";
             Engine.Instance.SoundVolume = volume;
             Engine.Instance.SetVolumeSound();
         }
