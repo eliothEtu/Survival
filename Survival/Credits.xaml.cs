@@ -75,7 +75,7 @@ namespace Survival
             {
                 Width = canvCredits.Width,
                 Height = double.NaN,
-                Text = "ROB Elioth \t Graphisme \n Certaine ressources visuel ont été obtenu depuis internet via le site Flaticon \nPixel perfect \t Designer \nFreepik \t Designer",
+                Text = "ROB Elioth \t Graphisme \n Certaines ressources visuelles ont été obtenu depuis internet via le site Flaticon \nPixel perfect \t Designer \nFreepik \t Designer",
                 FontSize = 40,
                 FontWeight = FontWeights.Bold,        
                 TextAlignment = TextAlignment.Center,
