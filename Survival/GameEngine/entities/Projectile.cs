@@ -34,7 +34,7 @@ namespace Survival
 
         public Projectile(string name, LivingEntity owner, TimeSpan lifeSpan, ImageBrush texture, Vector2 position, Vector2 velocity) : base(name, texture, position, velocity)
         {
-			this.Owner = owner;
+			this.Owner = owner;			
 			this.LifeSpan = lifeSpan;
 			spawnTime = DateTime.Now;
         }

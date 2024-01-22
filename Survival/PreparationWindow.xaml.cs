@@ -200,6 +200,10 @@ namespace Survival
                                 break;
                         }
                         break;
+                    case "Artifact":
+                        Artifact a = item as Artifact;
+                        Engine.Instance.Player.BaseDamage += a.Damage;
+                        break;
                 }
             }
             foreach (Item i in itemEquiped)

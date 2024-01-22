@@ -96,6 +96,7 @@ namespace Survival
 		
         public void TakeDamage(double damage)
 		{
+			Console.WriteLine(damage);
 			if ((DateTime.Now - this.lastDamageTaken).TotalMilliseconds <= 1000) return;
             this.Life = Math.Max(0, this.Life - damage);
             this.lastDamageTaken = DateTime.Now;
