@@ -37,6 +37,7 @@ namespace Survival.GameEngine
             for (int i = 0; i < (int)(wave * waveMultiplier); i++)
             {
                 Mob mob = new Mob("Mob" + i.ToString(), 3 * wave, image[rand.Next(image.Count)], Engine.Instance.MapGenerator.GetMobSpawnPos(2, this.MaxDistanceSpawn), new Vector2(0f, 0f));
+                mob.Speed = Math.Clamp(wave, 1, 9);
                 FollowPlayerBehavior followPlayerBehavior = new FollowPlayerBehavior();
                 followPlayerBehavior.Player = Engine.Instance.Player;
                 mob.FocusDistance = 100;

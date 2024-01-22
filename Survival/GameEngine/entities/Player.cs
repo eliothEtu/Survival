@@ -242,7 +242,9 @@ namespace Survival
                 this.ProjectileFire++;
                 Vector2 dir = direction - this.Position;
                 dir = Vector2.Normalize(dir);
-                Engine.Instance.Entities.Add(new Projectile("", this, this.ProjectileLifeSpan, new ImageBrush(this.ItemEquiped.ProjectileTexture), this.Position, dir * this.ProjectileVelocity));
+                Projectile projectile = new Projectile("", this, this.ProjectileLifeSpan, new ImageBrush(this.ItemEquiped.ProjectileTexture), this.Position, dir * this.ProjectileVelocity);
+                projectile.Speed = 5;
+                Engine.Instance.Entities.Add(projectile);
             }
         }
     }

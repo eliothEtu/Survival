@@ -94,7 +94,6 @@ namespace Survival.GameEngine.entities.ai
                         tiles.Add(tile);
                         if (Engine.Instance.MapGenerator.IsInMap(tile.X, tile.Y))
                             if (Engine.Instance.MapGenerator.Map[tile.X][tile.Y] != 0)
-                                Console.WriteLine("AAAAAAA");
                         tile = tile.Parent;
                         
                         if (tile == null)
