@@ -205,6 +205,7 @@ namespace Survival
                         Engine.Instance.Player.BaseDamage += a.Damage;
                         break;
                 }
+                Engine.Instance.Player.MaxLife = Engine.Instance.Player.Life;
             }
             foreach (Item i in itemEquiped)
             {
