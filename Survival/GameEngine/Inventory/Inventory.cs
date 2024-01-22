@@ -40,9 +40,9 @@ namespace Survival.GameEngine.Inventory
             },
             { "Artéfact", new List<Item>
                 {
-                new Artifact("Flamme","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier1Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\flame.png")),"Artifact", TimeSpan.FromSeconds(1), 1, 1),
-                new Artifact("Glace","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier2Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\ice.png")),"Artifact", TimeSpan.FromSeconds(1), 3, 2),
-                new Artifact("Corruption","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier3Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\corupt.png")),"Artifact", TimeSpan.FromSeconds(1), 6, 3)
+                new Artifact("Flamme","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier1Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\flame.png")),"Artifact", TimeSpan.FromSeconds(1), 10, 1),
+                new Artifact("Glace","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier2Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\ice.png")),"Artifact", TimeSpan.FromSeconds(1), 20, 2),
+                new Artifact("Corruption","boule de feu",new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\Tier3Artifact.png")), new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\attacks\\corupt.png")),"Artifact", TimeSpan.FromSeconds(1), 40, 3)
                 }
             }
         };

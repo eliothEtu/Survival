@@ -31,7 +31,7 @@ namespace Survival
 			}
 		}
 
-        private double baseDamage = 2;
+        private double baseDamage = 20;
 
         public double BaseDamage
         {
@@ -49,11 +49,16 @@ namespace Survival
             }
         }
 
+
+        private bool bCanTakeDamage;
+        public bool BCanTakeDamage { get => bCanTakeDamage; set => bCanTakeDamage = value; }
+
         protected DateTime lastDamageTaken = DateTime.Now;
 
         public LivingEntity(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, texture, position, velocity)
 		{
 			this.Life = life;
+			this.BCanTakeDamage = true;
 		}
 
         public override void Update(float deltaTime)

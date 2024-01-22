@@ -97,7 +97,7 @@ namespace Survival.GameEngine.world
                     for (int y = 0; y < Map[0].Count; y++)
                     {
                         int neighWallTiles = GetNeighborTiles(x, y);
-                        if (neighWallTiles > 5 && Map[x][y] == 0)
+                        if (neighWallTiles > 6 && Map[x][y] == 0)
                         {
                             Map[x][y] = 1;
                         }
