@@ -14,12 +14,6 @@ using Survival.GameEngine.world;
 using Survival.GameEngine.entities.ai;
 using System.Windows.Media;
 
-/*
-    Faire une fenêtre pour donner les items et leur bonus
-    finir les collisions
-    son
- */
-
 namespace Survival.GameEngine
 {
     internal class Engine
@@ -130,7 +124,7 @@ namespace Survival.GameEngine
                 }
             }
 
-            this.Renderer.UpdateCamera(Player.Rectangle, Player.Position);
+            this.Renderer.UpdateCamera(Player.Position);
             this.Renderer.Draw(Entities);
 
             foreach (Entity entity in this.entityToRemove)

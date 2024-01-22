@@ -46,8 +46,8 @@ namespace Survival
             InitializeComponent();
 
             //ForceFocus.EnableLock();
-            WindowState = WindowState.Maximized;
-            WindowStyle = WindowStyle.None;
+           // WindowState = WindowState.Maximized;
+            //WindowStyle = WindowStyle.None;
 
             invUi = inv;
 

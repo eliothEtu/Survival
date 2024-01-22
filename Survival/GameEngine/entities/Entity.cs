@@ -76,7 +76,6 @@ namespace Survival.GameEngine
             this.Rectangle = new Rectangle();
             this.Rectangle.Width = texture.Width;
             this.Rectangle.Height = texture.Height;
-            //this.Rect = new Rect(position.X, position.Y, texture.Width, texture.Height);
 
             this.Position = position;
             this.Velocity = velocity;
@@ -95,18 +94,13 @@ namespace Survival.GameEngine
             this.Rectangle.Height = MapGenerator.BLOCK_SIZE;
 
             this.Rectangle.Fill = texture;
-            //this.Rect = new Rect(position.X, position.Y, this.Rectangle.Width, this.Rectangle.Height);
 
             this.Position = position;
             this.Velocity = velocity;
             this.Name = name;
 
-            
-
             Canvas.SetLeft(this.Rectangle, position.X);
             Canvas.SetTop(this.Rectangle, position.Y);
-
-           
         }
 
         public virtual void Update(float deltaTime)

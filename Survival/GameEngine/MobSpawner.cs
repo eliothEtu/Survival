@@ -30,7 +30,7 @@ namespace Survival.GameEngine
             set => this.waveMultiplier = value;
         }
 
-        Random rand = new Random();
+        private Random rand = new Random();
 
         public void SpawnMobs()
         {

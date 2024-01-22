@@ -18,7 +18,7 @@ namespace Survival.GameEngine.entities.ai
 {
     internal class FollowPlayerBehavior : Behavior
     {
-        private static TaskFactory TASK_FACTORY = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(3));
+        private static TaskFactory TASK_FACTORY = new TaskFactory(new MultithreadedTaskScheduler(3));
 
         public Player Player { get; set; }
 
@@ -45,11 +45,8 @@ namespace Survival.GameEngine.entities.ai
 
             if (this.cachedPath.Count < 2)
             {
-               // Console.WriteLine("No path found!");
                 return;
             }
-
-            
 
 
             // follow path

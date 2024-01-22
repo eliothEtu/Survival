@@ -23,8 +23,7 @@ namespace Survival.GameEngine
 {
     internal class PlayerController
     {
-
-        Player player = Engine.Instance.Player;
+        private Player player = Engine.Instance.Player;
 
         public PlayerController() 
         { 
@@ -36,21 +35,21 @@ namespace Survival.GameEngine
         {
             if (!((MainWindow)Application.Current.MainWindow).bInventory)
             {
-                if (key.Key == Key.Z && player.Velocity.Y != -1)
+                if (key.Key == Key.Z && this.player.Velocity.Y != -1)
                 {
-                    player.Velocity = new Vector2(player.Velocity.X, -1);
+                    this.player.Velocity = new Vector2(this.player.Velocity.X, -1);
                 }
-                if (key.Key == Key.S && player.Velocity.Y != 1)
+                if (key.Key == Key.S && this.player.Velocity.Y != 1)
                 {
-                    player.Velocity = new Vector2(player.Velocity.X, 1);
+                    this.player.Velocity = new Vector2(this.player.Velocity.X, 1);
                 }
-                if (key.Key == Key.Q && player.Velocity.X != -1)
+                if (key.Key == Key.Q && this.player.Velocity.X != -1)
                 {
-                    player.Velocity = new Vector2(-1, player.Velocity.Y);
+                    this.player.Velocity = new Vector2(-1, this.player.Velocity.Y);
                 }
-                if (key.Key == Key.D && player.Velocity.X != 1)
+                if (key.Key == Key.D && this.player.Velocity.X != 1)
                 {
-                    player.Velocity = new Vector2(1, player.Velocity.Y);
+                    this.player.Velocity = new Vector2(1, this.player.Velocity.Y);
                 }
             }            
 
@@ -66,30 +65,28 @@ namespace Survival.GameEngine
 
         public void KeyUp(KeyEventArgs key)
         {
-            Player player = Engine.Instance.Player;
-
-            if (key.Key == Key.Z && player.Velocity.Y != 0)
+            if (key.Key == Key.Z && this.player.Velocity.Y != 0)
             {
-                player.Velocity = new Vector2(player.Velocity.X, 0);
+                this.player.Velocity = new Vector2(this.player.Velocity.X, 0);
             }
-            if (key.Key == Key.S && player.Velocity.Y != 0)
+            if (key.Key == Key.S && this.player.Velocity.Y != 0)
             {
-                player.Velocity = new Vector2(player.Velocity.X, 0);
+                this.player.Velocity = new Vector2(this.player.Velocity.X, 0);
             }
-            if (key.Key == Key.Q && player.Velocity.X != 0)
+            if (key.Key == Key.Q && this.player.Velocity.X != 0)
             {
-                player.Velocity = new Vector2(0, player.Velocity.Y);
+                this.player.Velocity = new Vector2(0, this.player.Velocity.Y);
             }
-            if (key.Key == Key.D && player.Velocity.X != 0)
+            if (key.Key == Key.D && this.player.Velocity.X != 0)
             {
-                player.Velocity = new Vector2(0, player.Velocity.Y);
+                this.player.Velocity = new Vector2(0, this.player.Velocity.Y);
             }
         }
         public void MouseLeft(MouseEventArgs key)
         {
             Point mouse = key.GetPosition(((MainWindow)Application.Current.MainWindow).canv);
             Vector2 mouseV = Engine.Instance.Renderer.GetWorldPos(new Vector2((float)mouse.X, (float)mouse.Y));
-            Engine.Instance.Player.Fire(mouseV);
+            this.player.Fire(mouseV);
         }
     }
 }

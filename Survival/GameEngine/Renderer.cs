@@ -39,11 +39,9 @@ namespace Survival.GameEngine
             Stroke = Brushes.Black,
         };
 
-        private ImageBrush grassTexture;
-        public ImageBrush GrassTexture { get => grassTexture; set => grassTexture = value; }
+        private ImageBrush grassTexture = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\map\\grass2.png")));
 
-        private ImageBrush stoneTexture;
-        public ImageBrush StoneTexture { get => stoneTexture; set => stoneTexture = value; }
+        private ImageBrush stoneTexture = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\map\\stone2.png")));
 
 #if DEBUG
         public StackPanel overlayPanel = new StackPanel()
@@ -59,15 +57,13 @@ namespace Survival.GameEngine
             overlayPanel.Children.Add(healthBar);
             ((MainWindow)Application.Current.MainWindow).canv.Children.Add(overlayPanel);
 #endif
-            GrassTexture = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\map\\grass2.png")));
-            StoneTexture = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\map\\stone2.png")));
         }
 
 
         private Rect GetCameraRect()
         {
-            double w = Math.Round(SystemParameters.PrimaryScreenWidth / MapGenerator.BLOCK_SIZE);
-            double h = Math.Round(SystemParameters.PrimaryScreenHeight / MapGenerator.BLOCK_SIZE);
+            double w = Math.Round(((MainWindow)Application.Current.MainWindow).canv.Width / MapGenerator.BLOCK_SIZE);
+            double h = Math.Round(((MainWindow)Application.Current.MainWindow).canv.Height / MapGenerator.BLOCK_SIZE);
 
             return new Rect(this.Pos.X, this.Pos.Y, w, h);
         }
@@ -99,7 +95,7 @@ namespace Survival.GameEngine
             return new Vector2(worldX, worldY);
         }
 
-        public void UpdateCamera(Rectangle player, Vector2 targetPos)
+        public void UpdateCamera(Vector2 targetPos)
         {
             this.pos = targetPos;
         }
@@ -111,10 +107,8 @@ namespace Survival.GameEngine
             Rect cameraRect = this.GetCameraRect();
             for (int x = (int)Math.Max(0, cameraRect.X - (cameraRect.Width / 2)); x < (int)Math.Min(Engine.Instance.MapGenerator.SizeMap.X, cameraRect.X + (cameraRect.Width / 2) + MapGenerator.BLOCK_SIZE); x++)
             {
-                //if (x + MapGenerator.BLOCK_SIZE < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
                 for (int y = (int)Math.Max(0, cameraRect.Y - (cameraRect.Height / 2)); y < (int)Math.Min(Engine.Instance.MapGenerator.SizeMap.Y, cameraRect.Y + (cameraRect.Height / 2) + MapGenerator.BLOCK_SIZE); y++)
-                {
-                    //if (y + MapGenerator.BLOCK_SIZE < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;                    
+                {          
                     Rectangle rec;
                     switch (Engine.Instance.MapGenerator.Map[x][y])
                     {
@@ -133,7 +127,7 @@ namespace Survival.GameEngine
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE,
-                                Fill = StoneTexture,
+                                Fill = this.stoneTexture,
                             };
                             break;
                         default:
@@ -141,7 +135,7 @@ namespace Survival.GameEngine
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE,
-                                Fill = GrassTexture
+                                Fill = this.grassTexture
                             };
                             break;
                     }

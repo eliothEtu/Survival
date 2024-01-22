@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Survival.GameEngine
 {
     //https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskscheduler?view=net-8.0
-    public class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
+    public class MultithreadedTaskScheduler : TaskScheduler
     {
         // Indicates whether the current thread is processing work items.
         [ThreadStatic]
@@ -24,7 +24,7 @@ namespace Survival.GameEngine
         private int _delegatesQueuedOrRunning = 0;
 
         // Creates a new instance with the specified degree of parallelism.
-        public LimitedConcurrencyLevelTaskScheduler(int maxDegreeOfParallelism)
+        public MultithreadedTaskScheduler(int maxDegreeOfParallelism)
         {
             if (maxDegreeOfParallelism < 1) throw new ArgumentOutOfRangeException("maxDegreeOfParallelism");
             _maxDegreeOfParallelism = maxDegreeOfParallelism;
