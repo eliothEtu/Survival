@@ -114,10 +114,12 @@ namespace Survival.GameEngine
 
         public virtual void Update(float deltaTime)
 		{
-			if(this.Velocity != Vector2.Zero)
-				this.Position += Vector2.Normalize(this.Velocity) * 5 * deltaTime;
-			else
-				this.Position += this.Velocity * 5 * deltaTime;
+			Vector2 newPos = this.Velocity != Vector2.Zero ? (this.Position + Vector2.Normalize(this.Velocity) * 5 * deltaTime) : (this.Position + this.Velocity * 5 * deltaTime);
+
+            if (Engine.Instance.MapGenerator.IsInMap((int)newPos.X, (int)newPos.Y) && Engine.Instance.MapGenerator.Map[(int)newPos.X][(int)newPos.Y] == 0)
+			{
+				this.Position = newPos;
+			}
 		}
 
 		public virtual void Collide(Entity otherEntity)

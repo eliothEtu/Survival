@@ -34,7 +34,7 @@ namespace Survival
         private bool bCanTakeDamage;
         public bool BCanTakeDamage { get => bCanTakeDamage; set => bCanTakeDamage = value; }
 
-        private int baseDamage = 2;
+        private int baseDamage = 20;
 
         public int BaseDamage
         {
@@ -100,7 +100,7 @@ namespace Survival
 		
         public void TakeDamage(int damage)
 		{
-			if (BCanTakeDamage) return;
+			if (!BCanTakeDamage) return;
 			if ((DateTime.Now - this.lastDamageTaken).TotalMilliseconds <= 1000) return;
             this.Life = Math.Max(0, this.Life - damage);
             this.lastDamageTaken = DateTime.Now;

@@ -58,6 +58,7 @@ namespace Survival.GameEngine
         private double soundVolume;
         public double SoundVolume { get => soundVolume; set => soundVolume = value; }
 
+        private MobSpawner mobSpawner = new MobSpawner();
         public MobSpawner MobSpawner { get => this.mobSpawner; }
 
         private DateTime lastTick = DateTime.Now;
