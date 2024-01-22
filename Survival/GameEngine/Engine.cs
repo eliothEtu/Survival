@@ -58,6 +58,7 @@ namespace Survival.GameEngine
         public int MoneyStartgame { get => moneyStartgame; set => moneyStartgame = value; }
         public DateTime TimeStartGame { get => timeStartGame; set => timeStartGame = value; }
 
+        MediaPlayer soundGame = new MediaPlayer();
         MediaPlayer soundButton = new MediaPlayer();
         public Engine() 
         {
@@ -73,6 +74,8 @@ namespace Survival.GameEngine
             lastTick = DateTime.Now;
 
             soundButton.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Sound\\ButtonSound.mp3"));
+            soundGame.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Sound\\soundGame.mp3"));
+            soundGame.MediaEnded += Replay;
 
             this.timer.Tick += Update;
             this.timer.Interval = TimeSpan.FromMilliseconds(16);
@@ -99,6 +102,7 @@ namespace Survival.GameEngine
 
             this.Renderer = new Renderer();
 
+            soundGame.Play();
             this.timer.Start();
         }
 
@@ -146,12 +150,20 @@ namespace Survival.GameEngine
         public void OnPlayerDeath()
         {
             Entities.Clear();
+            soundGame.Stop();
             ((MainWindow)Application.Current.MainWindow).OpenDeathWindow();
+        }
+
+        private void Replay(object sender, EventArgs e)
+        {
+            soundGame.Position = TimeSpan.Zero;
+            soundGame.Play();
         }
 
         public void SetVolumeSound()
         {
             soundButton.Volume = soundVolume / 100;
+            soundGame.Volume = soundVolume / 100;
         }
 
         public void PlaySoundButton()
