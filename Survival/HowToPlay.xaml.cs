@@ -50,7 +50,7 @@ namespace Survival
                 Width = canvHTP.Width,
                 Height = double.NaN,
                 Content = "A propos du jeu ? \n" +
-                "Bienvenue dans Survival\r\n\r\nSurvivez dans un monde hostile, équipez-vous et affrontez les dangers qui vous entourent. Voici comment jouer :\r\n\r\nObjectif du Jeu :\r\nSurvivez aussi longtemps que possible dans ce monde dangereux. Équipez-vous soigneusement et affrontez des ennemis redoutables.\r\n\r\nContrôles :\r\n\r\nDéplacement : Utilisez les touches Z, Q, S, D pour vous déplacer dans toutes les directions.\r\nTir : Clique gauche pour lancer une attaque et éliminer votre ennemis.\r\nÉquipement :\r\nVisitez la boutique pour acheter des objets essentiels à votre survie, tels que des armures, des anneaux et des artéfacts. Assurez-vous de vous équiper soigneusement avant de partir à l'aventure.\r\n\r\nConseils de Survie :\r\n\r\nGardez un oeil sur vôtre vie.\r\nRestez à l'affût des ennemis et choisissez vos combats avec précaution.\r\n\n\n Bonne chance, survivant.",
+                "Bienvenue dans Survival\r\n\r\nSurvivez dans un monde hostile, équipez-vous et affrontez les dangers qui vous entourent. Voici comment jouer :\r\n\r\nObjectif du Jeu :\r\nSurvivez aussi longtemps que possible dans ce monde dangereux. Équipez-vous soigneusement et affrontez des ennemis redoutables.\r\n\r\nContrôles :\r\n\r\nDéplacement : Utilisez les touches Z, Q, S, D pour vous déplacer dans toutes les directions et I pour ouvrir votre inventaire une fois le jeu lancé.\r\nTir : Clique gauche pour lancer une attaque et éliminer votre ennemis.\r\nÉquipement :\r\nVisitez la boutique pour acheter des objets essentiels à votre survie, tels que des armures, des anneaux et des artéfacts. Assurez-vous de vous équiper soigneusement avant de partir à l'aventure.\r\n\r\nConseils de Survie :\r\n\r\nGardez un oeil sur vôtre vie.\r\nRestez à l'affût des ennemis et choisissez vos combats avec précaution.\r\n\n\n Bonne chance, survivant.",
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
 
@@ -63,7 +63,8 @@ namespace Survival
             {
                 Width = 100,
                 Height = 75,
-                Content = "Continuer"
+                Content = "Continuer",
+                FontSize = 20
             };
             exit.Click += ExitHTP;
             canvHTP.Children.Add(exit);

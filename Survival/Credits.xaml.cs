@@ -56,6 +56,33 @@ namespace Survival
             canvCredits.Children.Add(title);
             Canvas.SetLeft(title, canvCredits.Width / 2 - title.Width / 2);
             Canvas.SetTop(title, 30);
+
+            Label devName = new Label()
+            {
+                Width = canvCredits.Width,
+                Height = 400,
+                Content = "BETRIX Thomas \t Développeur \nROB Elioth \t Développeur \nTROUBA Maël \t Développeur",
+                FontSize = 40,
+                FontWeight = FontWeights.Bold,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            canvCredits.Children.Add(devName);
+            Canvas.SetLeft(devName, 0);
+            Canvas.SetTop(devName, Canvas.GetTop(title) + title.Height + 100);
+
+            TextBlock designName = new TextBlock()
+            {
+                Width = canvCredits.Width,
+                Height = double.NaN,
+                Text = "ROB Elioth \t Graphisme \n Certaine ressources visuel ont été obtenu depuis internet via le site Flaticon \nPixel perfect \t Designer \nFreepik \t Designer",
+                FontSize = 40,
+                FontWeight = FontWeights.Bold,        
+                TextAlignment = TextAlignment.Center,
+            };
+            canvCredits.Children.Add(designName);
+            Canvas.SetLeft(designName, 0);
+            Canvas.SetTop(designName, Canvas.GetTop(devName) + devName.Height + 100);
         }
 
         private void ExitCredits(object sender, RoutedEventArgs e)

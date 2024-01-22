@@ -26,7 +26,16 @@ namespace Survival
         public static List<List<double>> RARITY = new List<List<double>>() { new List<double> { 0.8, 0.2, 0.1}, new List<double> { 0.5, 0.35, 0.15}, new List<double> { 0.2, 0.5, 0.3 } };
 
         private BitmapImage imgButton = new BitmapImage();
-        private string[] nameButton = new string[] { "Armures", "Anneaux", "Artéfacts"};
+        private string[] nameButton = new string[] { "Armure", "Anneau", "Artéfact"};
+
+        WrapPanel itemInfo;
+        public WrapPanel ItemInfo { get => itemInfo; set => itemInfo = value; }
+
+        Label errorMoney, money, rarity;
+        public Label ErrorMoney { get => errorMoney; set => errorMoney = value; }
+        public Label Money { get => money; set => money = value; }
+        public Label Rarity { get => rarity; set => rarity = value; }
+
         public Shop()
         {
             InitializeComponent();
@@ -44,7 +53,7 @@ namespace Survival
 
             canvShop.Focus();
 
-            imgButton = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\tresor.png"));
+            imgButton = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\item\\tresor.png"));
 
             Button exit = new Button()
             {
@@ -73,18 +82,19 @@ namespace Survival
                         Canvas.SetLeft(chest.But, 10 + chest.But.Width * i + chest.But.Width / 2 * i);
 
                         tier++;
-                        TextBlock nameBox = new TextBlock()
+                        Label nameBox = new Label()
                         {
                             Width = (canvContainer.Height - 20) / 3,
-                            Height = 35,
+                            Height = 70,
                             FontSize = 20,
-                            TextAlignment = TextAlignment.Center,
-                            Text = nameButton[i / 2] + " Tier " + tier,
+                            Content = nameButton[i / 2] + " Tier " + tier + "\nPrix : " + Chest.PRICE[tier],
                             FontWeight = FontWeights.Bold,
-                            Foreground = new SolidColorBrush(Color.FromRgb(255 ,255, 255))
+                            Foreground = new SolidColorBrush(Color.FromRgb(255 ,255, 255)),
+                            VerticalContentAlignment = VerticalAlignment.Top,
+                            HorizontalContentAlignment = HorizontalAlignment.Center,
                         };
                         canvContainer.Children.Add(nameBox);
-                        Canvas.SetTop(nameBox, canvContainer.Height / 2 + j * chest.But.Height + pos * 80 + 35 + nameBox.Height + chest.But.Height);
+                        Canvas.SetTop(nameBox, canvContainer.Height / 2 + j * chest.But.Height + pos * 80 + 55 + chest.But.Height);
                         Canvas.SetLeft(nameBox, 10 + chest.But.Width * i + chest.But.Width / 2 * i);
                     } else {
                         tier = 0;
@@ -92,32 +102,99 @@ namespace Survival
                 }
             }
 
+            ItemInfo = new WrapPanel()
+            {
+                Width = 90 + 400, //90 taille image item 400 text;
+                Height = canvShop.Height / 2,
+                HorizontalAlignment = HorizontalAlignment.Center,
+            };
+            canvShop.Children.Add(ItemInfo);
+            Canvas.SetTop(ItemInfo, canvShop.Height / 2 - ItemInfo.Height / 2);
+            Canvas.SetLeft(ItemInfo, canvShop.Width/2 - ItemInfo.Width / 2);
+            ItemInfo.Visibility = Visibility.Hidden;
+
+            Button clearItemInfo = new Button()
+            {
+                Width = 100,
+                Height = 50,
+                Content = "Ok",
+                Margin = new Thickness(195, 0, 0, 0)
+            };
+            clearItemInfo.Click += ClearItemInfo;
+            ItemInfo.Children.Add(clearItemInfo);
+
             Image moneyImage = new Image()
             {
                 Width = 50,
                 Height = 50,
-                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\tresor.png"))
+                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\money.png"))
             };
             canvShop.Children.Add(moneyImage);
             Canvas.SetTop(moneyImage, 10);
             Canvas.SetLeft(moneyImage, 10);
 
-            Label money = new Label()
+            Money = new Label()
             {
                 Height = 50,
                 Width = double.NaN,
                 Content = ": " + Engine.Instance.Player.Money,
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
+                Foreground = new SolidColorBrush(Colors.White),
             };
-            canvShop.Children.Add(money);
-            Canvas.SetTop(money, 10);
-            Canvas.SetLeft(money, Canvas.GetLeft(moneyImage) + moneyImage.Width + 10);
+            canvShop.Children.Add(Money);
+            Canvas.SetTop(Money, 10);
+            Canvas.SetLeft(Money, Canvas.GetLeft(moneyImage) + moneyImage.Width + 10);
+
+            ErrorMoney = new Label()
+            {
+                Height = 50,
+                Width = canvShop.Width/2,
+                Content = "Montant insuffisant",
+                FontSize = 30,
+                FontWeight = FontWeights.Bold,
+                Foreground = new SolidColorBrush(Colors.Red),
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+            };
+            canvShop.Children.Add(ErrorMoney);
+            Canvas.SetTop(ErrorMoney, canvShop.Height - ErrorMoney.Height - 10);
+            Canvas.SetLeft(ErrorMoney, canvShop.Width/2 - ErrorMoney.Width / 2);
+            ErrorMoney.Visibility = Visibility.Hidden;
+        }
+
+        public void UpdateMoneyPlayer()
+        {
+            Money.Content = ": " + Engine.Instance.Player.Money;
+        }
+
+        private void ClearItemInfo(object sender, EventArgs e)
+        {
+            ItemInfo.Visibility = Visibility.Hidden;
+            ResetItemInfo();
+        }
+
+        private void ClearItemInfo()
+        {
+            ItemInfo.Visibility = Visibility.Hidden;
+            ResetItemInfo();
+        }
+
+        public void ResetItemInfo()
+        {
+            if (ItemInfo.Children.Count > 1)
+            {
+                for (int i = 0; i < ItemInfo.Children.Count+1; i++)
+                {
+                    ItemInfo.Children.RemoveAt(0);
+                }
+            }
         }
 
         private void ExitShop(object sender, RoutedEventArgs e)
         {
             Engine.Instance.PlaySoundButton();
+            ClearItemInfo();
+            ErrorMoney.Visibility = Visibility.Hidden;
             ((MainWindow)Application.Current.MainWindow).ExitShop();
         }
 
@@ -136,6 +213,32 @@ namespace Survival
             }
             newPos = Math.Clamp(newPos, -(canvContainer.Width/3), 30);
             Canvas.SetLeft(canvContainer,  newPos);
+        }
+
+        public void ShowChestRarity(List<double> rarity)
+        {
+            string text = "";
+            for (int i = 0 ; i < rarity.Count; i++) { text += $"Tier {i + 1} : {rarity[i] * 100} % / "; }
+            this.Rarity = new Label()
+            {
+                Width = canvShop.Width,
+                Height = 50,
+                Content = text,
+                FontSize = 30,
+                Foreground = new SolidColorBrush(Colors.White),
+                FontWeight = FontWeights.Bold,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            canvShop.Children.Add(this.Rarity);
+            Canvas.SetTop(Rarity, canvShop.Height - Rarity.Height - 10);
+            Canvas.SetLeft(Rarity, 0);
+        }
+
+        public void ClearShowChestRarity()
+        {
+            canvShop.Children.Remove(this.Rarity);
+            this.Rarity = null;
         }
     }
 }

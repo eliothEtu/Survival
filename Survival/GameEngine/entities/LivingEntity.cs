@@ -12,9 +12,9 @@ namespace Survival
 {
     internal class LivingEntity : Entity
     {
-		private int life;
+		private double life;
 
-		public int Life
+		public double Life
 		{
 			get 
 			{ 
@@ -31,12 +31,9 @@ namespace Survival
 			}
 		}
 
-        private bool bCanTakeDamage;
-        public bool BCanTakeDamage { get => bCanTakeDamage; set => bCanTakeDamage = value; }
+        private double baseDamage = 2;
 
-        private int baseDamage = 20;
-
-        public int BaseDamage
+        public double BaseDamage
         {
             get
             {
@@ -57,7 +54,6 @@ namespace Survival
         public LivingEntity(string name, int life, BitmapImage texture, Vector2 position, Vector2 velocity) : base(name, texture, position, velocity)
 		{
 			this.Life = life;
-			BCanTakeDamage = true;
 		}
 
         public override void Update(float deltaTime)
@@ -98,7 +94,7 @@ namespace Survival
 		
         }
 		
-        public void TakeDamage(int damage)
+        public void TakeDamage(double damage)
 		{
 			if (!BCanTakeDamage) return;
 			if ((DateTime.Now - this.lastDamageTaken).TotalMilliseconds <= 1000) return;
@@ -117,7 +113,8 @@ namespace Survival
 
 			if (!(this is Player))
 			{
-				Engine.Instance.Player.Money = Engine.Instance.Player.Money + (int)(Engine.Instance.MobSpawner.Wave * Engine.Instance.MobSpawner.WaveMultiplier);	
+				Engine.Instance.Player.Money = Engine.Instance.Player.Money + (int)(Engine.Instance.MobSpawner.Wave * Engine.Instance.MobSpawner.WaveMultiplier);
+				Engine.Instance.Player.MobKill++;
 			}
 		}
 	}

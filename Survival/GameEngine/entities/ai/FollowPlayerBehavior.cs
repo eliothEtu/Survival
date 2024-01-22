@@ -68,8 +68,9 @@ namespace Survival.GameEngine.entities.ai
             Tile start = this.GetCurrentTile(entity);
             Tile finish = this.GetCurrentTile(this.Player);
 
-            if (Engine.Instance.MapGenerator.Map[start.X][start.Y] != 0 || Engine.Instance.MapGenerator.Map[finish.X][finish.Y] != 0)
-                return new List<Tile>();
+            if (Engine.Instance.MapGenerator.IsInMap(start.X, start.Y) && Engine.Instance.MapGenerator.IsInMap(finish.X, finish.Y))
+                if (Engine.Instance.MapGenerator.Map[start.X][start.Y] != 0 || Engine.Instance.MapGenerator.Map[finish.X][finish.Y] != 0)
+                    return new List<Tile>();
 
             start.SetDistance(finish.X, finish.Y);
 
@@ -91,8 +92,9 @@ namespace Survival.GameEngine.entities.ai
                     while (true)
                     {
                         tiles.Add(tile);
-                        if (Engine.Instance.MapGenerator.Map[tile.X][tile.Y] != 0)
-                            Console.WriteLine("AAAAAAA");
+                        if (Engine.Instance.MapGenerator.IsInMap(tile.X, tile.Y))
+                            if (Engine.Instance.MapGenerator.Map[tile.X][tile.Y] != 0)
+                                Console.WriteLine("AAAAAAA");
                         tile = tile.Parent;
                         
                         if (tile == null)
@@ -143,7 +145,7 @@ namespace Survival.GameEngine.entities.ai
 
             // Only return tiles where there are no walls and no borders
             return tiles
-                .Where(tile => Engine.Instance.MapGenerator.Map[tile.X][tile.Y] == 0)
+                .Where(tile => Engine.Instance.MapGenerator.IsInMap(tile.X, tile.Y))
                 .ToList();
         }
 

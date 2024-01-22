@@ -55,6 +55,18 @@ namespace Survival
             Canvas.SetTop(openShop, Canvas.GetTop(launchGame) + launchGame.Height);
             Canvas.SetLeft(openShop, SystemParameters.PrimaryScreenWidth / 2 - openShop.Width / 2);
 
+            Button archivesButton = new Button()
+            {
+                Height = 80,
+                Width = SystemParameters.PrimaryScreenWidth / 4,
+                Content = "Archives",
+                FontSize = 30
+            };
+            archivesButton.Click += OpenArchives;
+            canvHome.Children.Add(archivesButton);
+            Canvas.SetTop(archivesButton, Canvas.GetTop(openShop) + openShop.Height);
+            Canvas.SetLeft(archivesButton, SystemParameters.PrimaryScreenWidth / 2 - archivesButton.Width / 2);
+
             Button creditButton = new Button()
             {
                 Height = 80,
@@ -64,20 +76,21 @@ namespace Survival
             };
             creditButton.Click += OpenCredits;
             canvHome.Children.Add(creditButton);
-            Canvas.SetTop(creditButton, Canvas.GetTop(openShop) + openShop.Height);
+            Canvas.SetTop(creditButton, Canvas.GetTop(archivesButton) + archivesButton.Height);
             Canvas.SetLeft(creditButton, SystemParameters.PrimaryScreenWidth / 2 - creditButton.Width / 2);
 
             Button settingsButton = new Button()
             {
                 Height = 80,
                 Width = 80,
-                Content = "Paramètre",
+                Background = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Image\\settings.png"))),
+                FocusVisualStyle = null,
                 FontSize = 24
             };
             settingsButton.Click += OpenSettings;
             canvHome.Children.Add(settingsButton);
-            Canvas.SetTop(settingsButton, SystemParameters.PrimaryScreenHeight - settingsButton.Height - 20);
-            Canvas.SetLeft(settingsButton, 20);
+            Canvas.SetTop(settingsButton, 20);
+            Canvas.SetLeft(settingsButton, SystemParameters.PrimaryScreenWidth - settingsButton.Width - 20);
 
             titleImage.ImageSource = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "image\\title.png"));
 
@@ -95,7 +108,7 @@ namespace Survival
         private void LaunchGame(object sender, RoutedEventArgs e)
         {
             Engine.Instance.PlaySoundButton();
-            ((MainWindow)Application.Current.MainWindow).LaunchGame();
+            ((MainWindow)Application.Current.MainWindow).OpenPreparation();
         }
         private void OpenShop(object sender, RoutedEventArgs e)
         {
@@ -113,6 +126,12 @@ namespace Survival
         {
             Engine.Instance.PlaySoundButton();
             ((MainWindow)Application.Current.MainWindow).OpenCredits();
+        }
+
+        private void OpenArchives(object sender, RoutedEventArgs e)
+        {
+            Engine.Instance.PlaySoundButton();
+            ((MainWindow)Application.Current.MainWindow).OpenArchives();
         }
     }
 }
