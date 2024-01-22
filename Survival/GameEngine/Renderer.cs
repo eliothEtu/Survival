@@ -109,12 +109,12 @@ namespace Survival.GameEngine
             ((MainWindow)Application.Current.MainWindow).canv.Children.Clear();
 
             Rect cameraRect = this.GetCameraRect();
-            for (int x = (int)Math.Max(0, (cameraRect.X - (cameraRect.Width / 2))); x < Engine.Instance.MapGenerator.SizeMap.X; x++)
+            for (int x = (int)Math.Max(0, cameraRect.X - (cameraRect.Width / 2)); x < (int)Math.Min(Engine.Instance.MapGenerator.SizeMap.X, cameraRect.X + (cameraRect.Width / 2) + MapGenerator.BLOCK_SIZE); x++)
             {
-                if (x + MapGenerator.BLOCK_SIZE < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
-                for (int y = (int)Math.Max(0, (cameraRect.Y - (cameraRect.Height / 2))); y < Engine.Instance.MapGenerator.SizeMap.Y; y++)
+                //if (x + MapGenerator.BLOCK_SIZE < cameraRect.X - (cameraRect.Width / 2) || x > cameraRect.X + (cameraRect.Width / 2)) continue;
+                for (int y = (int)Math.Max(0, cameraRect.Y - (cameraRect.Height / 2)); y < (int)Math.Min(Engine.Instance.MapGenerator.SizeMap.Y, cameraRect.Y + (cameraRect.Height / 2) + MapGenerator.BLOCK_SIZE); y++)
                 {
-                    if (y + MapGenerator.BLOCK_SIZE < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;                    
+                    //if (y + MapGenerator.BLOCK_SIZE < cameraRect.Y - (cameraRect.Height / 2) || y > cameraRect.Y + (cameraRect.Height / 2)) continue;                    
                     Rectangle rec;
                     switch (Engine.Instance.MapGenerator.Map[x][y])
                     {
@@ -141,6 +141,7 @@ namespace Survival.GameEngine
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE,
+                                Fill = GrassTexture
                             };
                             break;
                     }
