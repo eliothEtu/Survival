@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Survival.GameEngine.Engine">
+    <Position X="18.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKQgAARgASQEACEAAAgABAAAIABABQABSAWABygAgAA=</HashCode>
+      <FileName>GameEngine\Engine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Entity">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgAAAAAAAgAAAAICQAACAkAAAAAAQAAAAEAAA=</HashCode>
+      <FileName>GameEngine\entities\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.MobSpawner">
+    <Position X="20.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAgACAAAAAAAAAAAAAAIAAACAgAAAgAAAAQAAA=</HashCode>
+      <FileName>GameEngine\MobSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.PlayerController">
+    <Position X="22" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAgAAAAAAAAAAAABAAgAAAAAAAA=</HashCode>
+      <FileName>GameEngine\PlayerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Renderer">
+    <Position X="22" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAQIAAAECAAAACAAIAAgCQBQA=</HashCode>
+      <FileName>GameEngine\Renderer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.entities.ai.Behavior">
+    <Position X="14" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEngine\entities\ai\Behavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.entities.ai.FollowPlayerBehavior">
+    <Position X="15.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBBAAAAAAACAAAIABAAAAAAAAAAAEAAAAAAQAAAAA=</HashCode>
+      <FileName>GameEngine\entities\ai\FollowPlayerBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.entities.ai.pathfinding.Tile">
+    <Position X="23.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQQBAAAAAAAABEAAAAAAAAYAA=</HashCode>
+      <FileName>GameEngine\entities\ai\pathfinding\Tile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Inventory.Inventory">
+    <Position X="23.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAQAKAAIAAAAQAAAAAQAAAAAABAIAAAAAAAAAA=</HashCode>
+      <FileName>GameEngine\Inventory\Inventory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Inventory.ItemComponent.Armor">
+    <Position X="29.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAACAAAAACAAAAAgAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEngine\Inventory\ItemComponent\Armor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Inventory.ItemComponent.Artifact">
+    <Position X="34" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAgAAEAAAAAAAAAAAIAAAASAAAAAAAAAA=</HashCode>
+      <FileName>GameEngine\Inventory\ItemComponent\Artifact.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Inventory.ItemComponent.Chest">
+    <Position X="25.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAQACAQIAAAAAAIAAAAAAAQAAQgAAgEYAAAAAAAA=</HashCode>
+      <FileName>GameEngine\Inventory\Chest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Inventory.ItemComponent.Ring">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEngine\Inventory\ItemComponent\Ring.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.Inventory.ItemComponent.Item">
+    <Position X="31.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAKAgAAgAIgAAACQAAAAlAgCAAQIAiAAAAIA=</HashCode>
+      <FileName>GameEngine\Inventory\ItemComponent\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.GameEngine.world.MapGenerator">
+    <Position X="20.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAEAAAABAAAAAgIAAAAAADAAIAEQAAAAQAAAAAEAA=</HashCode>
+      <FileName>GameEngine\world\MapGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.Mob">
+    <Position X="6.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAyAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEngine\entities\Mob.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.DeathWindow">
+    <Position X="7.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAoAAAAAA=</HashCode>
+      <FileName>DeathWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.Home">
+    <Position X="5.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAIAAAAQAAAAAAAAAAAAABAAIAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Home.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.Credits">
+    <Position X="10.75" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Credits.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.Archives">
+    <Position X="10.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Archives.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.HowToPlay">
+    <Position X="10.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>HowToPlay.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.LivingEntity">
+    <Position X="6.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAAAAAAAAAAAAAAAIQAAgAAAAIAAAAAgAABBAA=</HashCode>
+      <FileName>GameEngine\entities\LivingEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.MainWindow">
+    <Position X="3.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIBAIIACBAQIEAAIAGBMIABsrYAAQACCYgUCIAIAAAQ=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.Player">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AmQQIABCAAQAAIAADgCIAIQQAAQEAMACCgAAAoIwEAI=</HashCode>
+      <FileName>GameEngine\entities\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.PreparationWindow">
+    <Position X="5.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQADIABAACAAAAAAAAEAAAAAoEAAAAADgAIAABAAQAA=</HashCode>
+      <FileName>PreparationWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.Projectile">
+    <Position X="11.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAAAAAgAAAAAAAAAAAAAAEAAQABAAAAAAEAAA=</HashCode>
+      <FileName>GameEngine\entities\Projectile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survival.Settings">
+    <Position X="9" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIACAMCIAECUQAREAEICAMAkYAyQJCAMxAAECUAAAA=</HashCode>
+      <FileName>Settings.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Survival.Shop">
+    <Position X="7.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEARAIAAAQAgAAAAAAAQAABAAAIQQAAAoEACAEAAEAA=</HashCode>
+      <FileName>Shop.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
