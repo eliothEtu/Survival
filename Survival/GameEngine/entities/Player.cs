@@ -48,6 +48,9 @@ namespace Survival
             }
         }
 
+        private double maxLife;
+        public double MaxLife { get => maxLife; set => maxLife = value; }
+
         private Inventory inventory = new Inventory();
         public Inventory Inventory { get => inventory; set => inventory = value; }
 
@@ -146,6 +149,10 @@ namespace Survival
 
         public override void Update(float deltaTime)
         {
+            if (this.Life < this.MaxLife)
+            {
+                this.Life += 1 * deltaTime;
+            }
 
             if (this.Velocity.Y == 1)
             {
