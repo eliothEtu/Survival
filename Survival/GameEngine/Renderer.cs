@@ -141,7 +141,6 @@ namespace Survival.GameEngine
                             {
                                 Width = MapGenerator.BLOCK_SIZE,
                                 Height = MapGenerator.BLOCK_SIZE,
-                                Fill = GrassTexture
                             };
                             break;
                     }

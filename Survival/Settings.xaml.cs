@@ -22,7 +22,7 @@ namespace Survival
     /// </summary>
     public partial class Settings : Window
     {
-        private readonly string CODE = "*";
+        private readonly string CODE = "Laissez nous plus de temps";
 
         private Button exit, confirmSizeButton;
         private TextBox xValueText, yValueText;

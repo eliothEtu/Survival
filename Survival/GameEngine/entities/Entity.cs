@@ -62,23 +62,17 @@ namespace Survival.GameEngine
 			}
 		}
 
-        private double speed;
-        public double Speed { get => speed; set => speed = value; }
-
         private Rect rect; public Rect Rect
 		{
 			get { return rect; }
 			set { rect = value; }
 		}
 
-
 		private string name;
 		public string Name { get => name; set => name = value; }
 
         public Entity(string name, BitmapImage texture, Vector2 position, Vector2 velocity)
 		{
-			this.Speed = 5;
-
             this.Rectangle = new Rectangle();
             this.Rectangle.Width = texture.Width;
             this.Rectangle.Height = texture.Height;
@@ -117,7 +111,7 @@ namespace Survival.GameEngine
 
         public virtual void Update(float deltaTime)
 		{
-			Vector2 newPos = this.Velocity != Vector2.Zero ? (this.Position + Vector2.Normalize(this.Velocity) * (float)this.Speed * deltaTime) : (this.Position + this.Velocity * (float)this.Speed * deltaTime);
+			Vector2 newPos = this.Velocity != Vector2.Zero ? (this.Position + Vector2.Normalize(this.Velocity) * 5 * deltaTime) : (this.Position + this.Velocity * 5 * deltaTime);
 
             if (Engine.Instance.MapGenerator.IsInMap((int)newPos.X, (int)newPos.Y) && Engine.Instance.MapGenerator.Map[(int)newPos.X][(int)newPos.Y] == 0)
 			{
