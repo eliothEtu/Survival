@@ -46,22 +46,22 @@ namespace Survival
             InitializeComponent();
 
             //ForceFocus.EnableLock();
-           // WindowState = WindowState.Maximized;
-            //WindowStyle = WindowStyle.None;
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
 
             invUi = inv;
 
-            canv.Width = SystemParameters.PrimaryScreenWidth;
-            canv.Height = SystemParameters.PrimaryScreenHeight;
+            canv.Width = this.Width;
+            canv.Height = this.Height;
             canv.Focus();
 
             inv.Visibility = Visibility.Hidden;
-            inv.Width = SystemParameters.PrimaryScreenWidth - 300;
-            inv.Height = SystemParameters.PrimaryScreenHeight - 300;
+            inv.Width = this.Width - 300;
+            inv.Height = this.Height - 300;
             inv.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#000000");
             inv.Background.Opacity = 0.7;
-            Canvas.SetLeft(inv, SystemParameters.PrimaryScreenWidth / 2 - inv.Width / 2);
-            Canvas.SetTop(inv, SystemParameters.PrimaryScreenHeight / 2 - inv.Height / 2);
+            Canvas.SetLeft(inv, this.Width / 2 - inv.Width / 2);
+            Canvas.SetTop(inv, this.Height / 2 - inv.Height / 2);
 
             // Engine's constructor define a static instance property in Engine
             new Engine();
@@ -277,6 +277,12 @@ namespace Survival
         private void Window_Closed(object sender, EventArgs e)
         {
             ForceFocus.DisableLock();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            canv.Width = this.Width;
+            canv.Height = this.Height;
         }
 
         public void Exit()

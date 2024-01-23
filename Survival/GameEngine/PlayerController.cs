@@ -51,6 +51,21 @@ namespace Survival.GameEngine
                 {
                     this.player.Velocity = new Vector2(1, this.player.Velocity.Y);
                 }
+
+                if (key.Key == Key.F11)
+                {
+                    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                    if (mainWindow.WindowState == WindowState.Maximized)
+                    {
+                        mainWindow.WindowState = WindowState.Normal;
+                        mainWindow.WindowStyle = WindowStyle.SingleBorderWindow;
+                    }
+                    else
+                    {
+                        mainWindow.WindowState = WindowState.Maximized;
+                        mainWindow.WindowStyle = WindowStyle.None;
+                    }
+                }
             }            
 
             if (!((MainWindow)Application.Current.MainWindow).bInventory && key.Key == Key.I)
